@@ -5,8 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Kernel.Dapper\Kernel.Dapper.csproj" />
-    <ProjectReference Include="..\Kernel.IService\Kernel.IService.csproj" />
+    <Folder Include="Service\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Kernel.Model\Kernel.Model.csproj" />
   </ItemGroup>
 

@@ -1,0 +1,15 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft": "Warning",
+      "Microsoft.Hosting.Lifetime": "Information"
+    }
+  },
+  "AllowedHosts": "*",
+  "DBConnction": {
+    "SqlServerConnection": "Data Source=127.0.0.1;Initial Catalog=ReportServer;User Id=sa;Password=sa;",
+    "OracleConnection": "Data Source=127.0.0.1:1521/ORCL;User Id=pwsys;Password=HSEpasswordQYPTCS#2019;"
+  }
+
+}
