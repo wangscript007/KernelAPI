@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -18,12 +19,14 @@ namespace WebAPI
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                //将默认ServiceProviderFactory指定为AutofacServiceProviderFactory
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.ConfigureAppConfiguration((context, config) =>
                     {
                         config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-                        config.AddJsonFile("settings/Builtin.json", false, false);
+                        config.AddJsonFile("settings/Builtin.json", true, true);
                     });
                     webBuilder.UseStartup<Startup>();
                 });

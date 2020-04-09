@@ -1,4 +1,6 @@
-﻿using Kernel.MediatR.Demo.HelloWorld.V1_0;
+﻿using Kernel.Core.Basic;
+using Kernel.IService.Service.Demo;
+using Kernel.MediatR.Demo.HelloWorld.V1_0;
 using Kernel.Model.Demo;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -13,6 +15,8 @@ namespace WebAPI.Areas.Demo.Controllers
     {
         private IMediator _mediator;
         ILogger<UserController> _logger;
+
+        public IEmailService _emailService { get; set; }
 
         public UserController(IMediator mediator, ILogger<UserController> logger)
         {

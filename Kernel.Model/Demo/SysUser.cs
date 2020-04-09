@@ -1,10 +1,11 @@
 ﻿using Dapper;
+using Kernel.Core.Basic;
 using System;
 
 namespace Kernel.Model.Demo
 {
     [Table("SYS_USER")]
-    public class SysUser
+    public class SysUser : IDBModel
     {
         /// <summary>
         /// 用户表主键ID
