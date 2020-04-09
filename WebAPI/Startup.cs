@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebAPI.Extensions;
+using WebAPI.Settings;
 
 namespace WebAPI
 {
@@ -39,6 +40,9 @@ namespace WebAPI
                 options.AssumeDefaultVersionWhenUnspecified = true;
                 options.DefaultApiVersion = new ApiVersion(1, 0);
             });
+
+            //Dapper×Ö¶ÎÓ³Éä
+            ColumnMapper.SetMapper();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

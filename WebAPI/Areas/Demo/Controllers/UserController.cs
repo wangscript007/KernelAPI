@@ -29,7 +29,7 @@ namespace WebAPI.Areas.Demo.Controllers
         [Route("info/{id}"), MapToApiVersion("1.0")]
         public async Task<IActionResult> GetUser_V1_0(string id)
         {
-            // http://localhost:39274/v1/user/info/566C32F61CC1204EE0540018FE2DA12B
+            // http://localhost:39274/v1/demo/user/info/566C32F61CC1204EE0540018FE2DA12B
 
             //获取API版本号
             var apiVersion = HttpContext.GetRequestedApiVersion().ToString();

@@ -1097,7 +1097,7 @@ namespace Dapper
     /// Optional Column attribute.
     /// You can use the System.ComponentModel.DataAnnotations version in its place to specify the table name of a poco
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
     public class ColumnAttribute : Attribute
     {
         /// <summary>

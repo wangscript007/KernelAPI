@@ -13,6 +13,12 @@ namespace Kernel.Repository.Demo
         {
             //Oracle数据库查询
             SysUser user = await GetModelAsync(model.UserID);
+
+            using (var conn = Connection)
+            {
+                SysUserExt1 user2 = await conn.QueryFirstOrDefaultAsync<SysUserExt1>("select * from sys_user where user_id = :UserID", new { model.UserID });
+            }
+
             return user;
             //using (var conn = Connection)
             //{
