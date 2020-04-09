@@ -5,12 +5,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
-namespace Proj.API.Controllers
+namespace WebAPI.Areas.Demo.Controllers
 {
     [ApiVersion("1.0", Deprecated = true)]
     [ApiVersion("2.0")]
-    [Route("v{version:apiVersion}/[controller]")]
+    [Route("v{version:apiVersion}/{area}/[controller]")]
     [ApiController]
+    [Area("Demo")]
     public class UserController : ControllerBase
     {
         private IMediator _mediator;
