@@ -9,42 +9,42 @@ namespace Kernel.Core.Models
         /// <summary>
         /// 无异常
         /// </summary>
-        public static string ERR_NO = "0";
+        public static int ERR_NO = 0;
         /// <summary>
         /// 参数验证不通过
         /// </summary>
-        public static string ERR_VER_PAR = "10";
+        public static int ERR_VER_PAR = 10;
         /// <summary>
         /// 对象异常
         /// </summary>
-        public static string ERR_OBJ = "20";
+        public static int ERR_OBJ = 20;
         /// <summary>
         /// //数据库交互异常,
         /// </summary>
-        public static string ERR_DB = "30";
+        public static int ERR_DB = 30;
         /// <summary>
         /// 三方接口调用异常
         /// </summary>
-        public static string ERR_I = "40";
+        public static int ERR_I = 40;
 
         /// <summary>
         /// 身份认证
         /// </summary>
-        public static string ERR_VER_ID = "50";
+        public static int ERR_VER_ID = 50;
 
         /// <summary>
         /// Token无效
         /// </summary>
-        public static string ERR_VER_TOKEN_DISABLE = "51";
+        public static int ERR_VER_TOKEN_DISABLE = 51;
 
         /// <summary>
         /// Token已过期
         /// </summary>
-        public static string ERR_VER_TOKEN_EXPIRE = "52";
+        public static int ERR_VER_TOKEN_EXPIRE = 52;
 
         /// <summary>
         /// 执行过程捕获异常
         /// </summary>
-        public static string ERR_EXCEPTION = "99";
+        public static int ERR_EXCEPTION = 99;
     }
 }

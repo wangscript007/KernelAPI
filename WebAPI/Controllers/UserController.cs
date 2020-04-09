@@ -28,10 +28,10 @@ namespace Proj.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("user/{id}"), MapToApiVersion("1.0")]
+        [Route("info/{id}"), MapToApiVersion("1.0")]
         public async Task<IActionResult> GetUser_V1_0(string id)
         {
-            // http://localhost:39274/v1/user/566C32F61CC1204EE0540018FE2DA12B
+            // http://localhost:39274/v1/user/info/566C32F61CC1204EE0540018FE2DA12B
 
             //获取API版本号
             var apiVersion = HttpContext.GetRequestedApiVersion().ToString();
@@ -50,10 +50,10 @@ namespace Proj.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("user/{id}"), MapToApiVersion("2.0")]
+        [Route("info/{id}"), MapToApiVersion("2.0")]
         public async Task<IActionResult> GetUser_V2_0(string id)
         {
-            // http://localhost:39274/v2/user/566C32F61CC1204EE0540018FE2DA12B
+            // http://localhost:39274/v2/user/info/566C32F61CC1204EE0540018FE2DA12B
 
             SysUserInParams model = new SysUserInParams { userID = id };
             var result = await _mediator.Send(new Kernel.MediatR.Demo.User.V2_0.GetUserCommand(model));

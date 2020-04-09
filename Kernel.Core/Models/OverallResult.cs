@@ -20,7 +20,7 @@ namespace Kernel.Core.Models
         /// <summary>
         /// 错误类别代码（自动化测试可以用于区分错误类别）
         /// </summary>
-        public string errCode { get; set; } = OverallErrCode.ERR_NO;
+        public int errCode { get; set; } = OverallErrCode.ERR_NO;
 
         /// <summary>
         /// 执行结果资源编码（文案资源映射）
