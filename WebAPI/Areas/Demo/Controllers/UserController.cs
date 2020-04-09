@@ -9,10 +9,7 @@ namespace WebAPI.Areas.Demo.Controllers
 {
     [ApiVersion("1.0", Deprecated = true)]
     [ApiVersion("2.0")]
-    [Route("v{version:apiVersion}/{area}/[controller]")]
-    [ApiController]
-    [Area("Demo")]
-    public class UserController : ControllerBase
+    public class UserController : DemoBaseController
     {
         private IMediator _mediator;
         ILogger<UserController> _logger;
