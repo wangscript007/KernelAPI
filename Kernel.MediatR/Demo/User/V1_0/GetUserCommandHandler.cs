@@ -15,13 +15,11 @@ namespace Kernel.MediatR.Demo.User.V1_0
     {
         IUserRepository _userRepository;
         IEmailService _emailService;
-        IDBModel _dbModel;
 
-        public GetUserCommandHandler(IUserRepository userRepository, IEmailService emailService, IDBModel dbModel)
+        public GetUserCommandHandler(IUserRepository userRepository, IEmailService emailService, IServiceProvider provider)
         {
             _userRepository = userRepository;
             _emailService = emailService;
-            _dbModel = dbModel;
         }
 
         public Task<CommandResult<SysUser>> Handle(GetUserCommand request, CancellationToken cancellationToken)

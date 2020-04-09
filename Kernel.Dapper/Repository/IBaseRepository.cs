@@ -7,6 +7,7 @@ namespace Kernel.Dapper.Repository
 {
     public interface IRepository
     {
+        string DBName { get; }
         ConnectionConfig CurrentConnectionConfig { get; set; }
     }
 

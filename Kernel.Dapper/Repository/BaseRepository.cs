@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Kernel.Core.Utils;
+using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 using static Dapper.SimpleCRUD;
 
@@ -10,11 +13,25 @@ namespace Kernel.Dapper.Repository
     /// 仓储层基类，通过泛型实现通用的CRUD操作
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class BaseRepository<T> : IBaseRepository<T>, IRepository
+    public abstract class BaseRepository<T> : IBaseRepository<T>, IRepository
     {
         private IDbConnection _connection = null;
 
         public ConnectionConfig CurrentConnectionConfig { get; set; }
+        public abstract string DBName { get; }
+
+        public BaseRepository()
+        {
+            IOptionsMonitor<DapperFactoryOptions> optionsMonitor = ServiceHost.GetService<IOptionsMonitor<DapperFactoryOptions>>();
+            var option = optionsMonitor.Get(DBName).DapperActions.FirstOrDefault();
+
+            if (CurrentConnectionConfig == null) CurrentConnectionConfig = new ConnectionConfig();
+            if (option != null)
+                option(CurrentConnectionConfig);
+            else
+                throw new ArgumentNullException(nameof(option));
+
+        }
 
         public IDbConnection Connection
         {
@@ -40,6 +57,7 @@ namespace Kernel.Dapper.Repository
                 return _connection;
             }
         }
+
         #region  成员方法
         /// <summary>
         /// 增加一条数据

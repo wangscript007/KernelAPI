@@ -1,4 +1,6 @@
 using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using Autofac.Extras.DynamicProxy;
 using Kernel.Core.Utils;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -7,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using System.Collections.Generic;
 using WebAPI.Extensions;
 using WebAPI.Settings;
@@ -68,7 +71,9 @@ namespace WebAPI
             var controllerBaseType = typeof(ControllerBase);
             builder.RegisterAssemblyTypes(typeof(Program).Assembly)
                 .Where(t => controllerBaseType.IsAssignableFrom(t) && t != controllerBaseType)
-                .PropertiesAutowired();
+                .PropertiesAutowired()
+                .EnableClassInterceptors(); // 允许在Controller类上使用拦截器
+
 
             //builder.RegisterType<Log4netService>()
             //       .As<ILogService>()

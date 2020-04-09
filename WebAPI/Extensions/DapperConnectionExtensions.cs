@@ -1,11 +1,11 @@
 ﻿using Kernel.Dapper.Factory;
+using Kernel.Model.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebAPI.Settings;
 using static Dapper.SimpleCRUD;
 
 namespace WebAPI.Extensions

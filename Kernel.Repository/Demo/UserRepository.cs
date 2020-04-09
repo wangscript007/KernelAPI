@@ -1,7 +1,11 @@
 ﻿using Dapper;
+using Kernel.Dapper;
 using Kernel.Dapper.Repository;
 using Kernel.IService.Repository.Demo;
+using Kernel.Model.Core;
 using Kernel.Model.Demo;
+using Microsoft.Extensions.Options;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,6 +13,8 @@ namespace Kernel.Repository.Demo
 {
     public class UserRepository : BaseRepository<SysUser>, IUserRepository
     {
+        public override string DBName => DapperConst.QYPT_ORACLE;
+
         public async Task<SysUser> GetUserInfo_V1_0(SysUserInParams model)
         {
             //Oracle数据库查询
