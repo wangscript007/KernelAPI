@@ -1,10 +1,11 @@
 ﻿using Dapper;
+using Kernel.Core.Basic;
 using Kernel.Dapper.ORM;
+using Kernel.Model.Core;
 using Kernel.Model.Demo;
+using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebAPI.Settings
 {
@@ -13,10 +14,14 @@ namespace WebAPI.Settings
     {
         public static void SetMapper()
         {
-            //数据库字段名和c#属性名不一致，手动添加映射关系
-            SqlMapper.SetTypeMap(typeof(SysUserExt1), new ColumnAttributeTypeMapper<SysUserExt1>());
+            var types = typeof(SysUser).Assembly.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(IDBModel)));
+            foreach (var type in types)
+            {
+                //数据库字段名和c#属性名不一致，手动添加映射关系
+                SqlMapper.SetTypeMap(type, new ColumnAttributeTypeMapper(type));
 
-            //每个需要用到[colmun(Name="")]特性的model，都要在这里添加映射
+                //每个需要用到[colmun(Name="")]特性的model，都要在这里添加映射
+            }
         }
     }
 }

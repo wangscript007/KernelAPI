@@ -14,13 +14,13 @@ namespace Kernel.Dapper.ORM
     /// usual.
     /// </summary>
     /// <typeparam name="T">The type of the object that this association between the mapper applies to.</typeparam>
-    public class ColumnAttributeTypeMapper<T> : FallbackTypeMapper
+    public class ColumnAttributeTypeMapper : FallbackTypeMapper
     {
-        public ColumnAttributeTypeMapper()
+        public ColumnAttributeTypeMapper(Type mapType)
             : base(new SqlMapper.ITypeMap[]
                 {
                     new CustomPropertyTypeMap(
-                       typeof(T),
+                       mapType,
                        (type, columnName) =>
                            type.GetProperties().FirstOrDefault(prop =>
                                prop.GetCustomAttributes(false)
@@ -28,7 +28,7 @@ namespace Kernel.Dapper.ORM
                                    .Any(attr => attr.Name == columnName)
                                )
                        ),
-                    new DefaultTypeMap(typeof(T))
+                    new DefaultTypeMap(mapType)
                 })
         {
         }

@@ -1,5 +1,4 @@
 using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using Autofac.Extras.DynamicProxy;
 using Kernel.Core.Utils;
 using MediatR;
@@ -9,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 using System.Collections.Generic;
 using WebAPI.Extensions;
 using WebAPI.Settings;
@@ -64,7 +62,6 @@ namespace WebAPI
                    { //批量构造函数注入
                         "Kernel.Repository.dll",
                         "Kernel.Service.dll",
-                        "Kernel.Model.dll",
                    }));
 
             //如果需要在Controller中使用属性注入，需要在ConfigureContainer中添加如下代码
