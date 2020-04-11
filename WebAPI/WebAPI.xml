@@ -23,7 +23,7 @@
             API描述器扩展   
             </summary>   
         </member>
-        <member name="M:WebAPI.Extensions.ApiDescriptionExtension.GetAreaName(Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription)">
+        <member name="M:WebAPI.Extensions.ApiDescriptionExtension.CustomTagsSelector(Microsoft.AspNetCore.Mvc.ApiExplorer.ApiDescription)">
             <summary>     
             获取区域名称     
             </summary>     

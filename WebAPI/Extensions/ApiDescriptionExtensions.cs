@@ -13,17 +13,17 @@ namespace WebAPI.Extensions
         /// </summary>     
         /// <param name="description"></param>    
         /// <returns></returns>    
-        public static List<string> GetAreaName(this ApiDescription description)
+        public static List<string> CustomTagsSelector(this ApiDescription description)
         {
             string areaName = description.ActionDescriptor.RouteValues["area"];
             string controlName = description.ActionDescriptor.RouteValues["controller"];
-            List<string> areaList = new List<string>();
-            areaList.Add(controlName);
+            List<string> tagsSelector = new List<string>();
+            tagsSelector.Add(controlName);
             if (!string.IsNullOrEmpty(areaName))
             {
                 description.RelativePath = description.RelativePath.Replace("{area}", areaName);
             }
-            return areaList;
+            return tagsSelector;
         }
     }
 }

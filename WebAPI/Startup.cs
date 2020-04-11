@@ -70,7 +70,7 @@ namespace WebAPI
                 options =>
                 {
                     //Ê¹ÓÃÓòÃèÊö         
-                    options.TagActionsBy(apiDesc => apiDesc.GetAreaName()); 
+                    options.TagActionsBy(apiDesc => apiDesc.CustomTagsSelector()); 
 
                     // add a custom operation filter which sets default values
                     options.OperationFilter<SwaggerDefaultValues>();

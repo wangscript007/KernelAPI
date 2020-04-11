@@ -31,6 +31,13 @@
 
             // REF: https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/412
             // REF: https://github.com/domaindrivendev/Swashbuckle.AspNetCore/pull/413
+
+            var param = operation.Parameters.FirstOrDefault(o => o.Name == "area");
+            if(param != null)
+            {
+                operation.Parameters.Remove(param);
+            }
+
             foreach (var parameter in operation.Parameters)
             {
                 var description = apiDescription.ParameterDescriptions.First(p => p.Name == parameter.Name);
