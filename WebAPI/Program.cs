@@ -18,7 +18,7 @@ namespace WebAPI
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            ServiceHost.Load(host.Services);
+            //ServiceHost.Load(host.Services);
 
             //using (var serviceScope = host.Services.CreateScope())
             //{

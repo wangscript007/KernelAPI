@@ -1,4 +1,5 @@
 ﻿using Kernel.Core.Basic;
+using Kernel.EF.Demo;
 using Kernel.IService.Service.Demo;
 using Kernel.MediatR.Demo.HelloWorld.V1_0;
 using Kernel.Model.Demo;
@@ -84,7 +85,10 @@ namespace WebAPI.Areas.Demo.Controllers
             //测试 MediatorR 的 Publish 模式
             await _mediator.Publish(new HelloWorldCommand());
 
-            return Ok("success");
+            ReportServerContext context = new ReportServerContext();
+            var users = context.Users;
+
+            return Ok(users.AsQueryable());
         }
 
         ///// <summary>

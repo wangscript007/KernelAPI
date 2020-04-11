@@ -5,21 +5,21 @@ VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPI", "WebAPI\WebAPI.csproj", "{081FD89D-73CB-4509-978D-0C7A4A67D0B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kernel.Dapper", "Kernel.Dapper\Kernel.Dapper.csproj", "{9D925DB6-E374-42FE-A0E6-C0BEA4CAAF59}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kernel.Dapper", "Kernel.Dapper\Kernel.Dapper.csproj", "{9D925DB6-E374-42FE-A0E6-C0BEA4CAAF59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kernel.Repository", "Kernel.Repository\Kernel.Repository.csproj", "{FB925ADD-568B-4743-A870-D43D7CDAF2D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kernel.Repository", "Kernel.Repository\Kernel.Repository.csproj", "{FB925ADD-568B-4743-A870-D43D7CDAF2D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kernel.Service", "Kernel.Service\Kernel.Service.csproj", "{E7C31981-920E-40E6-929D-3D682BBBEFFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kernel.Service", "Kernel.Service\Kernel.Service.csproj", "{E7C31981-920E-40E6-929D-3D682BBBEFFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kernel.Core", "Kernel.Core\Kernel.Core.csproj", "{C5D68A61-06C7-4E85-928C-40E85102784C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kernel.Core", "Kernel.Core\Kernel.Core.csproj", "{C5D68A61-06C7-4E85-928C-40E85102784C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kernel.MediatR", "Kernel.MediatR\Kernel.MediatR.csproj", "{197BD80E-F4FE-4301-A925-6BE5D04AD386}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kernel.MediatR", "Kernel.MediatR\Kernel.MediatR.csproj", "{197BD80E-F4FE-4301-A925-6BE5D04AD386}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1、Basic", "1、Basic", "{121F3236-438E-4832-94EF-991E388E0138}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2、Model", "2、Model", "{0EA48FCB-F81B-4940-9B94-A5F54CBE04E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kernel.Model", "Kernel.Model\Kernel.Model.csproj", "{B9008511-2320-4C66-AD75-9D90A6FC5347}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kernel.Model", "Kernel.Model\Kernel.Model.csproj", "{B9008511-2320-4C66-AD75-9D90A6FC5347}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5、Business", "5、Business", "{220B4191-5AA1-490A-BDC7-C51D533976FC}"
 EndProject
@@ -27,7 +27,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4、Database", "4、Databas
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3、IService", "3、IService", "{9B34845D-CFED-4A1E-8DF1-A765941A0030}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kernel.IService", "Kernel.IService\Kernel.IService.csproj", "{F5E613E5-38D2-4860-A1F8-D3A5813F6E1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kernel.IService", "Kernel.IService\Kernel.IService.csproj", "{F5E613E5-38D2-4860-A1F8-D3A5813F6E1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kernel.EF", "Kernel.EF\Kernel.EF.csproj", "{A0B31B46-2837-464B-8C9E-C7DA112D418E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,10 @@ Global
 		{F5E613E5-38D2-4860-A1F8-D3A5813F6E1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5E613E5-38D2-4860-A1F8-D3A5813F6E1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5E613E5-38D2-4860-A1F8-D3A5813F6E1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0B31B46-2837-464B-8C9E-C7DA112D418E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0B31B46-2837-464B-8C9E-C7DA112D418E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0B31B46-2837-464B-8C9E-C7DA112D418E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0B31B46-2837-464B-8C9E-C7DA112D418E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -79,6 +85,7 @@ Global
 		{197BD80E-F4FE-4301-A925-6BE5D04AD386} = {220B4191-5AA1-490A-BDC7-C51D533976FC}
 		{B9008511-2320-4C66-AD75-9D90A6FC5347} = {0EA48FCB-F81B-4940-9B94-A5F54CBE04E2}
 		{F5E613E5-38D2-4860-A1F8-D3A5813F6E1B} = {9B34845D-CFED-4A1E-8DF1-A765941A0030}
+		{A0B31B46-2837-464B-8C9E-C7DA112D418E} = {8840BFDB-F215-4317-8D71-DEC18A2FF4BF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {589CD7B0-8369-43F6-8476-788EC4B802D1}
