@@ -65,7 +65,7 @@ namespace WebAPI.Areas.Demo.Controllers
         }
 
         [HttpGet]
-        [Route("list")]
+        [Route("list"), MapToApiVersion("1.0")]
         public async Task<IActionResult> GetUserList_V1_0([FromQuery]SysUserInParams model)
         {
             //测试 MediatorR 的 Publish 模式

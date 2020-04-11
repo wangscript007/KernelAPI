@@ -9,8 +9,7 @@ namespace WebAPI.Areas.Demo.Controllers
 {
     [ApiController]
     [Route("{area}/[controller]")]
-    [Area("Demo")]
-    public class WeatherForecastController : ControllerBase
+    public class WeatherForecastController : DemoBaseController
     {
         private static readonly string[] Summaries = new[]
         {
