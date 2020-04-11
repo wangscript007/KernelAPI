@@ -22,7 +22,7 @@ namespace Kernel.EF.Demo
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=127.0.0.1;Initial Catalog=ReportServer;User Id=sa;Password=sa;");
+                optionsBuilder.UseSqlServer("Data Source=127.0.0.1;Initial Catalog=ReportServer2;User Id=sa;Password=sa;");
             }
         }
 

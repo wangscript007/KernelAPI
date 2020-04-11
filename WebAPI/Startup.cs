@@ -1,10 +1,12 @@
 using Autofac;
 using Autofac.Extras.DynamicProxy;
 using Kernel.Core.Utils;
+using Kernel.EF.Demo;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -47,6 +49,9 @@ namespace WebAPI
                 options.DefaultApiVersion = new ApiVersion(1, 0);
             });
 
+            //注册EF
+            services.AddDbContext<ReportServerContext>(option => option.UseSqlServer(Configuration.GetSection("DBConnction:SqlServerConnection").Value));
+
             //Dapper字段映射
             ColumnMapper.SetMapper();
         }
@@ -85,7 +90,7 @@ namespace WebAPI
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ReportServerContext reportServerContext)
         {
             ServiceHost.Load(app.ApplicationServices);
 
@@ -104,6 +109,8 @@ namespace WebAPI
             {
                 endpoints.MapControllers();
             });
+
+            reportServerContext.Database.EnsureCreated();//数据库不存在的话，会自动创建
         }
     }
 }

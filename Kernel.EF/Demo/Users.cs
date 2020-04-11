@@ -10,5 +10,6 @@ namespace Kernel.EF.Demo
         public int UserType { get; set; }
         public int AuthType { get; set; }
         public string UserName { get; set; }
+        public string UserName2 { get; set; }
     }
 }
