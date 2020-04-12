@@ -1,10 +1,13 @@
-﻿using System;
+﻿using Autofac.Extras.DynamicProxy;
+using Kernel.Core.AOP;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Kernel.Dapper.Repository
 {
+    [Intercept(typeof(TestAOP))]
     public interface IRepository
     {
         string DBName { get; }

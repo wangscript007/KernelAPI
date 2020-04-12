@@ -34,7 +34,7 @@ namespace WebAPI.Areas.Demo.Controllers
         [Route("info/{id}"), MapToApiVersion("1.0")]
         public async Task<IActionResult> GetUser_V1_0(string id)
         {
-            // http://localhost:39274/v1/demo/user/info/566C32F61CC1204EE0540018FE2DA12B
+            // http://localhost:39274/api/v1/demo/user/info/566C32F61CC1204EE0540018FE2DA12B
 
             //获取API版本号
             var apiVersion = HttpContext.GetRequestedApiVersion().ToString();
@@ -56,7 +56,7 @@ namespace WebAPI.Areas.Demo.Controllers
         [Route("info/{id}"), MapToApiVersion("2.0")]
         public async Task<IActionResult> GetUser_V2_0(string id)
         {
-            // http://localhost:39274/v2/user/info/566C32F61CC1204EE0540018FE2DA12B
+            // http://localhost:39274/api/v2/user/info/566C32F61CC1204EE0540018FE2DA12B
 
             SysUserInParams model = new SysUserInParams { userID = id };
             var result = await _mediator.Send(new Kernel.MediatR.Demo.User.V2_0.GetUserCommand(model));
@@ -71,7 +71,7 @@ namespace WebAPI.Areas.Demo.Controllers
             //测试 MediatorR 的 Publish 模式
             //await _mediator.Publish(new Pro.Application.Commands.HelloWorld.V1_0.HelloWorldCommand());
 
-            // http://localhost:39274/v1/user/list?pageIndex=1&pageSize=10
+            // http://localhost:39274/api/v1/user/list?pageIndex=1&pageSize=10
 
             var result = await _mediator.Send(new Kernel.MediatR.Demo.User.V1_0.GetUserListCommand(model));
             result.apiVersion = HttpContext.GetRequestedApiVersion().ToString();//获取API版本号

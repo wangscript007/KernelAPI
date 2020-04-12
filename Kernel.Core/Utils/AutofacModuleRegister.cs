@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extras.DynamicProxy;
+using Kernel.Core.AOP;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -30,8 +31,8 @@ namespace Kernel.Core.Utils
                        .InstancePerLifetimeScope();//即为每一个依赖或调用创建一个单一的共享的实例
             }
 
-            ////拦截器
-            ////builder.Register(c => new AOPTest());
+            //拦截器
+            builder.Register(c => new TestAOP());
             ////注入类
             ////builder.RegisterType<UsersService>().As<UsersIService>().PropertiesAutowired().EnableInterfaceInterceptors();
 
