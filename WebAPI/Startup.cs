@@ -31,6 +31,9 @@ namespace WebAPI
 
         public IConfiguration Configuration { get; }
 
+        //跨域配置
+        readonly string AllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -60,7 +63,7 @@ namespace WebAPI
                     // add the versioned api explorer, which also adds IApiVersionDescriptionProvider service
                     // note: the specified format code will format the version as "'v'major[.minor][-status]"
                     options.GroupNameFormat = "'v'VVV";
-                    
+
                     // note: this option is only necessary when versioning by url segment. the SubstitutionFormat
                     // can also be used to control the format of the API version in route templates
                     options.SubstituteApiVersionInUrl = true;
@@ -70,7 +73,7 @@ namespace WebAPI
                 options =>
                 {
                     //使用域描述         
-                    options.TagActionsBy(apiDesc => apiDesc.CustomTagsSelector()); 
+                    options.TagActionsBy(apiDesc => apiDesc.CustomTagsSelector());
 
                     // add a custom operation filter which sets default values
                     options.OperationFilter<SwaggerDefaultValues>();
@@ -84,6 +87,16 @@ namespace WebAPI
 
             //Dapper字段映射
             ColumnMapper.SetMapper();
+
+            //允许跨域
+            services.AddCors(options =>
+            {
+                options.AddPolicy(AllowSpecificOrigins,
+                builder => builder.AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowAnyOrigin());
+            });
+
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -134,6 +147,9 @@ namespace WebAPI
             app.UseRouting();
 
             app.UseAuthorization();
+
+            //跨域 中间件必须配置为在对 UseRouting 和 UseEndpoints的调用之间执行。 配置不正确将导致中间件停止正常运行。
+            app.UseCors(AllowSpecificOrigins);
 
             app.UseEndpoints(endpoints =>
             {
