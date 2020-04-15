@@ -1,11 +1,9 @@
 ﻿using Dapper;
-using Kernel.Dapper;
+using Kernel.Dapper.ORM;
 using Kernel.Dapper.Repository;
 using Kernel.IService.Repository.Demo;
 using Kernel.Model.Core;
 using Kernel.Model.Demo;
-using Microsoft.Extensions.Options;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -85,9 +83,21 @@ namespace Kernel.Repository.Demo
 
         public async Task<IEnumerable<SysUserExt2>> GetUserList_V1_0(SysUserInParams model)
         {
+            //拼接参数
+            DynamicBuilder builder = new DynamicBuilder();
+            builder.Build(model, null, (columnName, columnValue) =>
+            {
+                if(columnName == "USER_NAME")
+                {
+                    builder.Conditions.Append(string.Format(" AND {0} LIKE :{1} ", columnName, columnName));
+                    builder.Parameters.Add(columnName, columnValue + "%");
+                }
+            });
+
             using (var conn = Connection)
             {
-                return await conn.GetListPagedAsync<SysUserExt2>(model.pageIndex, model.pageSize, "", "USER_LOGIN DESC");
+                return await conn.GetListPagedAsync<SysUserExt2>(model.pageIndex, model.pageSize, builder.Conditions.ToString(), "USER_LOGIN DESC", builder.Parameters);
+                //Total = await conn.RecordCountAsync<SysUserExt2>(strWhere, parArray);
             }
         }
 

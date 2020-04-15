@@ -6,6 +6,8 @@ namespace Kernel.Model.Demo
     /// </summary>
     public class SysUserInParams : SysUser
     {
+        public override int? PwdFailures { get; set; }
+
         //[StringLength(50, ErrorMessage = "userID的长度不能超过50")]
         public string userID { get => UserID; set => UserID = value; }
 
