@@ -4,6 +4,13 @@
         <name>WebAPI</name>
     </assembly>
     <members>
+        <member name="M:WebAPI.Areas.Demo.Controllers.CodeGeneratorController.GenerationModelCode_V1_0(System.String)">
+            <summary>
+            生成模型层代码
+            </summary>
+            <param name="tableName">数据库表名</param>
+            <returns></returns>
+        </member>
         <member name="M:WebAPI.Areas.Demo.Controllers.UserController.GetUser_V1_0(System.String)">
             <summary>
             获取用户信息
