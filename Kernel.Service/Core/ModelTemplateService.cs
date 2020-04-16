@@ -1,13 +1,16 @@
-﻿using Kernel.Model.Core;
+﻿using Kernel.IService.Service.Core;
+using Kernel.Model.Core;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Kernel.Dapper.Generation
+namespace Kernel.Service.Core
 {
-    public class ModelTemplate
+    public class ModelTemplateService : ITemplateService
     {
-        public string TableHandle(TableSchema tableSchema, string fieldsCode)
+        private string _fieldsCode;
+
+        public string TableHandle(TableSchema tableSchema)
         {
             string genCode = $@"
 using Dapper;
@@ -22,7 +25,7 @@ namespace Kernel.Model.Demo
     [Table(""{tableSchema.TableName}"")]
     public class {tableSchema.TableAliasName} : IDBModel
     {{
-        {fieldsCode}
+        {_fieldsCode}
     }}
 }}
 ";
@@ -30,7 +33,18 @@ namespace Kernel.Model.Demo
             return genCode;
         }
 
-        public string FieldHandle(FieldSchema fieldSchema)
+        public void ForeachFields(List<FieldSchema> fieldSchemas)
+        {
+            StringBuilder fieldBuilder = new StringBuilder();
+            foreach (var fieldSchema in fieldSchemas)
+            {
+                var code = FieldHandle(fieldSchema);
+                fieldBuilder.AppendLine(code);
+            }
+            _fieldsCode = fieldBuilder.ToString();
+        }
+
+        private string FieldHandle(FieldSchema fieldSchema)
         {
             string genCode = $@"
         /// <summary>
@@ -38,7 +52,6 @@ namespace Kernel.Model.Demo
         /// </summary>
         [Column(""{fieldSchema.FieldName}"")]
         public virtual {fieldSchema.FieldType} {fieldSchema.FieldAliasName} {{ get; set; }}
-
 ";
 
             return genCode;

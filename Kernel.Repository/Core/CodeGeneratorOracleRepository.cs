@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace Kernel.Repository.Core
 {
-    public class GenerationOracleRepository : BaseRepository<TableSchema>, IGenerationOracleRepository
+    public class CodeGeneratorOracleRepository : BaseRepository<TableSchema>, ICodeGeneratorRepository
     {
         public override string DBName => DapperConst.QYPT_ORACLE;
 
@@ -20,13 +20,14 @@ namespace Kernel.Repository.Core
             {
                 string sql = $"SELECT TABLE_NAME TableName, COMMENTS Comments FROM USER_TAB_COMMENTS WHERE TABLE_TYPE IN('TABLE') AND TABLE_NAME = :TABLE_NAME";
                 var schema = conn.QueryFirstOrDefault<TableSchema>(sql, new { TABLE_NAME = tableName });
-                schema.TableAliasName = schema.TableName;
+                schema.TableAliasName = GetAliasName(schema.TableName);
                 return schema;
             }
         }
 
         public List<FieldSchema> GetFieldSchema(string tableName)
         {
+
             using (var conn = Connection)
             {
                 string sql = $"SELECT COLUMN_NAME FieldName, COMMENTS Comments FROM USER_COL_COMMENTS WHERE TABLE_NAME= :TABLE_NAME";
@@ -41,13 +42,38 @@ namespace Kernel.Repository.Core
                 {
                     FieldSchema fieldSchema = new FieldSchema();
                     fieldSchema.FieldName = column.ColumnName;
-                    fieldSchema.FieldAliasName = column.ColumnName;
-                    fieldSchema.Comments = dictComments[column.ColumnName];
-                    fieldSchema.FieldType = column.DataType.Name;
+                    fieldSchema.FieldAliasName = GetAliasName(column.ColumnName);
+                    fieldSchema.Comments = dictComments[column.ColumnName].Replace("\n", "");
+                    fieldSchema.FieldType = GetType(column.DataType.Name);
                     fieldSchemas.Add(fieldSchema);
                 }
                 return fieldSchemas;
             }
+        }
+
+        public string GetAliasName(string name)
+        {
+            string[] arr = name.ToLower().Split("_");
+            StringBuilder sb = new StringBuilder();
+            foreach (var str in arr)
+            {
+                sb.Append(str.Substring(0, 1).ToUpper() + str.Substring(1));
+            }
+            return sb.ToString();
+        }
+
+        Dictionary<string, string> _typeDict = new Dictionary<string, string>
+            {
+                {"String", "string" },
+                {"Int64", "int" }
+            };
+
+        public string GetType(string type)
+        {
+            if (_typeDict.ContainsKey(type))
+                return _typeDict[type];
+
+            return type;
         }
 
     }

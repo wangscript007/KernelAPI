@@ -16,7 +16,7 @@ namespace WebAPI.Areas.Demo.Controllers
         /// <param name="tableName">数据库表名</param>
         /// <returns></returns>
         [HttpGet]
-        [Route("model/{tableName}"), MapToApiVersion("1.0")]
+        [Route("{tableName}"), MapToApiVersion("1.0")]
         public async Task<IActionResult> GenerationModelCode_V1_0(string tableName)
         {
             var code = CodeGeneratorService.Generation(tableName);
