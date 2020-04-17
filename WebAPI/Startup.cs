@@ -1,8 +1,11 @@
 using Autofac;
 using Autofac.Extras.DynamicProxy;
 using Kernel.Core.AOP;
+using Kernel.Core.Extensions;
+using Kernel.Core.Models;
 using Kernel.Core.Utils;
 using Kernel.EF.Demo;
+using Kernel.Model.Core;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -19,6 +22,7 @@ using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using WebAPI.Extensions;
@@ -66,6 +70,25 @@ namespace WebAPI
             services.AddControllers(config => config.Filters.Add<AuthFilter>())
                 .AddControllersAsServices()//默认情况下，Controller的参数会由容器创建，但Controller的创建是有AspNetCore框架实现的。要通过容器创建Controller，需要在Startup中配置一下
                 .AddNewtonsoftJson();
+
+            //参数验证
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.InvalidModelStateResponseFactory = (context) =>
+                {
+                    var errors = context.ModelState.GetValidationSummary();
+                    var result = new CommandResult<List<string>>()
+                    {
+                        success = false,
+                        message = "参数验证不通过",
+                        errCode = OverallErrCode.ERR_VER_PAR,
+                        resCode = OverallResCode.PARAM_IS_INVALID,
+                        data = errors
+                    };
+
+                    return new JsonResult(result) { StatusCode = 416 };
+                };
+            });
 
             // reporting api versions will return the headers "api-supported-versions" and "api-deprecated-versions"
             services.AddApiVersioning(options =>

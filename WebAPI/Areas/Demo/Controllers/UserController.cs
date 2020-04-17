@@ -16,6 +16,7 @@ namespace WebAPI.Areas.Demo.Controllers
 {
     [ApiVersion("1.0", Deprecated = true)]
     [ApiVersion("2.0")]
+    [NoAuth]
     public class UserController : DemoBaseController
     {
         private IMediator _mediator;
