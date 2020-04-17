@@ -10,6 +10,9 @@
   "DBConnction": {
     "SqlServerConnection": "Data Source=127.0.0.1;Initial Catalog=ReportServer2;User Id=sa;Password=sa;",
     "OracleConnection": "Data Source=127.0.0.1:1521/ORCL;User Id=pwsys;Password=HSEpasswordQYPTCS#2019;"
+  },
+  //Tokenœ‡πÿ
+  "Token": {
+    "Secret": "GQDstcKsx0NHjPOuXOYg5MbeJ1XT0uFiwDVvVBrk"
   }
-
 }

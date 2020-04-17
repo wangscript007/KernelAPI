@@ -26,10 +26,6 @@ namespace Kernel.Core.Models
         /// 执行结果资源编码（文案资源映射）
         /// </summary>
         public int resCode { get; set; } = 1;//ResponseCode.SUCCESS
-        /// <summary>
-        /// 请求的API版本号
-        /// </summary>
-        public string apiVersion { get; set; }
 
         /// <summary>
         /// 时间戳

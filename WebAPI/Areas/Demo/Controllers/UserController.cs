@@ -1,4 +1,6 @@
-﻿using Kernel.Core.Basic;
+﻿using Kernel.Core.AOP;
+using Kernel.Core.Basic;
+using Kernel.Core.Utils;
 using Kernel.EF.Demo;
 using Kernel.IService.Service.Demo;
 using Kernel.MediatR.Demo.HelloWorld.V1_0;
@@ -6,6 +8,8 @@ using Kernel.Model.Demo;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace WebAPI.Areas.Demo.Controllers
@@ -43,7 +47,7 @@ namespace WebAPI.Areas.Demo.Controllers
 
             SysUserInParams model = new SysUserInParams { userID = id };
             var result = await _mediator.Send(new Kernel.MediatR.Demo.User.V1_0.GetUserCommand(model));
-            result.apiVersion = HttpContext.GetRequestedApiVersion().ToString();//获取API版本号
+            //result.apiVersion = HttpContext.GetRequestedApiVersion().ToString();//获取API版本号
             return Ok(result);
         }
 
@@ -60,7 +64,7 @@ namespace WebAPI.Areas.Demo.Controllers
 
             SysUserInParams model = new SysUserInParams { userID = id };
             var result = await _mediator.Send(new Kernel.MediatR.Demo.User.V2_0.GetUserCommand(model));
-            result.apiVersion = HttpContext.GetRequestedApiVersion().ToString();//获取API版本号
+            //result.apiVersion = HttpContext.GetRequestedApiVersion().ToString();//获取API版本号
             return Ok(result);
         }
 
@@ -74,21 +78,32 @@ namespace WebAPI.Areas.Demo.Controllers
             // http://localhost:39274/api/v1/user/list?pageIndex=1&pageSize=10
 
             var result = await _mediator.Send(new Kernel.MediatR.Demo.User.V1_0.GetUserListCommand(model));
-            result.apiVersion = HttpContext.GetRequestedApiVersion().ToString();//获取API版本号
+            //result.apiVersion = HttpContext.GetRequestedApiVersion().ToString();//获取API版本号
             return Ok(result);
         }
 
         [HttpGet]
         [Route("list"), MapToApiVersion("2.0")]
+        [NoAuth]
         public async Task<IActionResult> GetUserList_V2_1([FromQuery] SysUserInParams model)
         {
             //测试 MediatorR 的 Publish 模式
             await _mediator.Publish(new HelloWorldCommand());
 
-            ReportServerContext context = new ReportServerContext();
-            var users = context.Users;
+            //ReportServerContext context = new ReportServerContext();
+            //var users = context.Users;
 
-            return Ok(users.AsQueryable());
+            //生成token示例
+            var claims = new[]
+            {
+                new Claim("UserName", "123"),//用户信息
+                new Claim("ValidTime", DateTime.Now.AddDays(1).ToString("yyyy-MM-dd HH:mm:ss"))//过期时间
+            };
+            string token = JwtUtil.EncodeToken(claims);
+
+
+            //return Ok(users.AsQueryable());
+            return Ok(token);
         }
 
         ///// <summary>

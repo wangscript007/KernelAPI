@@ -1,8 +1,10 @@
 using Autofac;
 using Autofac.Extras.DynamicProxy;
+using Kernel.Core.AOP;
 using Kernel.Core.Utils;
 using Kernel.EF.Demo;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -13,10 +15,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text;
 using WebAPI.Extensions;
 using WebAPI.Settings;
 
@@ -37,6 +41,19 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //添加jwt验证：
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:Secret"]))//拿到SecurityKey
+                };
+            });
 
             //注册Dapper数据库连接
             services.RegisterDapperConnection(Configuration);
@@ -46,7 +63,7 @@ namespace WebAPI
             //注册服务
             services.RegisterServices();
 
-            services.AddControllers()
+            services.AddControllers(config => config.Filters.Add<AuthFilter>())
                 .AddControllersAsServices()//默认情况下，Controller的参数会由容器创建，但Controller的创建是有AspNetCore框架实现的。要通过容器创建Controller，需要在Startup中配置一下
                 .AddNewtonsoftJson();
 
