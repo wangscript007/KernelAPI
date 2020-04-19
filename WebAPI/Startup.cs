@@ -10,6 +10,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
@@ -40,7 +41,7 @@ namespace WebAPI
         public IConfiguration Configuration { get; }
 
         //跨域配置
-        readonly string AllowSpecificOrigins = "_myAllowSpecificOrigins";
+        readonly string AllowSpecificOrigins = "_AllowSpecificOrigins";
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -67,9 +68,12 @@ namespace WebAPI
             //注册服务
             services.RegisterServices();
 
-            services.AddControllers(config => config.Filters.Add<AuthFilter>())
-                .AddControllersAsServices()//默认情况下，Controller的参数会由容器创建，但Controller的创建是有AspNetCore框架实现的。要通过容器创建Controller，需要在Startup中配置一下
-                .AddNewtonsoftJson();
+            services.AddControllers(config =>
+            {
+                config.Filters.Add(typeof(GlobalExceptions));
+                config.Filters.Add<AuthFilter>();
+            }).AddControllersAsServices()//默认情况下，Controller的参数会由容器创建，但Controller的创建是有AspNetCore框架实现的。要通过容器创建Controller，需要在Startup中配置一下
+              .AddNewtonsoftJson();
 
             //参数验证
             services.Configure<ApiBehaviorOptions>(options =>
@@ -86,7 +90,7 @@ namespace WebAPI
                         data = errors
                     };
 
-                    return new JsonResult(result) { StatusCode = 416 };
+                    return new JsonResult(result) { StatusCode = StatusCodes.Status416RangeNotSatisfiable };
                 };
             });
 
@@ -196,7 +200,7 @@ namespace WebAPI
                 endpoints.MapControllers();
             });
 
-            reportServerContext.Database.EnsureCreated();//数据库不存在的话，会自动创建
+            //reportServerContext.Database.EnsureCreated();//数据库不存在的话，会自动创建
 
             app.UseSwagger();
             app.UseSwaggerUI(

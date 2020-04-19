@@ -1,4 +1,5 @@
-﻿using Kernel.Core.Models;
+﻿using Kernel.Core.AOP;
+using Kernel.Core.Models;
 using Kernel.IService.Repository.Demo;
 using Kernel.Model.Core;
 using Kernel.Model.Demo;
@@ -28,19 +29,11 @@ namespace Kernel.MediatR.Demo.User.V1_0
                     var userList = await _userRepository.GetUserList_V1_0(request.Data);
 
                     return new CommandResult<IEnumerable<SysUserExt2>>() { data = userList };
-
                 }
                 catch (Exception ex)
                 {
-                    return new CommandResult<IEnumerable<SysUserExt2>>()
-                    {
-                        success = false,
-                        message = ex.Message,
-                        errCode = OverallErrCode.ERR_EXCEPTION,
-                        resCode = ResCode.USER_INFO_EXCEPTION,
-                    };
+                    throw new KernelException("获取用户列表信息异常", ex) { ResCode = ResCode.USER_INFO_EXCEPTION };
                 }
-
 
             });
 

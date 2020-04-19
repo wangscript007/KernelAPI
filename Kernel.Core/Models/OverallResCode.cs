@@ -8,6 +8,7 @@ namespace Kernel.Core.Models
     public class OverallResCode
     {
         /* 成功状态码 */
+        public const int FAILURE = -1;//成功
         public const int SUCCESS = 1;//成功
 
         /* 参数错误：10001-19999 */

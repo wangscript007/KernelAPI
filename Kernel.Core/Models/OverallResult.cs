@@ -25,7 +25,7 @@ namespace Kernel.Core.Models
         /// <summary>
         /// 执行结果资源编码（文案资源映射）
         /// </summary>
-        public int resCode { get; set; } = 1;//ResponseCode.SUCCESS
+        public int resCode { get; set; } = OverallResCode.SUCCESS;
 
         /// <summary>
         /// 时间戳
