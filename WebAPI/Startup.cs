@@ -179,6 +179,8 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ReportServerContext reportServerContext, IApiVersionDescriptionProvider provider)
         {
+            LogHelper.Configure();
+
             ServiceHost.Load(app.ApplicationServices);
 
             if (env.IsDevelopment())

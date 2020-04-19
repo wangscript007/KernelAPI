@@ -1,4 +1,5 @@
 ﻿using Kernel.Core.Models;
+using Kernel.Core.Utils;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -26,32 +27,28 @@ namespace Kernel.Core.AOP
                 errCode = OverallErrCode.ERR_EXCEPTION,
             };
 
+            if (_env.IsDevelopment())
+            {
+                result.data = GetStackTrace(context.Exception);//堆栈信息
+            }
+
             //这里面是自定义的操作记录日志
             if (context.Exception.GetType() == typeof(KernelException))
             {
                 var exception = context.Exception as KernelException;
                 result.message = exception.Message;
                 result.resCode = exception.ResCode;
-                if (_env.IsDevelopment())
-                {
-                    result.data = GetStackTrace(context.Exception);//堆栈信息
-                }
                 context.Result = new BadRequestObjectResult(result);//返回异常数据
             }
             else
             {
                 result.message = "发生了未知内部错误";
                 result.resCode = OverallResCode.FAILURE;
-                if (_env.IsDevelopment())
-                {
-                    result.data = GetStackTrace(context.Exception);//堆栈信息
-                }
                 context.Result = new JsonResult(result) { StatusCode = StatusCodes.Status500InternalServerError };
             }
 
             //采用log4net 进行错误日志记录
-            //LogHelper.ErrorLog(json.Message, context.Exception);
-
+            LogHelper.log.Error(context.Exception);
         }
 
         private List<ExceptionModel> GetStackTrace(Exception ex)
