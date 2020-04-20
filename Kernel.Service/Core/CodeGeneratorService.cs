@@ -12,7 +12,7 @@ namespace Kernel.Service.Core
 
         public string Generation(string tableName)
         {
-            IEnumerable<ITemplateService> templateServices = ServiceHost.GetServices<ITemplateService>();
+            IEnumerable<ITemplateService> templateServices = ServiceHost.GetScopeServices<ITemplateService>();
 
             StringBuilder sb = new StringBuilder();
             foreach (var templateService in templateServices)

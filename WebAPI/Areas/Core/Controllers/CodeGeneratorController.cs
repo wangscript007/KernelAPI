@@ -1,10 +1,12 @@
-﻿using Kernel.IService.Service.Core;
+﻿using Kernel.Core.AOP;
+using Kernel.IService.Service.Core;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace WebAPI.Areas.Demo.Controllers
 {
     [ApiVersion("1.0")]
+    [NoAuth]
     public class CodeGeneratorController : CoreBaseController
     {
 

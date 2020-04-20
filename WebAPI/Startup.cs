@@ -75,6 +75,9 @@ namespace WebAPI
             }).AddControllersAsServices()//默认情况下，Controller的参数会由容器创建，但Controller的创建是有AspNetCore框架实现的。要通过容器创建Controller，需要在Startup中配置一下
               .AddNewtonsoftJson();
 
+            //注册 Microsoft.AspNetCore.Http.IHttpContextAccessor
+            services.AddHttpContextAccessor();
+
             //参数验证
             services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -176,12 +179,13 @@ namespace WebAPI
 
         }
 
+
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ReportServerContext reportServerContext, IApiVersionDescriptionProvider provider)
         {
             LogHelper.Configure();
 
-            ServiceHost.Load(app.ApplicationServices);
+            ServiceHost.Init(app.ApplicationServices);
 
             if (env.IsDevelopment())
             {

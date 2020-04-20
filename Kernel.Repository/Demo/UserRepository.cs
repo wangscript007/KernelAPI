@@ -4,14 +4,20 @@ using Kernel.Dapper.Repository;
 using Kernel.IService.Repository.Demo;
 using Kernel.Model.Core;
 using Kernel.Model.Demo;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Kernel.Repository.Demo
 {
-    public class UserRepository : BaseRepository<SysUser>, IUserRepository
+    public class UserRepository : BaseRepository<SysUser>, IUserRepository, IDisposable
     {
         public override string DBName => DapperConst.QYPT_ORACLE;
+
+        public void Dispose()
+        {
+            System.Diagnostics.Debug.Write("UserRepository 销毁！！！");
+        }
 
         public async Task<SysUser> GetUserInfo_V1_0(SysUserInParams model)
         {
