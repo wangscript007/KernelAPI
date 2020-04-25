@@ -24,6 +24,8 @@ namespace Kernel.Service.Core
 
                 var code = templateService.TableHandle(tableSchema);
                 sb.AppendLine(code);
+
+                sb.AppendLine("/**************************分隔线**************************/");
             }
             return sb.ToString();
         }
