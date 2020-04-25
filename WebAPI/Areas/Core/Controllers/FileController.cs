@@ -30,7 +30,7 @@ namespace WebAPI.Areas.Core.Controllers
         /// </summary>
         [HttpGet]
         [Route("zip/{bizID}"), MapToApiVersion("1.0")]
-        public async Task<IActionResult> DownloadFiles_V1_0(string bizID)
+        public async Task<IActionResult> DownloadZip_V1_0(string bizID)
         {
             SysAttachmentsInParams data = new SysAttachmentsInParams
             {
@@ -38,6 +38,25 @@ namespace WebAPI.Areas.Core.Controllers
             };
             var result = await _mediator.Send(new DownloadZipCommand(data));
             return Ok(result);
+        }
+
+        /// <summary>
+        /// 下载文件
+        /// </summary>
+        [HttpGet]
+        [Route("download/{attachID}"), MapToApiVersion("1.0")]
+        public async Task<IActionResult> DownloadFile_V1_0(string attachID)
+        {
+            SysAttachmentsInParams data = new SysAttachmentsInParams
+            {
+                AttachId = attachID
+            };
+            var result = await _mediator.Send(new DownFileCommand(data));
+
+            if (result == null)
+                throw new KernelException("文件不存在！");
+            else
+                return File(result.data.Content, result.data.ContentType, result.data.FileName);
         }
 
         /// <summary>

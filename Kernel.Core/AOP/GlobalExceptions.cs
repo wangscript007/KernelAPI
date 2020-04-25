@@ -38,7 +38,7 @@ namespace Kernel.Core.AOP
                 var exception = context.Exception as KernelException;
                 result.message = exception.Message;
                 result.resCode = exception.ResCode;
-                context.Result = new BadRequestObjectResult(result);//返回异常数据
+                context.Result = new JsonResult(result) { StatusCode = exception.StatusCode };
             }
             else
             {
@@ -85,6 +85,8 @@ namespace Kernel.Core.AOP
     public class KernelException : Exception
     {
         public int ResCode { get; set; } = OverallResCode.FAILURE;
+
+        public int StatusCode { get; set; } = StatusCodes.Status400BadRequest;
 
         public KernelException() { }
         public KernelException(string message) : base(message) { }

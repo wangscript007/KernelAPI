@@ -20,10 +20,10 @@
     //资源路径，可通过http访问的路径，为空表示应用程序根路径下的ResourcesRootFolder文件夹物理路径，否则为ResourcesPath + ResourcesRootFolder
     "ResourcesPath": "",
     //资源根文件夹名
-    "ResourcesRootFolder": "Resources"
+    "ResourcesRootFolder": "res"
   },
   //文件上传相关
   "FileUpload": {
-    "AttachmentFolder": "UploadFiles"
+    "AttachmentFolder": "files"
   }
 }
