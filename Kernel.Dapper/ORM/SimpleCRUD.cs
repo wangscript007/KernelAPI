@@ -97,13 +97,13 @@ namespace Dapper
             _dictDBDialect.Add(typeof(Oracle.ManagedDataAccess.Client.OracleConnection), oracle);
 
             //MySql
-            //var mySql = new SortedDictionary<DBDialectOption, string>() {
-            //    {DBDialectOption.Encapsulation,  "`{0}`"},
-            //    {DBDialectOption.IdentitySql,  string.Format("SELECT LAST_INSERT_ID() AS id")},
-            //    {DBDialectOption.PagedListSql,  "Select {SelectColumns} from {TableName} {WhereClause} Order By {OrderBy} LIMIT {Offset},{RowsPerPage}"},
-            //    {DBDialectOption.ParamPrefix,  "@"}
-            //};
-            //_dictDBDialect.Add(typeof(MySql.Data.MySqlClient.MySqlConnection), mySql);
+            var mySql = new SortedDictionary<DBDialectOption, string>() {
+                {DBDialectOption.Encapsulation,  "`{0}`"},
+                {DBDialectOption.IdentitySql,  string.Format("SELECT LAST_INSERT_ID() AS id")},
+                {DBDialectOption.PagedListSql,  "Select {SelectColumns} from {TableName} {WhereClause} Order By {OrderBy} LIMIT {Offset},{RowsPerPage}"},
+                {DBDialectOption.ParamPrefix,  "@"}
+            };
+            _dictDBDialect.Add(typeof(MySql.Data.MySqlClient.MySqlConnection), mySql);
 
             //SQLite
             //var sqlLite = new SortedDictionary<DBDialectOption, string>() {

@@ -9,7 +9,8 @@
   "AllowedHosts": "*",
   "DBConnction": {
     "SqlServerConnection": "Data Source=127.0.0.1;Initial Catalog=ReportServer2;User Id=sa;Password=sa;",
-    "OracleConnection": "Data Source=127.0.0.1:1521/ORCL;User Id=pwsys;Password=HSEpasswordQYPTCS#2019;"
+    "OracleConnection": "Data Source=127.0.0.1:1521/ORCL;User Id=pwsys;Password=HSEpasswordQYPTCS#2019;",
+    "MySQLConnection": "server=127.0.0.1;database=kerneldb;port=3306;uid=root;pwd=root;"
   },
   //Tokenœ‡πÿ
   "Token": {

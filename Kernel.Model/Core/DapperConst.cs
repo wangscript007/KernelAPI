@@ -7,8 +7,9 @@ namespace Kernel.Model.Core
 {
     public class DapperConst
     {
-        public const string QYPT_ORACLE = "QYPT_ORACLE";
-        public const string QYPT_SQLSERVER = "QYPT_SQLSERVER";
+        public const string DB_ORACLE = "DB_ORACLE";
+        public const string DB_SQLSERVER = "DB_SQLSERVER";
+        public const string DB_MYSQL = "DB_MYSQL";
 
     }
 }

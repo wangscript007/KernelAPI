@@ -12,7 +12,7 @@ namespace Kernel.Repository.Core
 {
     public class CodeGeneratorOracleRepository : BaseRepository<TableSchema>, ICodeGeneratorRepository
     {
-        public override string DBName => DapperConst.QYPT_ORACLE;
+        public override string DBName => DapperConst.DB_ORACLE;
 
         public TableSchema GetTableSchema(string tableName)
         {

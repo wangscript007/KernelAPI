@@ -15,16 +15,22 @@ namespace WebAPI.Extensions
         public static void RegisterDapperConnection(this IServiceCollection services, IConfiguration configuration)
         {
             //连接sqlserver
-            services.AddDapper(DapperConst.QYPT_SQLSERVER, m =>
+            services.AddDapper(DapperConst.DB_SQLSERVER, m =>
             {
                 m.ConnectionString = configuration.GetSection("DBConnction:SqlServerConnection").Value;
                 m.DbType = Dialect.SQLServer;
             });
             //连接Oracle
-            services.AddDapper(DapperConst.QYPT_ORACLE, m =>
+            services.AddDapper(DapperConst.DB_ORACLE, m =>
             {
                 m.ConnectionString = configuration.GetSection("DBConnction:OracleConnection").Value;
                 m.DbType = Dialect.Oracle;
+            });
+            //连接MySQL
+            services.AddDapper(DapperConst.DB_MYSQL, m =>
+            {
+                m.ConnectionString = configuration.GetSection("DBConnction:MySQLConnection").Value;
+                m.DbType = Dialect.MySQL;
             });
         }
 

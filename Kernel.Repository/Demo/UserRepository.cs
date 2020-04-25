@@ -12,7 +12,7 @@ namespace Kernel.Repository.Demo
 {
     public class UserRepository : BaseRepository<SysUser>, IUserRepository, IDisposable
     {
-        public override string DBName => DapperConst.QYPT_ORACLE;
+        public override string DBName => DapperConst.DB_ORACLE;
 
         public void Dispose()
         {

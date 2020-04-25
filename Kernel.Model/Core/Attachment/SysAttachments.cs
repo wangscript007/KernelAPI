@@ -7,7 +7,7 @@ namespace Kernel.Model.Core.Attachment
     /// <summary>
     /// 附件信息表
     /// </summary>
-    [Table("SYS_FILES")]
+    [Table("sys_files")]
     public class SysAttachments : IDBModel
     {
 
@@ -31,13 +31,6 @@ namespace Kernel.Model.Core.Attachment
         /// </summary>
         [Column("ATTACH_BIZ_ID")]
         public virtual string AttachBizId { get; set; }
-
-
-        /// <summary>
-        /// 移动端业务数据记录ID
-        /// </summary>
-        [Column("ATTACH_MOBILE_ID")]
-        public virtual string AttachMobileId { get; set; }
 
 
         /// <summary>
@@ -66,13 +59,6 @@ namespace Kernel.Model.Core.Attachment
         /// </summary>
         [Column("ATTACH_PHYADDRESS")]
         public virtual string AttachPhyaddress { get; set; }
-
-
-        /// <summary>
-        /// 操作员
-        /// </summary>
-        [Column("ATTACH_OPERATOR")]
-        public virtual string AttachOperator { get; set; }
 
 
         /// <summary>
@@ -136,13 +122,6 @@ namespace Kernel.Model.Core.Attachment
         /// </summary>
         [Column("OP_MODIFY_USER")]
         public virtual string OpModifyUser { get; set; }
-
-
-        /// <summary>
-        /// 附件绑定字段名称
-        /// </summary>
-        [Column("FIELD_NAME")]
-        public virtual string FieldName { get; set; }
 
 
     }

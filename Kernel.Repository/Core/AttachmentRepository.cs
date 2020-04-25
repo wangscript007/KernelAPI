@@ -11,7 +11,7 @@ namespace Kernel.Repository.Core
 {
     public class AttachmentRepository : BaseRepository<SysAttachments>, IAttachmentRepository
     {
-        public override string DBName => DapperConst.QYPT_ORACLE;
+        public override string DBName => DapperConst.DB_MYSQL;
 
         public async Task<SysAttachments> GetAttachment_V1_0(string attachID)
         {
@@ -51,7 +51,7 @@ namespace Kernel.Repository.Core
             {
                 using (var conn = Connection)
                 {
-                    return await conn.GetListAsync<SysAttachmentsOutParams>("WHERE ATTACH_BIZ_ID = :ATTACH_BIZ_ID", new { ATTACH_BIZ_ID = bizID });
+                    return await conn.GetListAsync<SysAttachmentsOutParams>("WHERE ATTACH_BIZ_ID = @ATTACH_BIZ_ID", new { ATTACH_BIZ_ID = bizID });
                 }
 
             }
@@ -68,7 +68,7 @@ namespace Kernel.Repository.Core
             {
                 using (var conn = Connection)
                 {
-                    return await conn.GetListAsync<SysAttachmentsOutParams>("WHERE ATTACH_ID IN :ATTACH_ID", new { ATTACH_ID = attachIDs });
+                    return await conn.GetListAsync<SysAttachmentsOutParams>("WHERE ATTACH_ID IN @ATTACH_ID", new { ATTACH_ID = attachIDs });
                 }
 
             }
@@ -86,7 +86,7 @@ namespace Kernel.Repository.Core
             {
                 using (var conn = Connection)
                 {
-                    return await conn.DeleteListAsync<SysAttachments>("WHERE ATTACH_ID IN :ATTACH_ID", new { ATTACH_ID = attachIDs });
+                    return await conn.DeleteListAsync<SysAttachments>("WHERE ATTACH_ID IN @ATTACH_ID", new { ATTACH_ID = attachIDs });
                 }
 
             }
@@ -103,7 +103,7 @@ namespace Kernel.Repository.Core
             {
                 using (var conn = Connection)
                 {
-                    return await conn.DeleteListAsync<SysAttachments>("WHERE ATTACH_BIZ_ID = :ATTACH_BIZ_ID", new { ATTACH_BIZ_ID = bizID });
+                    return await conn.DeleteListAsync<SysAttachments>("WHERE ATTACH_BIZ_ID = @ATTACH_BIZ_ID", new { ATTACH_BIZ_ID = bizID });
                 }
 
             }

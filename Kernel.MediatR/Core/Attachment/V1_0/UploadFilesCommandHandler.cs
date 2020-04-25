@@ -65,7 +65,6 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
                         attachment.AttachFileType = fileType;
                         attachment.AttachFilepath = filePath;
                         attachment.AttachPhyaddress = filePath + fileName;
-                        attachment.AttachOperator = "";
                         attachment.AttachBizname = "";
                         attachment.DictIsEnabled = "1";
                         attachment.DictInputInterface = "1";

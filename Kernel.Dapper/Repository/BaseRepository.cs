@@ -39,9 +39,9 @@ namespace Kernel.Dapper.Repository
             {
                 switch (CurrentConnectionConfig.DbType)
                 {
-                    //case Dialect.MySQL:
-                    //    _connection = new MySql.Data.MySqlClient.MySqlConnection(CurrentConnectionConfig.ConnectionString);
-                    //    break;
+                    case Dialect.MySQL:
+                        _connection = new MySql.Data.MySqlClient.MySqlConnection(CurrentConnectionConfig.ConnectionString);
+                        break;
                     //case Dialect.SQLite:
                     //    _connection = new SQLiteConnection(CurrentConnectionConfig.ConnectionString);
                     //    break;
