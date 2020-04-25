@@ -23,28 +23,21 @@ namespace Kernel.Core.Utils
         {
             bool result = true;
 
-            try
+            //using (ZipFile zip = new ZipFile(Encoding.Default))
+            //{
+            //    foreach (string filename in sourceFileNames)
+            //    {
+            //        ZipEntry e = zip.AddFile(filename, "");
+            //    }
+
+            //    zip.Save(targetFileName);
+            //}
+
+            using (ZipFile zip = new ZipFile(Encoding.Default))
             {
-                //using (ZipFile zip = new ZipFile(Encoding.Default))
-                //{
-                //    foreach (string filename in sourceFileNames)
-                //    {
-                //        ZipEntry e = zip.AddFile(filename, "");
-                //    }
+                zip.AddFiles(sourceFileNames);
 
-                //    zip.Save(targetFileName);
-                //}
-
-                using (ZipFile zip = new ZipFile(Encoding.Default))
-                {
-                    zip.AddFiles(sourceFileNames);
-
-                    zip.Save(targetFileName);
-                }
-            }
-            catch (Exception)
-            {
-                result = false;
+                zip.Save(targetFileName);
             }
 
             return result;
@@ -56,37 +49,42 @@ namespace Kernel.Core.Utils
         /// <param name="targetFileName">目标文件名</param>
         /// <param name="sourceDirectory">源目录</param>
         /// <returns>压缩包压缩是否成功</returns>
-        public static bool DoZipFile(string targetFileName, string sourceDirectory)
+        public static bool DoZipFile(string targetFileName, string sourceDirectory, Dictionary<string, string> nameMapper = null)
         {
             bool result = true;
 
-            try
+            //string[] sourceFileNames = Directory.GetFiles(sourceDirectory, ".", SearchOption.AllDirectories);
+            //using (ZipFile zip = new ZipFile(Encoding.Default))
+            //{
+            //    foreach (string filename in sourceFileNames)
+            //    {
+            //        ZipEntry e = zip.AddFile(filename, "");
+            //    }
+
+            //    zip.Save(targetFileName);
+            //}
+
+            var targetPath = Path.GetDirectoryName(targetFileName);
+            if (!Directory.Exists(targetPath))
+                Directory.CreateDirectory(targetPath);
+
+            using (ZipFile zip = new ZipFile(Encoding.Default))
             {
-                //string[] sourceFileNames = Directory.GetFiles(sourceDirectory, ".", SearchOption.AllDirectories);
-                //using (ZipFile zip = new ZipFile(Encoding.Default))
-                //{
-                //    foreach (string filename in sourceFileNames)
-                //    {
-                //        ZipEntry e = zip.AddFile(filename, "");
-                //    }
+                zip.AddDirectory(sourceDirectory);
 
-                //    zip.Save(targetFileName);
-                //}
-
-                var targetPath = Path.GetDirectoryName(targetFileName);
-                if (!Directory.Exists(targetPath))
-                    Directory.CreateDirectory(targetPath);
-
-                using (ZipFile zip = new ZipFile(Encoding.Default))
+                //处理文件名映射
+                if (nameMapper != null)
                 {
-                    ZipEntry e = zip.AddDirectory(sourceDirectory);
-                    zip.Save(targetFileName);
+                    var items = zip.Entries.ToList();
+                    for (int i = 0; i < items.Count(); i++)
+                    {
+                        var item = items[i];
+                        if (nameMapper.ContainsKey(item.FileName))
+                            item.FileName = nameMapper[item.FileName];
+                    }
                 }
 
-            }
-            catch (Exception)
-            {
-                result = false;
+                zip.Save(targetFileName);
             }
 
             return result;
@@ -102,16 +100,9 @@ namespace Kernel.Core.Utils
         {
             bool result = true;
 
-            try
+            using (ZipFile zip = new ZipFile(zipFileName))
             {
-                using (ZipFile zip = new ZipFile(zipFileName))
-                {
-                    zip.ExtractAll(targetDirectory);
-                }
-            }
-            catch (Exception)
-            {
-                result = false;
+                zip.ExtractAll(targetDirectory);
             }
 
             return result;

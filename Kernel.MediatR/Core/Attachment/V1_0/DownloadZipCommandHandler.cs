@@ -35,12 +35,13 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
                 var files = await _fileRepository.GetAttachmentList_V1_0(request.Data.AttachBizId);
                 if (files.Count() != 0)
                 {
-                    //删除物理文件夹
+                    var dict = files.ToDictionary(k => k.AttachId + k.AttachFileType, v => v.AttachFileName + v.AttachFileType);
+
                     var folderToZip = App.AttachmentPath + files.First().AttachFilepath;
                     zipedFile = "temp/" + DateHelper.DateTimeToStamp(DateTime.Now) + ".zip";
 
                     //ZipHelper.ZipDirectory(folderToZip, App.BasePath + zipedFile);
-                    Compress.DoZipFile(App.AttachmentPath + zipedFile, folderToZip);
+                    Compress.DoZipFile(App.AttachmentPath + zipedFile, folderToZip, dict);
                 }
 
                 return new CommandResult<string>() { data = zipedFile };
