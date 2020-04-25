@@ -50,7 +50,7 @@ namespace Kernel.Repository.Core
         {{
             using (var conn = Connection)
             {{
-                return await conn.GetListAsync<{tableSchema.TableAliasName}>(""WHERE ATTACH_BIZ_ID = @ATTACH_BIZ_ID"", new {{ ATTACH_BIZ_ID = bizID });
+                return await conn.GetListAsync<{tableSchema.TableAliasName}>(""WHERE ATTACH_BIZ_ID = @ATTACH_BIZ_ID"", new {{ ATTACH_BIZ_ID = bizID }});
             }}
         }}
 
