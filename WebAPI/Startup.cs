@@ -11,11 +11,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.PlatformAbstractions;
@@ -46,6 +48,14 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //设置接收文件长度的最大值。
+            services.Configure<FormOptions>(x =>
+            {
+                x.ValueLengthLimit = int.MaxValue;
+                x.MultipartBodyLengthLimit = int.MaxValue;
+                x.MultipartHeadersLengthLimit = int.MaxValue;
+            });
+
             //添加jwt验证：
             services.AddAuthentication(x =>
             {
@@ -183,6 +193,22 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ReportServerContext reportServerContext, IApiVersionDescriptionProvider provider)
         {
+            //设置文件下载路径
+            var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "UploadFiles");
+            if (!Directory.Exists(uploadDir))
+                Directory.CreateDirectory(uploadDir);
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                ServeUnknownFileTypes = true,
+                FileProvider = new PhysicalFileProvider
+                (
+                    //本地资源路径
+                    uploadDir
+                ),
+                //URL路径,URL路径可以自定义，可以不用跟本地资源路径一致
+                RequestPath = new PathString("/UploadFiles")
+            });
+
             LogHelper.Configure();
 
             ServiceHost.Init(app.ApplicationServices);

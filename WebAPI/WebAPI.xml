@@ -25,6 +25,31 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="M:WebAPI.Areas.Core.Controllers.FileController.DownloadFiles_V1_0(System.String)">
+            <summary>
+            打包下载文件
+            </summary>
+        </member>
+        <member name="M:WebAPI.Areas.Core.Controllers.FileController.GetFiles_V1_0(System.String)">
+            <summary>
+            获取文件信息
+            </summary>
+        </member>
+        <member name="M:WebAPI.Areas.Core.Controllers.FileController.UploadFiles_V1_0(System.String,Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            上传文件
+            </summary>
+        </member>
+        <member name="M:WebAPI.Areas.Core.Controllers.FileController.DeleteFilesByBizID_V1_0(System.String)">
+            <summary>
+            删除文件，按业务ID删除
+            </summary>
+        </member>
+        <member name="M:WebAPI.Areas.Core.Controllers.FileController.DeleteFilesByAttachIDs_V1_0(System.String)">
+            <summary>
+            删除文件，按文件ID删除（多个ID以逗号分隔）
+            </summary>
+        </member>
         <member name="T:WebAPI.Extensions.ApiDescriptionExtension">
             <summary>   
             API描述器扩展   

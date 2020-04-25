@@ -2,8 +2,9 @@
 using Kernel.IService.Service.Core;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using WebAPI.Areas.Core;
 
-namespace WebAPI.Areas.Demo.Controllers
+namespace WebAPI.Areas.Core.Controllers
 {
     [ApiVersion("1.0")]
     [NoAuth]
