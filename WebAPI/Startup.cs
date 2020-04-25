@@ -1,5 +1,6 @@
 using Autofac;
 using Autofac.Extras.DynamicProxy;
+using Kernel.Core;
 using Kernel.Core.AOP;
 using Kernel.Core.Extensions;
 using Kernel.Core.Models;
@@ -194,7 +195,7 @@ namespace WebAPI
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ReportServerContext reportServerContext, IApiVersionDescriptionProvider provider)
         {
             //设置文件下载路径
-            var uploadDir = Path.Combine(Directory.GetCurrentDirectory(), "UploadFiles");
+            var uploadDir = Path.Combine(App.BasePath, "UploadFiles");
             if (!Directory.Exists(uploadDir))
                 Directory.CreateDirectory(uploadDir);
             app.UseStaticFiles(new StaticFileOptions()

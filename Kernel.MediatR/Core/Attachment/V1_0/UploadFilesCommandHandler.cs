@@ -4,6 +4,7 @@
 1.0           张晓松          2020-04-24       初始版本
 
 ******************************************************************/
+using Kernel.Core;
 using Kernel.IService.Repository.Core;
 using Kernel.Model.Core;
 using Kernel.Model.Core.Attachment;
@@ -21,12 +22,10 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
     public class UploadFilesCommandHandler : IRequestHandler<UploadFilesCommand, CommandResult<List<SysAttachmentsOutParams>>>
     {
         IAttachmentRepository _fileRepository;
-        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public UploadFilesCommandHandler(IAttachmentRepository apiRepository, IHostingEnvironment hostingEnvironment)
+        public UploadFilesCommandHandler(IAttachmentRepository apiRepository)
         {
             _fileRepository = apiRepository;
-            _hostingEnvironment = hostingEnvironment;
         }
 
         public Task<CommandResult<List<SysAttachmentsOutParams>>> Handle(UploadFilesCommand request, CancellationToken cancellationToken)
@@ -35,9 +34,8 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
             {
                 var files = request.Data.Files;
                 long size = files.Sum(f => f.Length);
-                string contentRootPath = _hostingEnvironment.ContentRootPath;
                 string filePath = $"UploadFiles/{DateTime.Now.ToString("yyyy/MM/dd")}/{ request.Data.AttachBizId}/";
-                string filePhysicalPath = $"{contentRootPath}/{filePath}";  //文件路径  可以通过注入 IHostingEnvironment 服务对象来取得Web根目录和内容根目录的物理路径
+                string filePhysicalPath = $"{App.BasePath}/{filePath}";  //文件路径  可以通过注入 IHostingEnvironment 服务对象来取得Web根目录和内容根目录的物理路径
                 if (!Directory.Exists(filePhysicalPath)) //判断上传文件夹是否存在，若不存在，则创建
                 {
                     Directory.CreateDirectory(filePhysicalPath); //创建文件夹

@@ -4,6 +4,7 @@
 1.0           张晓松          2020-04-24       初始版本
 
 ******************************************************************/
+using Kernel.Core;
 using Kernel.IService.Repository.Core;
 using Kernel.Model.Core;
 using MediatR;
@@ -17,12 +18,10 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
     public class DeleteFilesCommandHandler : IRequestHandler<DeleteFilesCommand, CommandResult<bool>>
     {
         IAttachmentRepository _fileRepository;
-        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public DeleteFilesCommandHandler(IAttachmentRepository apiRepository, IHostingEnvironment hostingEnvironment)
+        public DeleteFilesCommandHandler(IAttachmentRepository apiRepository)
         {
             _fileRepository = apiRepository;
-            _hostingEnvironment = hostingEnvironment;
         }
 
         public Task<CommandResult<bool>> Handle(DeleteFilesCommand request, CancellationToken cancellationToken)
@@ -36,7 +35,7 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
                 foreach (var file in files)
                 {
                     //删除物理文件
-                    var path = _hostingEnvironment.ContentRootPath + "/" + file.AttachPhyaddress;
+                    var path = App.BasePath + "/" + file.AttachPhyaddress;
                     File.Delete(path);
                 }
 

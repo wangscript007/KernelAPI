@@ -4,6 +4,7 @@
 1.0           张晓松          2020-04-24       初始版本
 
 ******************************************************************/
+using Kernel.Core;
 using Kernel.Core.Models;
 using Kernel.IService.Repository.Core;
 using Kernel.Model.Core;
@@ -20,12 +21,10 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
     public class DeleteFilesByBizIDCommandHandler : IRequestHandler<DeleteFilesByBizIDCommand, CommandResult<bool>>
     {
         IAttachmentRepository _fileRepository;
-        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public DeleteFilesByBizIDCommandHandler(IAttachmentRepository apiRepository, IHostingEnvironment hostingEnvironment)
+        public DeleteFilesByBizIDCommandHandler(IAttachmentRepository apiRepository)
         {
             _fileRepository = apiRepository;
-            _hostingEnvironment = hostingEnvironment;
         }
 
         public Task<CommandResult<bool>> Handle(DeleteFilesByBizIDCommand request, CancellationToken cancellationToken)
@@ -38,7 +37,7 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
                     var result = await _fileRepository.DeleteAttachment_V1_0(request.Data.AttachBizId);
 
                     //删除物理文件夹
-                    var path = _hostingEnvironment.ContentRootPath + "/" + files.First().AttachFilepath;
+                    var path = App.BasePath + "/" + files.First().AttachFilepath;
                     if (Directory.Exists(path))
                         Directory.Delete(path, true);
                 }

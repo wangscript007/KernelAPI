@@ -18,12 +18,10 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
     public class GetFilesCommandHandler : IRequestHandler<GetFilesCommand, CommandResult<IEnumerable<SysAttachmentsOutParams>>>
     {
         IAttachmentRepository _fileRepository;
-        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public GetFilesCommandHandler(IAttachmentRepository apiRepository, IHostingEnvironment hostingEnvironment)
+        public GetFilesCommandHandler(IAttachmentRepository apiRepository)
         {
             _fileRepository = apiRepository;
-            _hostingEnvironment = hostingEnvironment;
         }
 
         public Task<CommandResult<IEnumerable<SysAttachmentsOutParams>>> Handle(GetFilesCommand request, CancellationToken cancellationToken)

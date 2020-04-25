@@ -4,6 +4,7 @@
 1.0           张晓松          2020-04-24       初始版本
 
 ******************************************************************/
+using Kernel.Core;
 using Kernel.Core.Utils;
 using Kernel.IService.Repository.Core;
 using Kernel.Model.Core;
@@ -19,12 +20,10 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
     public class DownloadZipCommandHandler : IRequestHandler<DownloadZipCommand, CommandResult<string>>
     {
         IAttachmentRepository _fileRepository;
-        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public DownloadZipCommandHandler(IAttachmentRepository apiRepository, IHostingEnvironment hostingEnvironment)
+        public DownloadZipCommandHandler(IAttachmentRepository apiRepository)
         {
             _fileRepository = apiRepository;
-            _hostingEnvironment = hostingEnvironment;
         }
 
         public Task<CommandResult<string>> Handle(DownloadZipCommand request, CancellationToken cancellationToken)
@@ -37,10 +36,10 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
                 if (files.Count() != 0)
                 {
                     //删除物理文件夹
-                    var folderToZip = _hostingEnvironment.ContentRootPath + "/" + files.First().AttachFilepath;
+                    var folderToZip = App.BasePath + "/" + files.First().AttachFilepath;
                     zipedFile = "/UploadFiles/temp/" + DateHelper.DateTimeToStamp(DateTime.Now) + ".zip";
 
-                    ZipHelper.ZipDirectory(folderToZip, _hostingEnvironment.ContentRootPath + zipedFile);
+                    ZipHelper.ZipDirectory(folderToZip, App.BasePath + zipedFile);
 
                 }
 
