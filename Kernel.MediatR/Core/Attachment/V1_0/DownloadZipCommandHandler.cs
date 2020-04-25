@@ -36,11 +36,11 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
                 if (files.Count() != 0)
                 {
                     //删除物理文件夹
-                    var folderToZip = App.BasePath + "/" + files.First().AttachFilepath;
-                    zipedFile = "/UploadFiles/temp/" + DateHelper.DateTimeToStamp(DateTime.Now) + ".zip";
+                    var folderToZip = App.AttachmentPath + files.First().AttachFilepath;
+                    zipedFile = "temp/" + DateHelper.DateTimeToStamp(DateTime.Now) + ".zip";
 
-                    ZipHelper.ZipDirectory(folderToZip, App.BasePath + zipedFile);
-
+                    //ZipHelper.ZipDirectory(folderToZip, App.BasePath + zipedFile);
+                    Compress.DoZipFile(App.AttachmentPath + zipedFile, folderToZip);
                 }
 
                 return new CommandResult<string>() { data = zipedFile };

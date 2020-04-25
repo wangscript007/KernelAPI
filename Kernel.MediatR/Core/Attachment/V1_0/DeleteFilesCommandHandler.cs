@@ -35,7 +35,7 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
                 foreach (var file in files)
                 {
                     //删除物理文件
-                    var path = App.BasePath + "/" + file.AttachPhyaddress;
+                    var path = App.AttachmentPath + file.AttachPhyaddress;
                     File.Delete(path);
                 }
 

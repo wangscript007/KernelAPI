@@ -37,7 +37,7 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
                     var result = await _fileRepository.DeleteAttachment_V1_0(request.Data.AttachBizId);
 
                     //删除物理文件夹
-                    var path = App.BasePath + "/" + files.First().AttachFilepath;
+                    var path = App.AttachmentPath + files.First().AttachFilepath;
                     if (Directory.Exists(path))
                         Directory.Delete(path, true);
                 }

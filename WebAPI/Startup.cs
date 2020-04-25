@@ -194,25 +194,21 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ReportServerContext reportServerContext, IApiVersionDescriptionProvider provider)
         {
-            //设置文件下载路径
-            var uploadDir = Path.Combine(App.BasePath, "UploadFiles");
-            if (!Directory.Exists(uploadDir))
-                Directory.CreateDirectory(uploadDir);
+            ServiceHost.Init(app.ApplicationServices);
+
             app.UseStaticFiles(new StaticFileOptions()
             {
                 ServeUnknownFileTypes = true,
                 FileProvider = new PhysicalFileProvider
                 (
                     //本地资源路径
-                    uploadDir
+                    App.ResourcesRootPath
                 ),
                 //URL路径,URL路径可以自定义，可以不用跟本地资源路径一致
-                RequestPath = new PathString("/UploadFiles")
+                RequestPath = new PathString("/" + App.ResourcesRootFolder)
             });
 
             LogHelper.Configure();
-
-            ServiceHost.Init(app.ApplicationServices);
 
             if (env.IsDevelopment())
             {

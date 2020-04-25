@@ -1,8 +1,7 @@
-﻿using Kernel.Core.Utils;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using System.IO;
 
-namespace EIP.Core.DataAccess
+namespace Kernel.Core.Utils
 {
     public static class AppsettingsConfig
     {
