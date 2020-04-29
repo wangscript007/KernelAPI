@@ -30,6 +30,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using WebAPI.Extensions;
+using WebAPI.MyTenant;
 using WebAPI.Settings;
 
 namespace WebAPI
@@ -49,6 +50,11 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMultiTenancy()
+                .WithTenantResolver<DomainTenantResolver>()
+                .WithTenantStore<InMemoryTenantStore>();
+            services.AddScoped(typeof(TenantAppService));
+
             //设置接收文件长度的最大值。
             services.Configure<FormOptions>(x =>
             {
@@ -195,6 +201,16 @@ namespace WebAPI
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ReportServerContext reportServerContext, IApiVersionDescriptionProvider provider)
         {
             ServiceHost.Init(app.ApplicationServices);
+
+            //注册中间件
+            //中间件所干的事，很简单，就是捕获进来管道的请求上下文，然后解析得出租户信息，然后把对应的租户信息放入请求上下文中。
+            app.Use(next => {
+                return async context =>
+                {
+                    await new MultiTenantMiddleware(next).InvokeAsync(context);
+                };
+            });
+
 
             app.UseStaticFiles(new StaticFileOptions()
             {
