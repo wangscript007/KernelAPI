@@ -1,4 +1,5 @@
 ﻿using Kernel.Core.Models;
+using Newtonsoft.Json;
 
 namespace Kernel.Model.Core
 {
@@ -8,7 +9,11 @@ namespace Kernel.Model.Core
     /// <typeparam name="T"></typeparam>
     public class CommandResult<T> : OverallResult<T>
     {
-
+        /// <summary>
+        /// 额外信息
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public dynamic Extra { get; set; }
     }
 
 }

@@ -38,8 +38,7 @@ namespace Kernel.Core.AOP
             //string action = context.RouteData.Values["Action"].ToString();
 
             OverallResult<string> result = new OverallResult<string>();
-            result.errCode = OverallErrCode.ERR_VER_PAR;
-            result.success = true;
+            result.Success = true;
 
             try
             {
@@ -47,10 +46,8 @@ namespace Kernel.Core.AOP
                 string token = headrs["Authorization"];
                 if (token == null)
                 {
-                    result.success = false;
-                    result.message = "请求无效，未识别到token!";
-                    result.errCode = OverallErrCode.ERR_VER_TOKEN_NOTFOUND;
-                    result.resCode = OverallResCode.PARAM_IS_INVALID;
+                    result.Success = false;
+                    result.Message = "请求无效，未识别到token!";
                     context.Result = new JsonResult(result) { StatusCode = StatusCodes.Status401Unauthorized };
                     return;
                 }
@@ -64,10 +61,8 @@ namespace Kernel.Core.AOP
 
                 if (validTime < DateTime.Now)
                 {
-                    result.success = false;
-                    result.message = "token已过期，请重新登录!";
-                    result.errCode = OverallErrCode.ERR_VER_TOKEN_EXPIRED;
-                    result.resCode = OverallResCode.PARAM_IS_INVALID;
+                    result.Success = false;
+                    result.Message = "token已过期，请重新登录!";
                     context.Result = new JsonResult(result) { StatusCode = StatusCodes.Status401Unauthorized };
                     return;
                 }
@@ -75,11 +70,9 @@ namespace Kernel.Core.AOP
             }
             catch (Exception ex)
             {
-                result.success = false;
-                result.message = "无效token!";
-                result.errCode = OverallErrCode.ERR_VER_TOKEN_INVALID;
-                result.resCode = OverallResCode.PARAM_IS_INVALID;
-                result.data = ex.Message;
+                result.Success = false;
+                result.Message = "无效token!";
+                result.Data = ex.Message;
                 context.Result = new JsonResult(result) { StatusCode = StatusCodes.Status401Unauthorized };
                 return;
             }

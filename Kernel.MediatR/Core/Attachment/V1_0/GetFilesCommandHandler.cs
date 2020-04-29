@@ -30,7 +30,7 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
             {
                 var list = await _fileRepository.GetAttachmentList_V1_0(request.Data.AttachBizId);
 
-                return new CommandResult<IEnumerable<SysAttachmentsOutParams>>() { data = list };
+                return new CommandResult<IEnumerable<SysAttachmentsOutParams>>() { Data = list };
 
 
             });

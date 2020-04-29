@@ -44,7 +44,7 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
                     Compress.DoZipFile(App.AttachmentPath + zipedFile, folderToZip, dict);
                 }
 
-                return new CommandResult<string>() { data = zipedFile };
+                return new CommandResult<string>() { Data = zipedFile };
 
             });
 

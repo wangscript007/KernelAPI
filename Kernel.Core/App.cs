@@ -13,9 +13,11 @@ namespace Kernel.Core
         public static readonly string AttachmentPath;
         public static readonly string ResourcesRootPath;
         public static readonly string ResourcesRootFolder;
+        public static bool IsDevelopment = false;
 
         static App()
         {
+            //BasePath = PlatformServices.Default.Application.ApplicationBasePath;
             BasePath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
 
             ResourcesRootFolder = AppsettingsConfig.GetConfigValue("App:ResourcesRootFolder");

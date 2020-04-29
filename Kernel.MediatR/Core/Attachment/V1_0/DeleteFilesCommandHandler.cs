@@ -39,7 +39,7 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
                     File.Delete(path);
                 }
 
-                return new CommandResult<bool>() { data = true };
+                return new CommandResult<bool>() { Data = true };
 
             });
 

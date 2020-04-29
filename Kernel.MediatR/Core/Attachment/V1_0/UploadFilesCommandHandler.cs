@@ -76,7 +76,7 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
                     }
                 }
 
-                return new CommandResult<List<SysAttachmentsOutParams>>() { data = list };
+                return new CommandResult<List<SysAttachmentsOutParams>>() { Data = list };
 
             });
 

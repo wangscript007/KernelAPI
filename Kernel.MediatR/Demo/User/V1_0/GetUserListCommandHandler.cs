@@ -24,16 +24,9 @@ namespace Kernel.MediatR.Demo.User.V1_0
         {
             return Task.Run(async () =>
             {
-                try
-                {
-                    var userList = await _userRepository.GetUserList_V1_0(request.Data);
+                var userList = await _userRepository.GetUserList_V1_0(request.Data);
 
-                    return new CommandResult<IEnumerable<SysUserExt2>>() { data = userList };
-                }
-                catch (Exception ex)
-                {
-                    throw new KernelException("获取用户列表信息异常", ex) { ResCode = ResCode.USER_INFO_EXCEPTION };
-                }
+                return new CommandResult<IEnumerable<SysUserExt2>>() { Data = userList };
 
             });
 

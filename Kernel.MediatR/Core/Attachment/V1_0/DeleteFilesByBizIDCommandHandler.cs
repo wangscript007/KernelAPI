@@ -42,7 +42,7 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
                         Directory.Delete(path, true);
                 }
 
-                return new CommandResult<bool>() { data = true };
+                return new CommandResult<bool>() { Data = true };
 
             });
 

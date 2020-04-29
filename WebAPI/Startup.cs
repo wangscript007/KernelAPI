@@ -103,11 +103,9 @@ namespace WebAPI
                     var errors = context.ModelState.GetValidationSummary();
                     var result = new CommandResult<List<string>>()
                     {
-                        success = false,
-                        message = "参数验证不通过",
-                        errCode = OverallErrCode.ERR_VER_PAR,
-                        resCode = OverallResCode.PARAM_IS_INVALID,
-                        data = errors
+                        Success = false,
+                        Message = "参数验证不通过",
+                        Data = errors
                     };
 
                     return new JsonResult(result) { StatusCode = StatusCodes.Status416RangeNotSatisfiable };
@@ -228,6 +226,7 @@ namespace WebAPI
 
             if (env.IsDevelopment())
             {
+                App.IsDevelopment = true;
                 app.UseDeveloperExceptionPage();
             }
 
@@ -263,9 +262,8 @@ namespace WebAPI
         {
             get
             {
-                var basePath = PlatformServices.Default.Application.ApplicationBasePath;
                 var fileName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name + ".xml";
-                return Path.Combine(basePath, fileName);
+                return Path.Combine(App.BasePath, fileName);
             }
         }
     }

@@ -23,27 +23,25 @@ namespace Kernel.Core.AOP
         {
             var result = new OverallResult<List<ExceptionModel>>()
             {
-                success = false,
-                errCode = OverallErrCode.ERR_EXCEPTION,
+                Success = false,
             };
 
             if (_env.IsDevelopment())
             {
-                result.data = GetStackTrace(context.Exception);//堆栈信息
+                result.Data = GetStackTrace(context.Exception);//堆栈信息
             }
 
             //这里面是自定义的操作记录日志
             if (context.Exception.GetType() == typeof(KernelException))
             {
                 var exception = context.Exception as KernelException;
-                result.message = exception.Message;
-                result.resCode = exception.ResCode;
-                context.Result = new JsonResult(result) { StatusCode = exception.StatusCode };
+                result.Message = exception.Message;
+                result.Code = exception.Code;
+                context.Result = new JsonResult(result) { StatusCode = exception.HttpStatusCode };
             }
             else
             {
-                result.message = "发生了未知内部错误";
-                result.resCode = OverallResCode.FAILURE;
+                result.Message = "发生了未知内部错误";
                 context.Result = new JsonResult(result) { StatusCode = StatusCodes.Status500InternalServerError };
             }
 
@@ -57,7 +55,7 @@ namespace Kernel.Core.AOP
 
             var model = new ExceptionModel();
             model.Message = ex.Message;
-            model.ExType = ex.GetType().FullName;
+            model.Exception = ex.GetType().FullName;
             model.StackTrace = ex.StackTrace;
             list.Add(model);
 
@@ -74,7 +72,7 @@ namespace Kernel.Core.AOP
     {
         public string Message { get; set; }
 
-        public string ExType { get; set; }
+        public string Exception { get; set; }
 
         public string StackTrace { get; set; }
     }
@@ -84,9 +82,9 @@ namespace Kernel.Core.AOP
     /// </summary>
     public class KernelException : Exception
     {
-        public int ResCode { get; set; } = OverallResCode.FAILURE;
+        public string Code { get; set; }
 
-        public int StatusCode { get; set; } = StatusCodes.Status400BadRequest;
+        public int HttpStatusCode { get; set; } = StatusCodes.Status400BadRequest;
 
         public KernelException() { }
         public KernelException(string message) : base(message) { }

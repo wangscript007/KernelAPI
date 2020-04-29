@@ -56,7 +56,7 @@ namespace WebAPI.Areas.Core.Controllers
             if (result == null)
                 throw new KernelException("文件不存在！");
             else
-                return File(result.data.Content, result.data.ContentType, result.data.FileName);
+                return File(result.Data.Content, result.Data.ContentType, result.Data.FileName);
         }
 
         /// <summary>

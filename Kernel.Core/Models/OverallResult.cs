@@ -1,4 +1,5 @@
 ﻿using Kernel.Core.Utils;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,30 +11,37 @@ namespace Kernel.Core.Models
         /// <summary>
         /// 是否成功标志(true:成功 false: 不成功)
         /// </summary>
-        public bool success { get; set; } = true;
+        public bool Success { get; set; } = true;
+
+        /// <summary>
+        /// 响应具体数据，支持复杂类型
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public T Data { get; set; }
 
         /// <summary>
         /// 执行结果信息
         /// </summary>
-        public string message { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string Message { get; set; }
 
         /// <summary>
-        /// 错误类别代码（自动化测试可以用于区分错误类别）
+        /// 编码
         /// </summary>
-        public int errCode { get; set; } = OverallErrCode.ERR_NO;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string Code { get; set; }
 
         /// <summary>
-        /// 执行结果资源编码（文案资源映射）
+        /// 是否是开发环境
         /// </summary>
-        public int resCode { get; set; } = OverallResCode.SUCCESS;
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public bool? IsDevelopment { get; set; }
 
         /// <summary>
         /// 时间戳
         /// </summary>
-        public int timestamp { get; set; } = DateHelper.DateTimeToStamp(DateTime.Now);
-        /// <summary>
-        /// 响应具体数据，支持复杂类型
-        /// </summary>
-        public T data { get; set; }
+        public int Timestamp { get; set; } = DateHelper.DateTimeToStamp(DateTime.Now);
+
+
     }
 }

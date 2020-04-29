@@ -46,7 +46,7 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
                     FileName = file.AttachFileName + file.AttachFileType
                 };
 
-                return new CommandResult<SysAttachmentsDownloadParams>() { data = param };
+                return new CommandResult<SysAttachmentsDownloadParams>() { Data = param };
 
             });
 
