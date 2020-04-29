@@ -15,6 +15,10 @@ namespace Kernel.Core.Utils
     //};
     //string token = JwtUtil.EncodeToken(claims);
 
+    /// <summary>
+    /// jwt在线调试
+    /// https://jwt.io/
+    /// </summary>
     public static class JwtUtil
     {
         /// <summary>
@@ -43,15 +47,8 @@ namespace Kernel.Core.Utils
         /// <returns></returns>
         public static IEnumerable<Claim> DecodeToken(string token)
         {
-            try
-            {
-                var securityToken = new JwtSecurityToken(token);
-                return securityToken.Claims;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            var securityToken = new JwtSecurityToken(token);
+            return securityToken.Claims;
         }
     }
 }

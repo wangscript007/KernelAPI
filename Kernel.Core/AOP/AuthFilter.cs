@@ -1,4 +1,5 @@
-﻿using Kernel.Core.Models;
+﻿using Kernel.Core.Extensions;
+using Kernel.Core.Models;
 using Kernel.Core.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -53,6 +54,8 @@ namespace Kernel.Core.AOP
                     context.Result = new JsonResult(result) { StatusCode = StatusCodes.Status401Unauthorized };
                     return;
                 }
+
+                token = token.TrimStart("Bearer", true);
 
                 var claims = JwtUtil.DecodeToken(token);
 
