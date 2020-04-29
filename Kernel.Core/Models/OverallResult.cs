@@ -40,8 +40,7 @@ namespace Kernel.Core.Models
         /// <summary>
         /// 时间戳
         /// </summary>
-        public int Timestamp { get; set; } = DateHelper.DateTimeToStamp(DateTime.Now);
-
+        public long Timestamp { get; set; } = DateHelper.DateTimeToStamp(DateTime.Now);
 
     }
 }

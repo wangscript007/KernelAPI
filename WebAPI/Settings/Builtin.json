@@ -12,9 +12,10 @@
     "OracleConnection": "Data Source=127.0.0.1:1521/ORCL;User Id=pwsys;Password=HSEpasswordQYPTCS#2019;",
     "MySQLConnection": "server=127.0.0.1;database=kerneldb;port=3306;uid=root;pwd=root;"
   },
-  //Token相关
-  "Token": {
-    "Secret": "GQDstcKsx0NHjPOuXOYg5MbeJ1XT0uFiwDVvVBrk"
+  "JwtSettings": {
+    "Issuer": "http://xtjatswc:5000",
+    "Audience": "http://localhost:39274",
+    "SecretKey": "GQDstcKsx0NHjPOuXOYg5MbeJ1XT0uFiwDVvVBrk"
   },
   "App": {
     //资源路径，可通过http访问的路径，为空表示应用程序根路径下的ResourcesRootFolder文件夹物理路径，否则为ResourcesPath + ResourcesRootFolder

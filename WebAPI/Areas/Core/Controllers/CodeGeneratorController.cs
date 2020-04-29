@@ -1,5 +1,6 @@
 ﻿using Kernel.Core.AOP;
 using Kernel.IService.Service.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using WebAPI.Areas.Core;
@@ -7,7 +8,7 @@ using WebAPI.Areas.Core;
 namespace WebAPI.Areas.Core.Controllers
 {
     [ApiVersion("1.0")]
-    [NoAuth]
+    [AllowAnonymous]
     public class CodeGeneratorController : CoreBaseController
     {
 

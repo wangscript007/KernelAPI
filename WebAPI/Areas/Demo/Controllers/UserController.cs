@@ -6,6 +6,7 @@ using Kernel.IService.Service.Demo;
 using Kernel.MediatR.Demo.HelloWorld.V1_0;
 using Kernel.Model.Demo;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -16,7 +17,7 @@ namespace WebAPI.Areas.Demo.Controllers
 {
     [ApiVersion("1.0", Deprecated = true)]
     [ApiVersion("2.0")]
-    [NoAuth]
+    [AllowAnonymous]
     public class UserController : DemoBaseController
     {
         private IMediator _mediator;
@@ -85,7 +86,7 @@ namespace WebAPI.Areas.Demo.Controllers
 
         [HttpGet]
         [Route("list"), MapToApiVersion("2.0")]
-        [NoAuth]
+        [AllowAnonymous]
         public async Task<IActionResult> GetUserList_V2_1([FromQuery] SysUserInParams model)
         {
             //测试 MediatorR 的 Publish 模式
@@ -95,10 +96,9 @@ namespace WebAPI.Areas.Demo.Controllers
             //var users = context.Users;
 
             //生成token示例
-            var claims = new[]
-            {
-                new Claim("UserName", "123"),//用户信息
-                new Claim("ValidTime", DateTime.Now.AddDays(1).ToString("yyyy-MM-dd HH:mm:ss"))//过期时间
+            var claims = new Claim[]{
+                new Claim(ClaimTypes.Name,"wyt"),
+                new Claim(ClaimTypes.Role,"admin")
             };
             string token = JwtUtil.EncodeToken(claims);
 

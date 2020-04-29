@@ -1,4 +1,5 @@
 ﻿using Kernel.Core.Utils;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,6 +15,8 @@ namespace Kernel.Core
         public static readonly string ResourcesRootPath;
         public static readonly string ResourcesRootFolder;
         public static bool IsDevelopment = false;
+        public static readonly IHttpContextAccessor HttpContextAccessor;
+        public static HttpContext HttpContext { get => HttpContextAccessor.HttpContext; }
 
         static App()
         {
@@ -33,6 +36,7 @@ namespace Kernel.Core
             if (!Directory.Exists(App.AttachmentPath))
                 Directory.CreateDirectory(App.AttachmentPath);
 
+            HttpContextAccessor = ServiceHost.GetService<IHttpContextAccessor>();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Kernel.Core.Models;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -21,6 +22,13 @@ namespace Kernel.Core.Utils
     /// </summary>
     public static class JwtUtil
     {
+        private static JwtSettings _jwtSettings;
+
+        static JwtUtil()
+        {
+            _jwtSettings = ServiceHost.GetService<JwtSettings>();
+        }
+
         /// <summary>
         /// 生成token
         /// </summary>
@@ -29,12 +37,11 @@ namespace Kernel.Core.Utils
         /// <returns></returns>
         public static string EncodeToken(IEnumerable<Claim> claims)
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(AppsettingsConfig.GetConfigValue("Token:Secret")));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.SecretKey));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-            var securityToken = new JwtSecurityToken(
-                claims: claims,
-                signingCredentials: creds);
+            //生成token  [注意]需要nuget添加Microsoft.AspNetCore.Authentication.JwtBearer包，并引用System.IdentityModel.Tokens.Jwt命名空间
+            var securityToken = new JwtSecurityToken(_jwtSettings.Issuer, _jwtSettings.Audience, claims, DateTime.Now, DateTime.Now.AddDays(1), creds);
 
             string token = new JwtSecurityTokenHandler().WriteToken(securityToken);
             return token;

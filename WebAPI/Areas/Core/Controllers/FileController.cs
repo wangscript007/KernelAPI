@@ -8,6 +8,7 @@ using Kernel.Core.AOP;
 using Kernel.MediatR.Core.Attachment.V1_0;
 using Kernel.Model.Core.Attachment;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 namespace WebAPI.Areas.Core.Controllers
 {
     [ApiVersion("1.0")]
-    [NoAuth]
+    [Authorize]
     public class FileController : CoreBaseController
     {
         private IMediator _mediator;

@@ -50,6 +50,15 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //将appsettings.json中的JwtSettings部分文件读取到JwtSettings中，这是给其他地方用的
+            services.Configure<JwtSettings>(Configuration.GetSection("JwtSettings"));
+
+            //由于初始化的时候我们就需要用，所以使用Bind的方式读取配置
+            //将配置绑定到JwtSettings实例中
+            var jwtSettings = new JwtSettings();
+            Configuration.Bind("JwtSettings", jwtSettings);
+            services.AddSingleton(typeof(JwtSettings), jwtSettings);
+
             services.AddMultiTenancy()
                 .WithTenantResolver<DomainTenantResolver>()
                 .WithTenantStore<InMemoryTenantStore>();
@@ -73,7 +82,17 @@ namespace WebAPI
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:Secret"]))//拿到SecurityKey
+                    //Token颁发机构
+                    ValidIssuer = jwtSettings.Issuer,
+                    //颁发给谁
+                    ValidAudience = jwtSettings.Audience,
+                    //这里的key要进行加密，需要引用Microsoft.IdentityModel.Tokens
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey)),
+                    //ValidateIssuerSigningKey=true,
+                    ////是否验证Token有效期，使用当前时间与Token的Claims中的NotBefore和Expires对比
+                    ValidateLifetime=true,
+                    ////允许的服务器时间偏移量
+                    //ClockSkew=TimeSpan.Zero
                 };
             });
 
@@ -88,7 +107,7 @@ namespace WebAPI
             services.AddControllers(config =>
             {
                 config.Filters.Add(typeof(GlobalExceptions));
-                config.Filters.Add<AuthFilter>();
+                //config.Filters.Add<AuthFilter>(); //暂时弃用
             }).AddControllersAsServices()//默认情况下，Controller的参数会由容器创建，但Controller的创建是有AspNetCore框架实现的。要通过容器创建Controller，需要在Startup中配置一下
               .AddNewtonsoftJson();
 
@@ -198,6 +217,8 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ReportServerContext reportServerContext, IApiVersionDescriptionProvider provider)
         {
+            app.UseAuthentication();
+
             ServiceHost.Init(app.ApplicationServices);
 
             //注册中间件

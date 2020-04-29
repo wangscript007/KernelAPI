@@ -21,14 +21,14 @@ namespace Kernel.Core.Utils
         }
 
         /// <summary>
-        /// 时间戳转为C#格式时间
+        /// C#格式时间转为时间戳
         /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
-        public static int DateTimeToStamp(DateTime time)
+        public static long DateTimeToStamp(DateTime time)
         {
             DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
-            return (int)(time - startTime).TotalSeconds;
+            return (long)(time - startTime).TotalSeconds;
         }
     }
 }
