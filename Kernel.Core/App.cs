@@ -1,9 +1,8 @@
-﻿using Kernel.Core.Utils;
+﻿using Kernel.Core.Models;
+using Kernel.Core.Utils;
 using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace Kernel.Core
 {
@@ -17,6 +16,7 @@ namespace Kernel.Core
         public static bool IsDevelopment = false;
         public static readonly IHttpContextAccessor HttpContextAccessor;
         public static HttpContext HttpContext { get => HttpContextAccessor.HttpContext; }
+        public static readonly JwtSettings JwtSettings;
 
         static App()
         {
@@ -37,6 +37,8 @@ namespace Kernel.Core
                 Directory.CreateDirectory(App.AttachmentPath);
 
             HttpContextAccessor = ServiceHost.GetService<IHttpContextAccessor>();
+            JwtSettings = ServiceHost.GetService<JwtSettings>();
+
         }
     }
 }

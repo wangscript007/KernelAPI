@@ -50,14 +50,10 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //将appsettings.json中的JwtSettings部分文件读取到JwtSettings中，这是给其他地方用的
-            services.Configure<JwtSettings>(Configuration.GetSection("JwtSettings"));
 
-            //由于初始化的时候我们就需要用，所以使用Bind的方式读取配置
-            //将配置绑定到JwtSettings实例中
             var jwtSettings = new JwtSettings();
-            Configuration.Bind("JwtSettings", jwtSettings);
-            services.AddSingleton(typeof(JwtSettings), jwtSettings);
+            Configuration.GetSection("JwtSettings").Bind(jwtSettings);
+            services.AddSingleton(jwtSettings);
 
             services.AddMultiTenancy()
                 .WithTenantResolver<DomainTenantResolver>()
