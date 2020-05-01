@@ -1,27 +1,27 @@
-﻿using Kernel.Core.Models;
-using Kernel.Core.Multitenant;
+﻿using Kernel.Core.Multitenant;
 using Kernel.Core.Utils;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Kernel.Core
+namespace Kernel.Core.Models
 {
-    public static class App
+    public class KernelSettings
     {
-        public static readonly string BasePath;
-        public static readonly string AttachmentFolder;
-        public static readonly string AttachmentPath;
-        public static readonly string ResourcesRootPath;
-        public static readonly string ResourcesRootFolder;
-        public static bool IsDevelopment = false;
-        public static readonly IHttpContextAccessor HttpContextAccessor;
-        public static HttpContext HttpContext { get => HttpContextAccessor.HttpContext; }
-        public static readonly JwtSettings JwtSettings;
-        public static readonly List<Tenant> Multitenant;
+        public readonly string BasePath;
+        public readonly string AttachmentFolder;
+        public readonly string AttachmentPath;
+        public readonly string ResourcesRootPath;
+        public readonly string ResourcesRootFolder;
+        public bool IsDevelopment = false;
+        public readonly IHttpContextAccessor HttpContextAccessor;
+        public HttpContext HttpContext { get => HttpContextAccessor.HttpContext; }
+        public readonly JwtSettings JwtSettings;
+        public readonly List<Tenant> Multitenant;
+        public Tenant CurrentTenant { get => HttpContextAccessor.HttpContext.Items["Tenant"] as Tenant; }
 
-        static App()
+        public KernelSettings()
         {
             //BasePath = PlatformServices.Default.Application.ApplicationBasePath;
             BasePath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
@@ -36,12 +36,13 @@ namespace Kernel.Core
             AttachmentFolder = AppsettingsConfig.GetConfigValue("FileUpload:AttachmentFolder");
             AttachmentPath = ResourcesRootPath + AttachmentFolder + Path.DirectorySeparatorChar;
             //创建文件下载路径
-            if (!Directory.Exists(App.AttachmentPath))
-                Directory.CreateDirectory(App.AttachmentPath);
+            if (!Directory.Exists(AttachmentPath))
+                Directory.CreateDirectory(AttachmentPath);
 
             HttpContextAccessor = ServiceHost.GetService<IHttpContextAccessor>();
             JwtSettings = ServiceHost.GetService<JwtSettings>();
             Multitenant = ServiceHost.GetService<TenantSettings>().MultiTenant;
+
 
         }
     }

@@ -26,6 +26,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -226,17 +227,17 @@ namespace WebAPI
                 FileProvider = new PhysicalFileProvider
                 (
                     //本地资源路径
-                    App.ResourcesRootPath
+                    KernelApp.Settings.ResourcesRootPath
                 ),
                 //URL路径,URL路径可以自定义，可以不用跟本地资源路径一致
-                RequestPath = new PathString("/" + App.ResourcesRootFolder)
+                RequestPath = new PathString("/" + KernelApp.Settings.ResourcesRootFolder)
             });
 
             LogHelper.Configure();
 
             if (env.IsDevelopment())
             {
-                App.IsDevelopment = true;
+                KernelApp.Settings.IsDevelopment = true;
                 app.UseDeveloperExceptionPage();
             }
 
@@ -273,7 +274,7 @@ namespace WebAPI
             get
             {
                 var fileName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name + ".xml";
-                return Path.Combine(App.BasePath, fileName);
+                return Path.Combine(KernelApp.Settings.BasePath, fileName);
             }
         }
     }

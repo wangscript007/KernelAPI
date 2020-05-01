@@ -37,11 +37,11 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
                 {
                     var dict = files.ToDictionary(k => k.AttachId + k.AttachFileType, v => v.AttachFileName + v.AttachFileType);
 
-                    var folderToZip = App.AttachmentPath + files.First().AttachFilepath;
+                    var folderToZip = KernelApp.Settings.AttachmentPath + files.First().AttachFilepath;
                     zipedFile = "temp/" + DateHelper.DateTimeToStamp(DateTime.Now) + ".zip";
 
                     //ZipHelper.ZipDirectory(folderToZip, App.BasePath + zipedFile);
-                    Compress.DoZipFile(App.AttachmentPath + zipedFile, folderToZip, dict);
+                    Compress.DoZipFile(KernelApp.Settings.AttachmentPath + zipedFile, folderToZip, dict);
                 }
 
                 return new CommandResult<string>() { Data = zipedFile };

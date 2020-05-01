@@ -4,11 +4,10 @@
 1.0           张晓松          2020-04-24       初始版本
 
 ******************************************************************/
-using Kernel.Core;
 using Kernel.IService.Repository.Core;
 using Kernel.Model.Core;
 using MediatR;
-using Microsoft.AspNetCore.Hosting;
+using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -35,7 +34,7 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
                 foreach (var file in files)
                 {
                     //删除物理文件
-                    var path = App.AttachmentPath + file.AttachPhyaddress;
+                    var path = KernelApp.Settings.AttachmentPath + file.AttachPhyaddress;
                     File.Delete(path);
                 }
 

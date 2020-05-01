@@ -9,6 +9,7 @@ namespace Kernel.Dapper
     {
         public string ConnectionString { get; set; }
         public Dialect DbType { get; set; }
+        public bool UseMultitenant { get; set; } = false;
     }
 
     public class DapperFactoryOptions

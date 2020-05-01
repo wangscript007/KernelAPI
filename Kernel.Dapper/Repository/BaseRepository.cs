@@ -37,19 +37,25 @@ namespace Kernel.Dapper.Repository
         {
             get
             {
+                var conn = CurrentConnectionConfig.ConnectionString;
+                if (CurrentConnectionConfig.UseMultitenant)
+                {
+                    conn = string.Format(conn, KernelApp.Settings.CurrentTenant.Label);
+                }
+
                 switch (CurrentConnectionConfig.DbType)
                 {
                     case Dialect.MySQL:
-                        _connection = new MySql.Data.MySqlClient.MySqlConnection(CurrentConnectionConfig.ConnectionString);
+                        _connection = new MySql.Data.MySqlClient.MySqlConnection(conn);
                         break;
                     //case Dialect.SQLite:
-                    //    _connection = new SQLiteConnection(CurrentConnectionConfig.ConnectionString);
+                    //    _connection = new SQLiteConnection(conn);
                     //    break;
                     case Dialect.SQLServer:
-                        _connection = new System.Data.SqlClient.SqlConnection(CurrentConnectionConfig.ConnectionString);
+                        _connection = new System.Data.SqlClient.SqlConnection(conn);
                         break;
                     case Dialect.Oracle:
-                        _connection = new Oracle.ManagedDataAccess.Client.OracleConnection(CurrentConnectionConfig.ConnectionString);
+                        _connection = new Oracle.ManagedDataAccess.Client.OracleConnection(conn);
                         break;
                     default:
                         throw new Exception("未指定数据库类型！");

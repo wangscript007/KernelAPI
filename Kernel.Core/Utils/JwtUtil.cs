@@ -26,7 +26,7 @@ namespace Kernel.Core.Utils
 
         static JwtUtil()
         {
-            _jwtSettings = App.JwtSettings;
+            _jwtSettings = KernelApp.Settings.JwtSettings;
         }
 
         /// <summary>

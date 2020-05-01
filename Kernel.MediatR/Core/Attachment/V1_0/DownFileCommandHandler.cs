@@ -4,12 +4,12 @@
 1.0           张晓松          2020-04-24       初始版本
 
 ******************************************************************/
-using Kernel.Core;
 using Kernel.IService.Repository.Core;
 using Kernel.Model.Core;
 using Kernel.Model.Core.Attachment;
 using MediatR;
 using Microsoft.AspNetCore.StaticFiles;
+using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,7 +33,7 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
                 if (file == null)
                     return null;
 
-                var path = App.AttachmentPath + file.AttachPhyaddress;
+                var path = KernelApp.Settings.AttachmentPath + file.AttachPhyaddress;
                 if (!File.Exists(path))
                     return null;
 
