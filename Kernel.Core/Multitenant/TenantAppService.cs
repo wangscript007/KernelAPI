@@ -19,7 +19,14 @@ namespace Kernel.Core.Multitenant
         public async Task<Tenant> GetTenantAsync()
         {
             var identifier = await _tenantResolver.GetTenantIdentifierAsync();
-            return await _tenantStore.GetTenantAsync(identifier);
+            if (string.IsNullOrEmpty(identifier))
+                return null;
+
+            var tenant = await _tenantStore.GetTenantAsync(identifier);
+            if (tenant == null)
+                return new Tenant { Label = identifier };//返回匿名租户
+
+            return tenant;
         }
     }
 }
