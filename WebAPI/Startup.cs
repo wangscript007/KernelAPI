@@ -57,8 +57,8 @@ namespace WebAPI
             services.AddSingleton(jwtSettings);
 
             services.AddMultitenancy()
-                .WithTenantResolver<HeaderTenantResolver>()
-                .WithTenantStore<JsonFileTenantStore>()
+                //.WithTenantResolver<HeaderTenantResolver>()
+                //.WithTenantStore<JsonFileTenantStore>()
                 .WithTenantService(Configuration);
 
             //设置接收文件长度的最大值。

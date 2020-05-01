@@ -98,7 +98,8 @@ namespace WebAPI.Areas.Demo.Controllers
             //生成token示例
             var claims = new Claim[]{
                 new Claim(ClaimTypes.Name,"wyt"),
-                new Claim(ClaimTypes.Role,"admin")
+                new Claim(ClaimTypes.Role,"admin"),
+                new Claim("Tenant","2c30ceb7534f44869bd0487e187bb34d")
             };
             string token = JwtUtil.EncodeToken(claims);
 
