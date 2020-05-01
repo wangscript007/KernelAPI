@@ -1,0 +1,16 @@
+{
+  "Multitenant": [
+    {
+      "ID": "8bdc9c813b544b7bb355ee8b35fa6632",
+      "Label": "Tenant1",
+      "Name": "租户1",
+      "Remark": "这是租户1"
+    },
+    {
+      "ID": "2c30ceb7534f44869bd0487e187bb34d",
+      "Label": "Tenant2",
+      "Name": "租户2",
+      "Remark": "这是租户2"
+    }
+  ]
+}

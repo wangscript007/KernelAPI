@@ -4,9 +4,12 @@ using Kernel.Core;
 using Kernel.Core.AOP;
 using Kernel.Core.Extensions;
 using Kernel.Core.Models;
+using Kernel.Core.Multitenant;
 using Kernel.Core.Utils;
 using Kernel.EF.Demo;
 using Kernel.Model.Core;
+using Kernel.Repository.Core;
+using Kernel.Service.Core;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -21,7 +24,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
@@ -30,7 +32,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using WebAPI.Extensions;
-using WebAPI.MyTenant;
 using WebAPI.Settings;
 
 namespace WebAPI
@@ -55,10 +56,10 @@ namespace WebAPI
             Configuration.GetSection("JwtSettings").Bind(jwtSettings);
             services.AddSingleton(jwtSettings);
 
-            services.AddMultiTenancy()
-                .WithTenantResolver<DomainTenantResolver>()
-                .WithTenantStore<InMemoryTenantStore>();
-            services.AddScoped(typeof(TenantAppService));
+            services.AddMultitenancy()
+                .WithTenantResolver<HeaderTenantResolver>()
+                .WithTenantStore<JsonFileTenantStore>()
+                .WithTenantService(Configuration);
 
             //设置接收文件长度的最大值。
             services.Configure<FormOptions>(x =>
@@ -86,7 +87,7 @@ namespace WebAPI
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey)),
                     //ValidateIssuerSigningKey=true,
                     ////是否验证Token有效期，使用当前时间与Token的Claims中的NotBefore和Expires对比
-                    ValidateLifetime=true,
+                    ValidateLifetime = true,
                     ////允许的服务器时间偏移量
                     //ClockSkew=TimeSpan.Zero
                 };
@@ -217,15 +218,7 @@ namespace WebAPI
 
             ServiceHost.Init(app.ApplicationServices);
 
-            //注册中间件
-            //中间件所干的事，很简单，就是捕获进来管道的请求上下文，然后解析得出租户信息，然后把对应的租户信息放入请求上下文中。
-            app.Use(next => {
-                return async context =>
-                {
-                    await new MultiTenantMiddleware(next).InvokeAsync(context);
-                };
-            });
-
+            app.UseMultiTenant();
 
             app.UseStaticFiles(new StaticFileOptions()
             {

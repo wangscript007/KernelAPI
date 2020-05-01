@@ -1,7 +1,9 @@
 ﻿using Kernel.Core.Models;
+using Kernel.Core.Multitenant;
 using Kernel.Core.Utils;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Kernel.Core
@@ -17,6 +19,7 @@ namespace Kernel.Core
         public static readonly IHttpContextAccessor HttpContextAccessor;
         public static HttpContext HttpContext { get => HttpContextAccessor.HttpContext; }
         public static readonly JwtSettings JwtSettings;
+        public static readonly List<Tenant> Multitenant;
 
         static App()
         {
@@ -38,6 +41,7 @@ namespace Kernel.Core
 
             HttpContextAccessor = ServiceHost.GetService<IHttpContextAccessor>();
             JwtSettings = ServiceHost.GetService<JwtSettings>();
+            Multitenant = ServiceHost.GetService<TenantSettings>().MultiTenant;
 
         }
     }

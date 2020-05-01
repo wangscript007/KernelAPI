@@ -49,6 +49,7 @@ namespace WebAPI
                     {
                         config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
                         config.AddJsonFile("settings/Builtin.json", true, true);
+                        config.AddJsonFile("settings/Tenant.json", true, true);
                     });
                     webBuilder.UseStartup<Startup>();
                 });
