@@ -1,4 +1,5 @@
-﻿using Kernel.Core.Multitenant;
+﻿using Kernel.Core.Extensions;
+using Kernel.Core.Multitenant;
 using Kernel.Core.Utils;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -19,7 +20,8 @@ namespace Kernel.Core.Models
         public HttpContext HttpContext { get => HttpContextAccessor.HttpContext; }
         public readonly JwtSettings JwtSettings;
         public readonly List<Tenant> Multitenant;
-        public Tenant CurrentTenant { get => HttpContextAccessor.HttpContext.Items["Tenant"] as Tenant; }
+        public Tenant CurrentTenant { get => HttpContext.Items["Tenant"] as Tenant; }
+        public string ServerBaseUrl { get => HttpContext.GetServerBaseUrl().EnsureTrailingSlash(); }
 
         public KernelSettings()
         {
@@ -43,7 +45,7 @@ namespace Kernel.Core.Models
             JwtSettings = ServiceHost.GetService<JwtSettings>();
             Multitenant = ServiceHost.GetService<TenantSettings>().MultiTenant;
 
-
         }
+
     }
 }
