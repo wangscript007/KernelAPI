@@ -257,6 +257,8 @@ namespace WebAPI
 
             //reportServerContext.Database.EnsureCreated();//数据库不存在的话，会自动创建
 
+            app.UseBuiltinRuntime();
+
             app.UseSwagger();
             app.UseSwaggerUI(
                 options =>

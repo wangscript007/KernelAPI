@@ -2,6 +2,7 @@
 using Kernel.Core.Multitenant;
 using Kernel.Core.Utils;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,7 +17,9 @@ namespace Kernel.Core.Models
         public readonly string ResourcesRootPath;
         public readonly string ResourcesRootFolder;
         public bool IsDevelopment = false;
+        [JsonIgnore]
         public readonly IHttpContextAccessor HttpContextAccessor;
+        [JsonIgnore]
         public HttpContext HttpContext { get => HttpContextAccessor.HttpContext; }
         public readonly JwtSettings JwtSettings;
         public readonly List<Tenant> Multitenant;
