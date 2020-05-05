@@ -12,6 +12,7 @@ using Kernel.Repository.Core;
 using Kernel.Service.Core;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -28,12 +29,15 @@ using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using WebAPI.Extensions;
+using WebAPI.Extensions.AuthHandler;
 using WebAPI.Settings;
 
 namespace WebAPI
@@ -71,6 +75,8 @@ namespace WebAPI
                 x.MultipartHeadersLengthLimit = int.MaxValue;
             });
 
+            services.AddSingleton<IAuthorizationHandler, MinimumAgeHandler>();
+
             //添加jwt验证：
             services.AddAuthorization(options =>
             {
@@ -86,6 +92,10 @@ namespace WebAPI
                        });
                    }
                 );
+                //自定义授权策略
+                options.AddPolicy("AtLeast21", policy =>
+                    policy.Requirements.Add(new MinimumAgeRequirement(21)));
+
             })
             .AddAuthentication(x =>
             {
@@ -94,6 +104,10 @@ namespace WebAPI
             })
             .AddJwtBearer(options =>
             {
+                //自定义验证token
+                //options.SecurityTokenValidators.Clear();//原先默认的验证方法清除
+                //options.SecurityTokenValidators.Add(new MyTokenValidator());
+
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     //Token颁发机构
@@ -107,6 +121,27 @@ namespace WebAPI
                     ValidateLifetime = true,
                     ////允许的服务器时间偏移量
                     //ClockSkew=TimeSpan.Zero
+                };
+                options.SaveToken = true;
+                options.Events = new JwtBearerEvents()
+                {
+                    // 在安全令牌通过验证和ClaimsIdentity通过验证之后调用
+                    // 如果用户访问注销页面
+                    OnTokenValidated = context =>
+                    {
+                        if (context.Request.Path.Value.ToString() == "/account/logout")
+                        {
+                            var token = ((context as TokenValidatedContext).SecurityToken as JwtSecurityToken).RawData;
+                        }
+                        return Task.CompletedTask;
+                    },
+                    //自定义jwttoken时会用到OnMessageReceived事件，从Headers里面获取token放到MessageReceivedContext
+                    //OnMessageReceived = context =>
+                    //{
+                    //    var token = context.Request.Headers["Authorization"];
+                    //    context.Token = token.FirstOrDefault();
+                    //    return Task.CompletedTask;
+                    //}
                 };
             });
 
