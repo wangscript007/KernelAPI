@@ -17,7 +17,6 @@ namespace WebAPI.Areas.Demo.Controllers
 {
     [ApiVersion("1.0", Deprecated = true)]
     [ApiVersion("2.0")]
-    [AllowAnonymous]
     public class UserController : DemoBaseController
     {
         private IMediator _mediator;
@@ -38,6 +37,9 @@ namespace WebAPI.Areas.Demo.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("info/{id}"), MapToApiVersion("1.0")]
+        //[Authorize(Roles = "admin,role1")] //admin、role1两个角色任意满足一个
+        //[Authorize(AuthenticationSchemes = "admin,role1")]
+        [Authorize(Policy = "Permission")] //权限验证策略   注：不同的Authorize之间是并且的关系
         public async Task<IActionResult> GetUser_V1_0(string id)
         {
             // http://localhost:39274/api/v1/demo/user/info/566C32F61CC1204EE0540018FE2DA12B
@@ -99,6 +101,7 @@ namespace WebAPI.Areas.Demo.Controllers
             var claims = new Claim[]{
                 new Claim(ClaimTypes.Name,"wyt"),
                 new Claim(ClaimTypes.Role,"admin"),
+                new Claim(ClaimTypes.Role,"role1"),
                 new Claim("Tenant","2c30ceb7534f44869bd0487e187bb34d")
             };
             string token = JwtUtil.EncodeToken(claims);

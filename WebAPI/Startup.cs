@@ -31,6 +31,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Claims;
 using System.Text;
 using WebAPI.Extensions;
 using WebAPI.Settings;
@@ -71,7 +72,22 @@ namespace WebAPI
             });
 
             //添加jwt验证：
-            services.AddAuthentication(x =>
+            services.AddAuthorization(options =>
+            {
+                //添加授权策略
+                options.AddPolicy("Permission",
+                   policy =>
+                   {
+                       //policy.RequireClaim(ClaimTypes.Role, "admin", "role1");
+                       //policy.RequireUserName("wyt2");
+                       policy.RequireAssertion((context) =>
+                       {
+                           return context.User.Claims.Any(o => o.Type == ClaimTypes.Name && o.Value == "wyt");
+                       });
+                   }
+                );
+            })
+            .AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
