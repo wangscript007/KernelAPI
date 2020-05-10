@@ -1,7 +1,9 @@
 ﻿using Kernel.Core.Extensions;
 using Kernel.Core.Multitenant;
 using Kernel.Core.Utils;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -16,7 +18,9 @@ namespace Kernel.Core.Models
         public readonly string AttachmentPath;
         public readonly string ResourcesRootPath;
         public readonly string ResourcesRootFolder;
-        public bool IsDevelopment = false;
+        [JsonIgnore]
+        public readonly IHostingEnvironment Env;
+        public bool IsDevelopment { get => Env.IsDevelopment(); }
         [JsonIgnore]
         public readonly IHttpContextAccessor HttpContextAccessor;
         [JsonIgnore]
@@ -25,6 +29,8 @@ namespace Kernel.Core.Models
         public readonly List<Tenant> Multitenant;
         public Tenant CurrentTenant { get => HttpContext.Items["Tenant"] as Tenant; }
         public string ServerBaseUrl { get => HttpContext.GetServerBaseUrl().EnsureTrailingSlash(); }
+        [JsonIgnore]
+        public readonly IConfiguration Config;
 
         public KernelSettings()
         {
@@ -47,7 +53,8 @@ namespace Kernel.Core.Models
             HttpContextAccessor = ServiceHost.GetService<IHttpContextAccessor>();
             JwtSettings = ServiceHost.GetService<JwtSettings>();
             Multitenant = ServiceHost.GetService<TenantSettings>().MultiTenant;
-
+            Env = ServiceHost.GetService<IHostingEnvironment>();
+            Config = ServiceHost.GetService<IConfiguration>();
         }
 
     }

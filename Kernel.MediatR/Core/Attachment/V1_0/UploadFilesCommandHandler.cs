@@ -69,7 +69,7 @@ namespace Kernel.MediatR.Core.Attachment.V1_0
                         attachment.OpCreateUser = "";
                         attachment.OpModifyDate = DateTime.Now;
                         attachment.OpModifyUser = "";
-                        _fileRepository.AddAttachment_V1_0(attachment);
+                        await _fileRepository.AddAttachment_V1_0(attachment);
                         list.Add(attachment);
                     }
                 }

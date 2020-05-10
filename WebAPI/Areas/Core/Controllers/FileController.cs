@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace WebAPI.Areas.Core.Controllers
 {
     [ApiVersion("1.0")]
-    [Authorize]
+    //[Authorize]
     public class FileController : CoreBaseController
     {
         private IMediator _mediator;

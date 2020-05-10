@@ -7,10 +7,11 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Kernel.Core.AOP
 {
-    public class GlobalExceptions : IExceptionFilter
+    public class GlobalExceptions : ExceptionFilterAttribute
     {
         private readonly IHostingEnvironment _env;
 
@@ -19,7 +20,13 @@ namespace Kernel.Core.AOP
             _env = env;
         }
 
-        public void OnException(ExceptionContext context)
+        public override async Task OnExceptionAsync(ExceptionContext context)
+        {
+            await HandleException(context);
+            context.ExceptionHandled = true;
+        }
+
+        private async Task HandleException(ExceptionContext context)
         {
             var result = new OverallResult<List<ExceptionModel>>()
             {
@@ -28,7 +35,7 @@ namespace Kernel.Core.AOP
 
             if (_env.IsDevelopment())
             {
-                result.Data = GetStackTrace(context.Exception);//堆栈信息
+                result.Data = await GetStackTrace(context.Exception);//堆栈信息
             }
 
             //这里面是自定义的操作记录日志
@@ -47,9 +54,10 @@ namespace Kernel.Core.AOP
 
             //采用log4net 进行错误日志记录
             LogHelper.log.Error(context.Exception);
+
         }
 
-        private List<ExceptionModel> GetStackTrace(Exception ex)
+        private async Task<List<ExceptionModel>> GetStackTrace(Exception ex)
         {
             List<ExceptionModel> list = new List<ExceptionModel>();
 
@@ -61,7 +69,8 @@ namespace Kernel.Core.AOP
 
             if (ex.InnerException != null)
             {
-                list.AddRange(GetStackTrace(ex.InnerException));
+                
+                list.AddRange(await GetStackTrace(ex.InnerException));
             }
 
             return list;

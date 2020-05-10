@@ -21,7 +21,7 @@ namespace Kernel.Repository.Core
             }
         }
 
-        public async void AddAttachment_V1_0(SysAttachments attachment)
+        public async Task AddAttachment_V1_0(SysAttachments attachment)
         {
             using (var conn = Connection)
             {

@@ -288,7 +288,6 @@ namespace WebAPI
 
             if (env.IsDevelopment())
             {
-                KernelApp.Settings.IsDevelopment = true;
                 app.UseDeveloperExceptionPage();
             }
 
