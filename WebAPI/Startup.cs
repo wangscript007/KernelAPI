@@ -278,6 +278,7 @@ namespace WebAPI
                 FileProvider = new PhysicalFileProvider
                 (
                     //本地资源路径
+                    //注：在linux下，这个路径不能以斜杠结尾，不然会报错：Request path must not end in a slash
                     KernelApp.Settings.ResourcesRootPath
                 ),
                 //URL路径,URL路径可以自定义，可以不用跟本地资源路径一致

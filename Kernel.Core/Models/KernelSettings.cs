@@ -40,12 +40,12 @@ namespace Kernel.Core.Models
             ResourcesRootFolder = AppsettingsConfig.GetConfigValue("App:ResourcesRootFolder");
             var resourcesPath = AppsettingsConfig.GetConfigValue("App:ResourcesPath");
             if (resourcesPath == "")
-                ResourcesRootPath = BasePath + ResourcesRootFolder + Path.DirectorySeparatorChar;
+                ResourcesRootPath = BasePath + ResourcesRootFolder;
             else
-                ResourcesRootPath = resourcesPath + ResourcesRootFolder + Path.DirectorySeparatorChar;
+                ResourcesRootPath = resourcesPath + ResourcesRootFolder;
 
             AttachmentFolder = AppsettingsConfig.GetConfigValue("FileUpload:AttachmentFolder");
-            AttachmentPath = ResourcesRootPath + AttachmentFolder + Path.DirectorySeparatorChar;
+            AttachmentPath = ResourcesRootPath + Path.DirectorySeparatorChar + AttachmentFolder + Path.DirectorySeparatorChar;
             //创建文件下载路径
             if (!Directory.Exists(AttachmentPath))
                 Directory.CreateDirectory(AttachmentPath);

@@ -36,16 +36,19 @@ namespace WebAPI
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 //将默认ServiceProviderFactory指定为AutofacServiceProviderFactory
-                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory())                
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.ConfigureAppConfiguration((context, config) =>
                     {
-                        config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-                        config.AddJsonFile("settings/Builtin.json", true, true);
-                        config.AddJsonFile("settings/Tenant.json", true, true);
+                        //注：在linux下，文件路径是区分大小写的
+                        config.SetBasePath(AppDomain.CurrentDomain.SetupInformation.ApplicationBase)
+                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                        .AddJsonFile("Settings/Builtin.json", true, true)
+                        .AddJsonFile("Settings/Tenant.json", true, true);
                     });
                     webBuilder.UseStartup<Startup>();
                 });
+           
     }
 }
