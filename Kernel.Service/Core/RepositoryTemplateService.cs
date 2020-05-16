@@ -38,7 +38,7 @@ namespace Kernel.Repository.Core
             }}
         }}
 
-        public async void Add{tableSchema.TableAliasName}_V1_0({tableSchema.TableAliasName} {tableSchema.TableAliasName})
+        public async Task Add{tableSchema.TableAliasName}_V1_0({tableSchema.TableAliasName} {tableSchema.TableAliasName})
         {{
             using (var conn = Connection)
             {{

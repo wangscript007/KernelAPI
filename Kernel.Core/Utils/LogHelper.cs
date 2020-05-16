@@ -25,9 +25,10 @@ namespace Kernel.Core.Utils
             }
         }
 
-        public static void Configure(string repositoryName = "NETCoreRepository", string configFile = "Settings\\log4net.config")
+        public static void Configure(string repositoryName = "NETCoreRepository", string configFile = null)
         {
             repository = LogManager.CreateRepository(repositoryName);
+            configFile = configFile ?? KernelApp.Settings.BasePath + $"Settings{Path.DirectorySeparatorChar}Log4net.config";
             XmlConfigurator.Configure(repository, new FileInfo(configFile));
             _log = LogManager.GetLogger(repositoryName, "");
         }

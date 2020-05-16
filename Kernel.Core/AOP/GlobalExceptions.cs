@@ -33,10 +33,7 @@ namespace Kernel.Core.AOP
                 Success = false,
             };
 
-            if (_env.IsDevelopment())
-            {
-                result.Data = await GetStackTrace(context.Exception);//堆栈信息
-            }
+            result.Data = await GetStackTrace(context.Exception);//堆栈信息
 
             //这里面是自定义的操作记录日志
             if (context.Exception.GetType() == typeof(KernelException))
@@ -48,7 +45,11 @@ namespace Kernel.Core.AOP
             }
             else
             {
-                result.Message = "发生了未知内部错误";
+                if (_env.IsDevelopment())
+                    result.Message = context.Exception.Message;
+                else
+                    result.Message = "发生了未知内部错误";
+
                 context.Result = new JsonResult(result) { StatusCode = StatusCodes.Status500InternalServerError };
             }
 
