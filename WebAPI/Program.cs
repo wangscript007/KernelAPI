@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Net;
 
 namespace WebAPI
 {
@@ -35,6 +36,15 @@ namespace WebAPI
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureWebHost((config) => {
+                    //config.UseKestrel(options =>
+                    //{
+                    //    options.Listen(IPAddress.Loopback, 5000);//本机端口访问
+                    //    options.ListenAnyIP(83, opts => opts.UseHttps("res/server.pfx", "zzz123"));//允许远程访问，添加https证书
+                    //});
+                    //config.UseKestrel().UseUrls("http://*:5000;https://*:5001");
+                    config.UseKestrel().UseUrls("http://*:5000");
+                })
                 //将默认ServiceProviderFactory指定为AutofacServiceProviderFactory
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())                
                 .ConfigureWebHostDefaults(webBuilder =>

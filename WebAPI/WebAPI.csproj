@@ -47,5 +47,11 @@
     <ProjectReference Include="..\Kernel.Service\Kernel.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="WebAPI.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 
 </Project>
