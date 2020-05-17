@@ -10,6 +10,7 @@ namespace Kernel.Model.System
     [JsonObject(MemberSerialization.OptIn)]
     public class SysUserLogin : SysUser
     {
+        [Key]
         [JsonProperty]
         public override string UserID { get; set; }
 

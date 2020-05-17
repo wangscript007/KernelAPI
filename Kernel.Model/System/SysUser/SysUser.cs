@@ -14,6 +14,7 @@ namespace Kernel.Model.System
         /// <summary>
         /// 用户ID
         /// </summary>
+        [Key]
         [Column("UserID")]
         public virtual string UserID { get; set; }
 
@@ -127,7 +128,7 @@ namespace Kernel.Model.System
         /// 创建时间
         /// </summary>
         [Column("CreateTime")]
-        public virtual DateTime CreateTime { get; set; }
+        public virtual DateTime? CreateTime { get; set; }
 
 
         /// <summary>
@@ -141,7 +142,7 @@ namespace Kernel.Model.System
         /// 修改时间
         /// </summary>
         [Column("UpdateTime")]
-        public virtual DateTime UpdateTime { get; set; }
+        public virtual DateTime? UpdateTime { get; set; }
 
 
     }
