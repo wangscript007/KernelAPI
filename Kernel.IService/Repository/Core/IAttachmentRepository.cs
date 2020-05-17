@@ -2,16 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Kernel.IService.Repository.Core
 {
     public interface IAttachmentRepository
     {
-        System.Threading.Tasks.Task AddAttachment_V1_0(SysAttachments attachment);
-        System.Threading.Tasks.Task<int> DeleteAttachment_V1_0(string bizID);
-        System.Threading.Tasks.Task<int> DeleteAttachment_V1_0(string[] attachIDs);
-        System.Threading.Tasks.Task<IEnumerable<SysAttachmentsOutParams>> GetAttachmentList_V1_0(string bizID);
-        System.Threading.Tasks.Task<IEnumerable<SysAttachmentsOutParams>> GetAttachmentList_V1_0(string[] attachIDs);
-        System.Threading.Tasks.Task<SysAttachments> GetAttachment_V1_0(string attachID);
+        Task AddAttachment_V1_0(SysAttachments attachment);
+        Task<int> DeleteAttachment_V1_0(string bizID);
+        Task<int> DeleteAttachment_V1_0(string[] attachIDs);
+        Task<IEnumerable<SysAttachmentsOutParams>> GetAttachmentList_V1_0(string bizID);
+        Task<IEnumerable<SysAttachmentsOutParams>> GetAttachmentList_V1_0(string[] attachIDs);
+        Task<SysAttachments> GetAttachment_V1_0(string attachID);
     }
 }

@@ -6,6 +6,7 @@ using Kernel.Model.Core;
 using Kernel.Model.Demo;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Kernel.Repository.Demo
@@ -16,7 +17,7 @@ namespace Kernel.Repository.Demo
 
         public void Dispose()
         {
-            System.Diagnostics.Debug.Write("UserRepository 销毁！！！");
+            Debug.Write("UserRepository 销毁！！！");
         }
 
         public async Task<SysUser> GetUserInfo_V1_0(SysUserInParams model)
