@@ -10,15 +10,17 @@ using System.Linq;
 
 namespace Kernel.Repository.Core
 {
-    public class CodeGeneratorOracleRepository : BaseRepository<TableSchema>//, ICodeGeneratorRepository
+    public class CodeGeneratorMySQLRepository : BaseRepository<TableSchema>, ICodeGeneratorRepository
     {
-        public override string DBName => DapperConst.DB_ORACLE;
+        public override string DBName => DapperConst.DB_MYSQL;
+
+        public SimpleCRUD.Dialect DbType { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public TableSchema GetTableSchema(string tableName)
         {
             using (var conn = Connection)
             {
-                string sql = $"SELECT TABLE_NAME TableName, COMMENTS Comments FROM USER_TAB_COMMENTS WHERE TABLE_TYPE IN('TABLE') AND TABLE_NAME = :TABLE_NAME";
+                string sql = $"SELECT TABLE_NAME TableName,TABLE_COMMENT Comments FROM information_schema.TABLES WHERE TABLE_NAME = @TABLE_NAME";
                 var schema = conn.QueryFirstOrDefault<TableSchema>(sql, new { TABLE_NAME = tableName });
                 schema.TableAliasName = GetAliasName(schema.TableName);
                 return schema;
@@ -30,7 +32,7 @@ namespace Kernel.Repository.Core
 
             using (var conn = Connection)
             {
-                string sql = $"SELECT COLUMN_NAME FieldName, COMMENTS Comments FROM USER_COL_COMMENTS WHERE TABLE_NAME= :TABLE_NAME";
+                string sql = $"SELECT COLUMN_NAME FieldName,column_comment Comments FROM INFORMATION_SCHEMA.Columns WHERE table_name=@TABLE_NAME AND table_schema='kerneldb'";
                 var dictComments = conn.Query<FieldSchema>(sql, new { TABLE_NAME = tableName }).ToDictionary(k => k.FieldName, v => v.Comments);
 
                 sql = $"SELECT * FROM {tableName} WHERE 1=2";
@@ -53,13 +55,7 @@ namespace Kernel.Repository.Core
 
         public string GetAliasName(string name)
         {
-            string[] arr = name.ToLower().Split("_");
-            StringBuilder sb = new StringBuilder();
-            foreach (var str in arr)
-            {
-                sb.Append(str.Substring(0, 1).ToUpper() + str.Substring(1));
-            }
-            return sb.ToString();
+            return name;
         }
 
         Dictionary<string, string> _typeDict = new Dictionary<string, string>

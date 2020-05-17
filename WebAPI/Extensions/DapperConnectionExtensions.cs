@@ -31,7 +31,7 @@ namespace WebAPI.Extensions
             {
                 m.ConnectionString = configuration.GetSection("DBConnction:MySQLConnection").Value;
                 m.DbType = Dialect.MySQL;
-                m.UseMultitenant = true;
+                m.UseMultitenant = false;
             });
         }
 
