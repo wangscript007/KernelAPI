@@ -4,6 +4,7 @@ using Kernel.Model.Core;
 using Kernel.Model.System;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -52,6 +53,14 @@ namespace WebAPI.Areas.System.Controllers
             return Ok(result);
         }
 
+        [HttpGet]
+        [Route("SysUser"), MapToApiVersion("1.0")]
+        public async Task<IActionResult> GetSysUserList_V1_0([FromQuery]SysUserListIn model)
+        {
+            var result = await SysUserRepository.GetSysUserList_V1_0(model);
+
+            return Ok(result);
+        }
 
 
     }

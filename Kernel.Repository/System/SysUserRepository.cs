@@ -42,11 +42,14 @@ namespace Kernel.Repository.System
         }
 
 
-        public async Task<IEnumerable<SysUser>> GetSysUserList_V1_0(string[] userIDs)
+        public async Task<LayuiTable<SysUserListRecord>> GetSysUserList_V1_0(SysUserListIn model)
         {
             using (var conn = Connection)
             {
-                return await conn.GetListAsync<SysUser>("WHERE UserID IN @UserID", new { UserID = userIDs });
+                var result = new LayuiTable<SysUserListRecord>();
+                result.Data = await conn.GetListPagedAsync<SysUserListRecord>(model.Page, model.Limit, "", "UpdateTime desc");
+                result.Count = await conn.RecordCountAsync<SysUserListRecord>("");
+                return result;
             }
         }
 
