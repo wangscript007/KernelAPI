@@ -6,6 +6,7 @@ using Kernel.Model.System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Kernel.Core.Extensions;
 
 namespace Kernel.Repository.System
 {
@@ -15,6 +16,7 @@ namespace Kernel.Repository.System
     public class SysUserRepository : BaseRepository<SysUser>, ISysUserRepository
     {
         public override string DBName => DapperConst.DB_MYSQL;
+        public ISysDictItemRepository SysDictItemRepository { get; set; }
 
         public async Task<SysUser> GetSysUser_V1_0(string userID)
         {
@@ -48,6 +50,11 @@ namespace Kernel.Repository.System
             {
                 var result = new LayuiTable<SysUserListRecord>();
                 result.Data = await conn.GetListPagedAsync<SysUserListRecord>(model.Page, model.Limit, "", "UpdateTime desc");
+                var dictIsActive = await SysDictItemRepository.GetSysDict_V1_0("DictIsActive");
+                foreach (var item in result.Data)
+                {
+                    item.IsActiveName = dictIsActive.GetValue(item.DictIsActive);
+                }
                 result.Count = await conn.RecordCountAsync<SysUserListRecord>("");
                 return result;
             }

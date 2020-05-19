@@ -60,12 +60,11 @@ namespace Kernel.Model.System
         [Column("UserJob")]
         public virtual string UserJob { get; set; }
 
-
         /// <summary>
-        /// 性别：M、男，F、女
+        /// 工号
         /// </summary>
-        [Column("DictGender")]
-        public virtual string DictGender { get; set; }
+        [Column("JobNumber")]
+        public virtual string JobNumber { get; set; }
 
 
         /// <summary>

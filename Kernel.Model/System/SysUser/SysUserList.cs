@@ -35,15 +35,18 @@ namespace Kernel.Model.System
 
 
         [JsonProperty]
-        public override string DictGender { get; set; }
+        public override string JobNumber { get; set; }
 
 
         [JsonProperty]
         public override string MobilePhone { get; set; }
 
+        [NotMapped]
+        [JsonProperty]
+        public string IsActiveName { get; set; }
 
         [JsonProperty]
-        public override string DictIsActive { get; set; }
+        public override string Description { get; set; }
 
     }
 
