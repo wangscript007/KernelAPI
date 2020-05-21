@@ -4,6 +4,7 @@ using Kernel.Model.Core;
 using Kernel.Model.System;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -58,6 +59,30 @@ namespace WebAPI.Areas.System.Controllers
         public async Task<IActionResult> GetSysUserList_V1_0([FromQuery]SysUserListIn model)
         {
             var result = await SysUserRepository.GetSysUserList_V1_0(model);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("SysUser"), MapToApiVersion("1.0")]
+        public async Task<IActionResult> SaveSysUser_V1_0([FromBody]SysUser model)
+        {
+            if (string.IsNullOrEmpty(model.UserID))
+            {
+                model.UserID = KernelApp.Settings.NewGUID;
+                model.CreateBy = KernelApp.Settings.HttpContext.User.FindFirst(o => o.Type == ClaimTypes.NameIdentifier).Value;
+                model.CreateTime = DateTime.Now;
+                model.UpdateBy = KernelApp.Settings.HttpContext.User.FindFirst(o => o.Type == ClaimTypes.NameIdentifier).Value;
+                model.UpdateTime = DateTime.Now;
+                await SysUserRepository.AddSysUser_V1_0(model);
+            }
+            else
+            {
+                model.UpdateBy = KernelApp.Settings.HttpContext.User.FindFirst(o => o.Type == ClaimTypes.NameIdentifier).Value;
+                model.UpdateTime = DateTime.Now;
+            }
+
+            var result = new CommandResult<string> { Data = model.UserID };
 
             return Ok(result);
         }

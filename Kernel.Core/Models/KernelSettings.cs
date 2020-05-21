@@ -31,6 +31,7 @@ namespace Kernel.Core.Models
         public string ServerBaseUrl { get => HttpContext.GetServerBaseUrl().EnsureTrailingSlash(); }
         [JsonIgnore]
         public readonly IConfiguration Config;
+        public string NewGUID { get => Guid.NewGuid().ToString("N"); }
 
         public KernelSettings()
         {

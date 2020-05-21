@@ -43,6 +43,14 @@ namespace Kernel.Repository.System
             }
         }
 
+        public async Task UpdateSysUser_V1_0(SysUser sysUser)
+        {
+            using (var conn = Connection)
+            {
+                await conn.UpdateAsync<SysUser>(sysUser);
+            }
+        }
+
 
         public async Task<LayuiTable<SysUserListRecord>> GetSysUserList_V1_0(SysUserListIn model)
         {

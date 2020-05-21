@@ -71,7 +71,7 @@ namespace Kernel.Model.System
         /// 生日
         /// </summary>
         [Column("Birthday")]
-        public virtual DateTime Birthday { get; set; }
+        public virtual DateTime? Birthday { get; set; }
 
 
         /// <summary>
