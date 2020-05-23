@@ -1,5 +1,7 @@
 ﻿using Dapper;
 using Kernel.Core.Basic;
+using Kernel.Core.Models;
+using Newtonsoft.Json;
 using System;
 
 namespace Kernel.Model.System
@@ -71,6 +73,7 @@ namespace Kernel.Model.System
         /// 生日
         /// </summary>
         [Column("Birthday")]
+        [JsonConverter(typeof(DateFormat))]
         public virtual DateTime? Birthday { get; set; }
 
 

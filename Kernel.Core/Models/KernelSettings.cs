@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Claims;
 
 namespace Kernel.Core.Models
 {
@@ -25,6 +26,8 @@ namespace Kernel.Core.Models
         public readonly IHttpContextAccessor HttpContextAccessor;
         [JsonIgnore]
         public HttpContext HttpContext { get => HttpContextAccessor.HttpContext; }
+        [JsonIgnore]
+        public string UserID { get => HttpContext.User.FindFirst(o => o.Type == ClaimTypes.NameIdentifier).Value; }
         public readonly JwtSettings JwtSettings;
         public readonly List<Tenant> Multitenant;
         public Tenant CurrentTenant { get => HttpContext.Items["Tenant"] as Tenant; }

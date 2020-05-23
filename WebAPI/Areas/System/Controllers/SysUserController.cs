@@ -58,6 +58,16 @@ namespace WebAPI.Areas.System.Controllers
         }
 
         [HttpGet]
+        [Route("SysUser/{userID}"), MapToApiVersion("1.0")]
+        public async Task<IActionResult> GetSysUser_V1_0(string userID)
+        {
+            var user = await SysUserRepository.GetSysUser_V1_0(userID);
+            var result = new CommandResult<SysUser> { Data = user };
+
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("SysUser"), MapToApiVersion("1.0")]
         public async Task<IActionResult> GetSysUserList_V1_0([FromQuery]SysUserListIn model)
         {
@@ -73,16 +83,17 @@ namespace WebAPI.Areas.System.Controllers
             if (string.IsNullOrEmpty(model.UserID))
             {
                 model.UserID = KernelApp.Settings.NewGUID;
-                model.CreateBy = KernelApp.Settings.HttpContext.User.FindFirst(o => o.Type == ClaimTypes.NameIdentifier).Value;
+                model.CreateBy = KernelApp.Settings.UserID;
                 model.CreateTime = DateTime.Now;
-                model.UpdateBy = KernelApp.Settings.HttpContext.User.FindFirst(o => o.Type == ClaimTypes.NameIdentifier).Value;
+                model.UpdateBy = KernelApp.Settings.UserID;
                 model.UpdateTime = DateTime.Now;
                 await SysUserRepository.AddSysUser_V1_0(model);
             }
             else
             {
-                model.UpdateBy = KernelApp.Settings.HttpContext.User.FindFirst(o => o.Type == ClaimTypes.NameIdentifier).Value;
+                model.UpdateBy = KernelApp.Settings.UserID;
                 model.UpdateTime = DateTime.Now;
+                await SysUserRepository.UpdateSysUser_V1_0(model);
             }
 
             var result = new CommandResult<string> { Data = model.UserID };
