@@ -10,6 +10,7 @@ namespace Kernel.IService.Repository.System
     public interface ISysUserRepository
     {
         Task AddSysUser_V1_0(SysUser sysUser);
+        Task<int> DeleteSysUser_V1_0(string[] userIDs);
         Task<SysUserLogin> GetSysUserByLoginID_V1_0(string loginID);
         Task<LayuiTableResult<SysUserListRecord>> GetSysUserList_V1_0(SysUserListIn model);
         Task<SysUser> GetSysUser_V1_0(string userID);

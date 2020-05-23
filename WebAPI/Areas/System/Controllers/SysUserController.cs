@@ -101,6 +101,15 @@ namespace WebAPI.Areas.System.Controllers
             return Ok(result);
         }
 
+        [HttpDelete]
+        [Route("SysUser"), MapToApiVersion("1.0")]
+        public async Task<IActionResult> DeleteSysUser_V1_0([FromQuery]SysUser model)
+        {
+            var count = await SysUserRepository.DeleteSysUser_V1_0(model.UserID.Split(','));
+            var result = new CommandResult<int> { Data = count };
+
+            return Ok(result);
+        }
 
     }
 }
