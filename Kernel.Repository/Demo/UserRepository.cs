@@ -91,10 +91,10 @@ namespace Kernel.Repository.Demo
         public async Task<IEnumerable<SysUserExt2>> GetUserList_V1_0(SysUserInParams model)
         {
             //拼接参数
-            DynamicBuilder builder = new DynamicBuilder();
+            DynamicBuilder builder = new DynamicBuilder() { ParamsPrefix = ":" };
             builder.Build(model, null, (columnName, columnValue) =>
             {
-                if(columnName == "USER_NAME")
+                if (columnName == "USER_NAME")
                 {
                     builder.Conditions.Append(string.Format(" AND {0} LIKE :{1} ", columnName, columnName));
                     builder.Parameters.Add(columnName, columnValue + "%");

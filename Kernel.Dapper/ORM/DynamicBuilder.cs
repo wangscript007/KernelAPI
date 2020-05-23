@@ -14,6 +14,8 @@ namespace Kernel.Dapper.ORM
     {
         public DynamicParameters Parameters = new DynamicParameters();
         public StringBuilder Conditions = new StringBuilder("WHERE 1=1 ");
+        public string ParamsPrefix { get; set; } = "@";
+
 
         public void Build<T>(T model, Action<T> specialAction = null, Action<string, object> specialSubAction = null)
         {
@@ -30,7 +32,7 @@ namespace Kernel.Dapper.ORM
                 var columnValue = item.GetValue(model, null);
 
                 bool isJoin = true;
-                if (columnValue == null)
+                if (columnValue == null || columnValue.Equals(string.Empty))
                 {
                     isJoin = false;
                 }
@@ -48,7 +50,7 @@ namespace Kernel.Dapper.ORM
 
                 if (Parameters.ParameterNames.FirstOrDefault(o => o == columnName) == null)
                 {
-                    Conditions.Append(string.Format(" AND {0}=:{0} ", columnName));
+                    Conditions.Append($" AND {columnName}={ParamsPrefix}{columnName} ");
                     Parameters.Add(columnName, columnValue);
                 }
 

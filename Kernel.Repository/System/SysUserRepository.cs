@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Kernel.Core.Extensions;
+using Kernel.Dapper.ORM;
 
 namespace Kernel.Repository.System
 {
@@ -52,18 +53,33 @@ namespace Kernel.Repository.System
         }
 
 
-        public async Task<LayuiTable<SysUserListRecord>> GetSysUserList_V1_0(SysUserListIn model)
+        public async Task<LayuiTableResult<SysUserListRecord>> GetSysUserList_V1_0(SysUserListIn model)
         {
+            DynamicBuilder builder = new DynamicBuilder();
+            builder.Build(model, null, (columnName, columnValue) =>
+            {
+                if (columnName == "UserName")
+                {
+                    builder.Conditions.Append(string.Format(" AND {0} LIKE @{1} ", columnName, columnName));
+                    builder.Parameters.Add(columnName, "%" + columnValue + "%");
+                }
+                else if (columnName == "LoginID")
+                {
+                    builder.Conditions.Append(string.Format(" AND {0} LIKE @{1} ", columnName, columnName));
+                    builder.Parameters.Add(columnName, "%" + columnValue + "%");
+                }
+            });
+
             using (var conn = Connection)
             {
-                var result = new LayuiTable<SysUserListRecord>();
-                result.Data = await conn.GetListPagedAsync<SysUserListRecord>(model.Page, model.Limit, "", "UpdateTime desc");
+                var result = new LayuiTableResult<SysUserListRecord>();
+                result.Data = await conn.GetListPagedAsync<SysUserListRecord>(model.Page, model.Limit, builder.Conditions.ToString(), "UpdateTime desc", builder.Parameters);
                 var dictIsActive = await SysDictItemRepository.GetSysDict_V1_0("DictIsActive");
                 foreach (var item in result.Data)
                 {
                     item.IsActiveName = dictIsActive.GetValue(item.DictIsActive);
                 }
-                result.Count = await conn.RecordCountAsync<SysUserListRecord>("");
+                result.Count = await conn.RecordCountAsync<SysUserListRecord>(builder.Conditions.ToString(), builder.Parameters);
                 return result;
             }
         }

@@ -17,7 +17,7 @@ namespace Kernel.Model.Core
         public dynamic Extra { get; set; }
     }
 
-    public class LayuiTable<T>
+    public class LayuiTableResult<T>
     {
         public string Code { get; set; } = "0";
         public string Msg { get; set; }

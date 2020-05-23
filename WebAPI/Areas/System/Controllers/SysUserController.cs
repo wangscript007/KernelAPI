@@ -3,6 +3,7 @@ using Kernel.IService.Repository.System;
 using Kernel.Model.Core;
 using Kernel.Model.System;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 namespace WebAPI.Areas.System.Controllers
 {
     [ApiVersion("1.0")]
+    [Authorize]
     public class SysUserController : SystemBaseController
     {
         private IMediator _mediator;
@@ -24,6 +26,7 @@ namespace WebAPI.Areas.System.Controllers
 
         [HttpGet]
         [Route("login"), MapToApiVersion("1.0")]
+        [AllowAnonymous]
         public async Task<IActionResult> SysUserLogin_V1_0([FromQuery]SysUser user)
         {
             var result = new CommandResult<SysUserLogin> { Success = false };
