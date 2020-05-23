@@ -46,6 +46,10 @@ namespace Kernel.Model.System
         public string IsActiveName { get; set; }
 
         [JsonProperty]
+        public override string DictIsActive { get; set; }
+
+
+        [JsonProperty]
         public override string Description { get; set; }
 
     }

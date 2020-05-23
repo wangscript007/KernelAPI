@@ -101,6 +101,19 @@ namespace WebAPI.Areas.System.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        [Route("IsActive"), MapToApiVersion("1.0")]
+        public async Task<IActionResult> SetSysUserIsActive_V1_0([FromBody]SysUser model)
+        {
+            var user = await SysUserRepository.GetSysUser_V1_0(model.UserID);
+            user.DictIsActive = model.DictIsActive;
+            await SysUserRepository.UpdateSysUser_V1_0(user);
+
+            var result = new CommandResult<bool> { Data = true };
+
+            return Ok(result);
+        }
+
         [HttpDelete]
         [Route("SysUser"), MapToApiVersion("1.0")]
         public async Task<IActionResult> DeleteSysUser_V1_0([FromQuery]SysUser model)
