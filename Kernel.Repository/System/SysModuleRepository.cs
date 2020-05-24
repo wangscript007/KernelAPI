@@ -22,6 +22,13 @@ namespace Kernel.Repository.System
             }
         }
 
+        public async Task<SysModule> GetSysModuleByNavUrl_V1_0(string navUrl)
+        {
+            using (var conn = Connection)
+            {
+                return await conn.QueryFirstOrDefaultAsync<SysModule>("select * from SysModule where NavUrl = @NavUrl", new { NavUrl = navUrl });
+            }
+        }
 
 
 

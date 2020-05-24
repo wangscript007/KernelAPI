@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace WebAPI.Areas.System.Controllers
 {
     [ApiVersion("1.0")]
-    [Authorize]
+    [Authorize(Policy = "ApiPerm")]
     public class SysUserController : SystemBaseController
     {
         private IMediator _mediator;
@@ -83,15 +83,15 @@ namespace WebAPI.Areas.System.Controllers
             if (string.IsNullOrEmpty(model.UserID))
             {
                 model.UserID = KernelApp.Settings.NewGUID;
-                model.CreateBy = KernelApp.Settings.UserID;
+                model.CreateBy = KernelApp.Request.UserID;
                 model.CreateTime = DateTime.Now;
-                model.UpdateBy = KernelApp.Settings.UserID;
+                model.UpdateBy = KernelApp.Request.UserID;
                 model.UpdateTime = DateTime.Now;
                 await SysUserRepository.AddSysUser_V1_0(model);
             }
             else
             {
-                model.UpdateBy = KernelApp.Settings.UserID;
+                model.UpdateBy = KernelApp.Request.UserID;
                 model.UpdateTime = DateTime.Now;
                 await SysUserRepository.UpdateSysUser_V1_0(model);
             }

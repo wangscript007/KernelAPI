@@ -24,14 +24,9 @@ namespace Kernel.Core.Models
         public bool IsDevelopment { get => Env.IsDevelopment(); }
         [JsonIgnore]
         public readonly IHttpContextAccessor HttpContextAccessor;
-        [JsonIgnore]
-        public HttpContext HttpContext { get => HttpContextAccessor.HttpContext; }
-        [JsonIgnore]
-        public string UserID { get => HttpContext.User.FindFirst(o => o.Type == ClaimTypes.NameIdentifier).Value; }
+
         public readonly JwtSettings JwtSettings;
         public readonly List<Tenant> Multitenant;
-        public Tenant CurrentTenant { get => HttpContext.Items["Tenant"] as Tenant; }
-        public string ServerBaseUrl { get => HttpContext.GetServerBaseUrl().EnsureTrailingSlash(); }
         [JsonIgnore]
         public readonly IConfiguration Config;
         public string NewGUID { get => Guid.NewGuid().ToString("N"); }

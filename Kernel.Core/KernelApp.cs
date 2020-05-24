@@ -7,11 +7,13 @@ namespace System
         private static object _lockedObj = new object();
 
         private static KernelSettings settings;
+        private static KernelRequest request;
+
         public static KernelSettings Settings
         {
-            get 
+            get
             {
-                lock(_lockedObj)
+                lock (_lockedObj)
                 {
                     if (settings == null)
                     {
@@ -19,6 +21,21 @@ namespace System
                     }
                 }
                 return settings;
+            }
+        }
+
+        public static KernelRequest Request
+        {
+            get
+            {
+                lock (_lockedObj)
+                {
+                    if (request == null)
+                    {
+                        request = new KernelRequest();
+                    }
+                }
+                return request;
             }
         }
     }

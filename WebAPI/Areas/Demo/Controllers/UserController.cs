@@ -38,7 +38,7 @@ namespace WebAPI.Areas.Demo.Controllers
         [HttpGet]
         [Route("info/{id}"), MapToApiVersion("1.0")]
         //[Authorize(Roles = "admin,role1")] //admin、role1两个角色任意满足一个
-        //[Authorize(AuthenticationSchemes = "admin,role1")]
+        //[Authorize(AuthenticationSchemes = "Bearer")]
         [Authorize(Policy = "Permission")] //权限验证策略   注：不同的Authorize之间是并且的关系
         public async Task<IActionResult> GetUser_V1_0(string id)
         {

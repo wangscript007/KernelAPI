@@ -8,6 +8,7 @@ namespace Kernel.IService.Repository.System
 {
     public interface ISysModuleRepository
     {
+        Task<SysModule> GetSysModuleByNavUrl_V1_0(string navUrl);
         Task<IEnumerable<T>> GetSysModuleList_V1_0<T>(string modType);
     }
 }

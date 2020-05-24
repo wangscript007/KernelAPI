@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace WebAPI.Areas.System.Controllers
 {
     [ApiVersion("1.0")]
-    [Authorize]
+    [Authorize(Policy = "ApiPerm")]
     public class SysModuleController : SystemBaseController
     {
         private IMediator _mediator;

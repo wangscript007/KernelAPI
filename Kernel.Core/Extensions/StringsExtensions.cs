@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 
 namespace Kernel.Core.Extensions
 {
-    internal static class StringExtensions
+    public static class StringExtensions
     {
         [DebuggerStepThrough]
         public static string TrimStart(this string oldValue, string trimString, bool trimWhiteSpace = false)

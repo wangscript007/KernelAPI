@@ -40,7 +40,7 @@ namespace Kernel.Dapper.Repository
                 var conn = CurrentConnectionConfig.ConnectionString;
                 if (CurrentConnectionConfig.UseMultitenant)
                 {
-                    conn = string.Format(conn, KernelApp.Settings.CurrentTenant.Label);
+                    conn = string.Format(conn, KernelApp.Request.CurrentTenant.Label);
                 }
 
                 switch (CurrentConnectionConfig.DbType)
