@@ -51,7 +51,15 @@ namespace WebAPI.Extensions
                            var navUrl = KernelApp.Request.NavUrl;
                            var resPath = (context.Resource as RouteEndpoint).DisplayName;
                            IApiResourceRepository apiStore = ServiceHost.GetScopeService<IApiResourceRepository>();
-                           return apiStore.HasApiPerm_V1_0(userID, navUrl, resPath);
+                           bool result = apiStore.HasApiPerm_V1_0(userID, navUrl, resPath).Result;
+                           if(!result)
+                           {
+                               LogHelper.log.Info("接口验权失败！");
+                               LogHelper.log.Info(userID);
+                               LogHelper.log.Info(navUrl);
+                               LogHelper.log.Info(resPath);
+                           }
+                           return result;
 
                            //return context.User.Claims.Any(o => o.Type == ClaimTypes.Name && o.Value == "wyt");
                        });

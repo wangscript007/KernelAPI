@@ -23,7 +23,7 @@ namespace Kernel.Service.System
             result.LogoInfo = logoInfo.FirstOrDefault();
 
             var menu = await SysModuleRepository.GetSysModuleList_V1_0<SysModuleMenuInfo>("menu");
-            result.MenuInfo = GetMenuList(menu, null);
+            result.MenuInfo = GetMenuList(menu, "-1");
 
             return result;
         }
@@ -38,5 +38,13 @@ namespace Kernel.Service.System
 
             return result;
         }
+
+        public async Task<IEnumerable<SysPermTree>> GetPermTree()
+        {
+            var result = await SysModuleRepository.GetSysModuleList_V1_0<SysPermTree>("menu", "page");
+
+            return result;
+        }
+
     }
 }
