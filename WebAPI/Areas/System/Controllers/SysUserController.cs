@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -18,6 +19,7 @@ namespace WebAPI.Areas.System.Controllers
     {
         private IMediator _mediator;
         public ISysUserRepository SysUserRepository { get; set; }
+        public ISysRoleRepository SysRoleRepository { get; set; }
 
         public SysUserController(IMediator mediator)
         {
@@ -42,11 +44,21 @@ namespace WebAPI.Areas.System.Controllers
                 result.Message = "登录失败，密码错误！";
             else
             {
-                var claims = new Claim[]{
-                    new Claim(ClaimTypes.NameIdentifier, model.UserID),
-                    //new Claim(ClaimTypes.Role,"admin"),
-                    //new Claim(ClaimTypes.Role,"role1")
-                };
+                //获取角色信息
+                var roles = await SysRoleRepository.GetUserRoles_V1_0(model.UserID);
+                if(roles.Count() == 0)
+                {
+                    result.Message = "登录失败，未配置角色！";
+                    return Ok(result);
+                }
+
+                List<Claim> claims = new List<Claim>();
+                claims.Add(new Claim(ClaimTypes.NameIdentifier, model.UserID));
+
+                foreach (var roleID in roles)
+                {
+                    claims.Add(new Claim(ClaimTypes.Role, roleID));
+                }
 
                 model.Token = JwtUtil.EncodeToken(claims);
                 result.Data = model;

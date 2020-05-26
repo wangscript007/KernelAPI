@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
@@ -18,7 +19,8 @@ namespace Kernel.Core.Models
         public HttpRequest HttpRequest { get => HttpContext.Request; }
 
         [JsonIgnore]
-        public string UserID { get => HttpContext.User.FindFirst(o => o.Type == ClaimTypes.NameIdentifier).Value; }
+        public string UserID { get => HttpContext.User.FindFirst(o => o.Type == ClaimTypes.NameIdentifier)?.Value; }
+        public IEnumerable<string> RoleIDs { get => HttpContext.User.Claims.Where(o => o.Type == ClaimTypes.Role).Select(o => o.Value); }
 
         public Tenant CurrentTenant { get => HttpContext.Items["Tenant"] as Tenant; }
         public string ServerBaseUrl { get => HttpContext.GetServerBaseUrl().EnsureTrailingSlash(); }

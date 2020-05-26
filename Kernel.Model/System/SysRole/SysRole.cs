@@ -5,32 +5,38 @@ using System;
 namespace Kernel.Model.System
 {
     /// <summary>
-    /// Api资源
+    /// 角色信息
     /// </summary>
-    [Table("apiresource")]
-    public class ApiResource : IDBModel
+    [Table("sysrole")]
+    public class SysRole : IDBModel
     {
 
         /// <summary>
-        /// 资源ID
+        /// 角色ID
         /// </summary>
-        [Key]
-        [Column("ResID")]
-        public virtual string ResID { get; set; }
+        [Column("RoleID")]
+        public virtual string RoleID { get; set; }
 
 
         /// <summary>
-        /// 资源名称
+        /// 角色名称
         /// </summary>
-        [Column("ResName")]
-        public virtual string ResName { get; set; }
+        [Column("RoleName")]
+        public virtual string RoleName { get; set; }
 
 
         /// <summary>
-        /// 资源路径
+        /// 状态，0、作废，1、在用
         /// </summary>
-        [Column("ResPath")]
-        public virtual string ResPath { get; set; }
+        [Column("DictIsActive")]
+        public virtual string DictIsActive { get; set; }
+
+
+        /// <summary>
+        /// 备注
+        /// </summary>
+        [Column("Description")]
+        public virtual string Description { get; set; }
 
 
         /// <summary>

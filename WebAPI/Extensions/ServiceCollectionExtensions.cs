@@ -47,11 +47,15 @@ namespace WebAPI.Extensions
                        //policy.RequireUserName("wyt2");
                        policy.RequireAssertion((context) =>
                        {
+                           //token过期或不正确时，是解析不到UserID的
                            var userID = KernelApp.Request.UserID;
+                           if (userID == null)
+                               return false;
+
                            var navUrl = KernelApp.Request.NavUrl;
                            var resPath = (context.Resource as RouteEndpoint).DisplayName;
-                           IApiResourceRepository apiStore = ServiceHost.GetScopeService<IApiResourceRepository>();
-                           bool result = apiStore.HasApiPerm_V1_0(userID, navUrl, resPath).Result;
+                           ISysFuncPermRepository permRep = ServiceHost.GetScopeService<ISysFuncPermRepository>();
+                           bool result = permRep.HasApiPerm_V1_0(resPath).Result;
                            if(!result)
                            {
                                LogHelper.log.Info("接口验权失败！");
