@@ -25,11 +25,11 @@ namespace Kernel.Repository.System
         }
 
         //查询全部菜单
-        public async Task<IEnumerable<T>> GetSysModuleList_V1_0<T>(IEnumerable<string> roleIDs, params string[] modTypes)
+        public async Task<IEnumerable<T>> GetMenuPermList_V1_0<T>(string roleID, params string[] modTypes)
         {
             using (var conn = Connection)
             {
-                return await conn.QueryAsync<T>("select a.*, '1' havePerm from SysModule a left join SysMenuPerm b on b.RoleID in @RoleID and a.ModID = b.ModID where  a.ModType in @ModType order by a.SortKey", new { RoleID = roleIDs.ToArray(), ModType = modTypes });
+                return await conn.QueryAsync<T>("select a.*, if(b.ModID is null, '0', '1') havePerm from SysModule a left join SysMenuPerm b on b.RoleID = @RoleID and a.ModID = b.ModID where  a.ModType in @ModType order by a.SortKey", new { RoleID = roleID, ModType = modTypes });
             }
         }
 

@@ -39,9 +39,9 @@ namespace Kernel.Service.System
             return result;
         }
 
-        public async Task<IEnumerable<SysPermTree>> GetPermTree()
+        public async Task<IEnumerable<SysPermTree>> GetPermTree(string roleID)
         {
-            var result = await SysModuleRepository.GetSysModuleList_V1_0<SysPermTree>(KernelApp.Request.RoleIDs, "menu", "page");
+            var result = await SysModuleRepository.GetMenuPermList_V1_0<SysPermTree>(roleID, "menu", "home");
 
             return result;
         }

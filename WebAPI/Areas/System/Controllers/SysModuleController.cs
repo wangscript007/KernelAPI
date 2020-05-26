@@ -30,11 +30,11 @@ namespace WebAPI.Areas.System.Controllers
         }
 
         [HttpGet]
-        [Route("PermTree"), MapToApiVersion("1.0")]
-        public async Task<IActionResult> GetPermTree_V1_0()
+        [Route("PermTree/{roleID}"), MapToApiVersion("1.0")]
+        public async Task<IActionResult> GetPermTree_V1_0(string roleID)
         {
             var result = new LayuiTableResult<SysPermTree>();
-            result.Data = await SysModuleService.GetPermTree();
+            result.Data = await SysModuleService.GetPermTree(roleID);
             result.Count = result.Data.Count();
             return Ok(result);
         }

@@ -8,7 +8,7 @@ namespace Kernel.IService.Repository.System
 {
     public interface ISysModuleRepository
     {
-        Task<IEnumerable<T>> GetSysModuleList_V1_0<T>(params string[] modType);
-        Task<IEnumerable<T>> GetSysModuleList_V1_0<T>(IEnumerable<string> roleIDs, params string[] modTypes);
+        Task<IEnumerable<T>> GetMenuPermList_V1_0<T>(string roleID, params string[] modTypes);
+        Task<IEnumerable<T>> GetSysModuleList_V1_0<T>(params string[] modTypes);
     }
 }
