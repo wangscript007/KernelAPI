@@ -14,6 +14,7 @@ namespace Kernel.Model.System
         /// <summary>
         /// 角色
         /// </summary>
+        [Key]
         [Column("RoleID")]
         public virtual string RoleID { get; set; }
 
@@ -21,6 +22,7 @@ namespace Kernel.Model.System
         /// <summary>
         /// 菜单ID
         /// </summary>
+        [Key]
         [Column("ModID")]
         public virtual string ModID { get; set; }
 
@@ -28,6 +30,7 @@ namespace Kernel.Model.System
         /// <summary>
         /// 功能ID
         /// </summary>
+        [Key]
         [Column("FuncID")]
         public virtual string FuncID { get; set; }
 

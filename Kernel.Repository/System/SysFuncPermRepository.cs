@@ -31,5 +31,25 @@ on a.ModID = b.ModID and a.FuncID = b.FuncID and b.RoleID = @RoleID", new { Role
             }
         }
 
+        //保存功能权限
+        public async Task<bool> SaveSysFuncPerm_V1_0(string roleID, IEnumerable<SysFuncPerm> models)
+        {
+            using (var conn = Connection)
+            {
+                var trans = conn.BeginTransaction();
+
+                //先删除后添加
+                conn.DeleteList<SysFuncPerm>("where RoleID in @RoleID", new { RoleID = roleID }, trans);
+                foreach (var model in models)
+                {
+                    await conn.InsertAsync<string, SysFuncPerm>(model, trans);
+                }
+
+                trans.Commit();
+            }
+
+            return true;
+        }
+
     }
 }
