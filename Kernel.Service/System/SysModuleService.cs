@@ -1,4 +1,5 @@
-﻿using Kernel.IService.Repository.System;
+﻿using Kernel.Core.Utils;
+using Kernel.IService.Repository.System;
 using Kernel.IService.Service.System;
 using Kernel.Model.System;
 using System;
@@ -41,8 +42,14 @@ namespace Kernel.Service.System
 
         public async Task<IEnumerable<SysPermTree>> GetPermTree(string roleID)
         {
-            var result = await SysModuleRepository.GetMenuPermList_V1_0<SysPermTree>(roleID, "menu", "home");
+            ISysFuncPermRepository permRep = ServiceHost.GetScopeService<ISysFuncPermRepository>();
+            var funcPerms = await permRep.GetSysFuncPermList_V1_0(roleID);
 
+            var result = await SysModuleRepository.GetMenuPermList_V1_0<SysPermTree>(roleID, "menu", "home");
+            foreach (var item in result)
+            {
+                item.FuncPerms = funcPerms.Where(o => o.ModID == item.ModID);
+            }
             return result;
         }
 

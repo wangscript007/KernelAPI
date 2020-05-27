@@ -29,7 +29,7 @@ namespace Kernel.Repository.System
         {
             using (var conn = Connection)
             {
-                return await conn.QueryAsync<T>("select a.*, if(b.ModID is null, '0', '1') havePerm from SysModule a left join SysMenuPerm b on b.RoleID = @RoleID and a.ModID = b.ModID where  a.ModType in @ModType order by a.SortKey", new { RoleID = roleID, ModType = modTypes });
+                return await conn.QueryAsync<T>("select a.*, if(b.ModID is null, 0, 1) havePerm from SysModule a left join SysMenuPerm b on b.RoleID = @RoleID and a.ModID = b.ModID where  a.ModType in @ModType order by a.SortKey", new { RoleID = roleID, ModType = modTypes });
             }
         }
 

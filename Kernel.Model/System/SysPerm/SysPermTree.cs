@@ -10,7 +10,26 @@ namespace Kernel.Model.System
     public class SysPermTree : SysModule
     {
         [NotMapped]
-        public string HavePerm { get; set; }
+        public bool HavePerm { get; set; }
 
+        [JsonIgnore]
+        public override string Target { get; set; }
+
+        [JsonIgnore]
+        public override string CreateBy { get; set; }
+
+
+        [JsonIgnore]
+        public override DateTime? CreateTime { get; set; }
+
+
+        [JsonIgnore]
+        public override string UpdateBy { get; set; }
+
+
+        [JsonIgnore]
+        public override DateTime? UpdateTime { get; set; }
+
+        public IEnumerable<SysFuncPerm> FuncPerms { get; set; }
     }
 }

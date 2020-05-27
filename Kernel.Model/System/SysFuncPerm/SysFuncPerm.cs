@@ -64,7 +64,7 @@ namespace Kernel.Model.System
         /// 创建时间
         /// </summary>
         [Column("CreateTime")]
-        public virtual DateTime CreateTime { get; set; }
+        public virtual DateTime? CreateTime { get; set; }
 
 
     }
