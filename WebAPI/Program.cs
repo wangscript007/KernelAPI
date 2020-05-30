@@ -55,7 +55,8 @@ namespace WebAPI
                         config.SetBasePath(AppDomain.CurrentDomain.SetupInformation.ApplicationBase)
                         .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
                         .AddJsonFile("Settings/Builtin.json", true, true)
-                        .AddJsonFile("Settings/Tenant.json", true, true);
+                        .AddJsonFile("Settings/Tenant.json", true, true)
+                        .AddJsonFile("Settings/IpRateLimiting.json", true, true);
                     });
                     webBuilder.UseStartup<Startup>();
                 });

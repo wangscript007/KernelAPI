@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 namespace WebAPI.Areas.System.Controllers
 {
     [ApiVersion("1.0")]
-    [Authorize(Policy = "ApiPerm")]
     public class SysPermController : SystemBaseController
     {
         private IMediator _mediator;
@@ -26,6 +25,7 @@ namespace WebAPI.Areas.System.Controllers
 
         [HttpPost]
         [Route("SavePerm"), MapToApiVersion("1.0")]
+        [Authorize(Policy = "ApiPerm")]
         public async Task<IActionResult> SavePerm_V1_0([FromBody] SysPermSave model)
         {
             var result = new CommandResult<bool> { };
@@ -37,7 +37,7 @@ namespace WebAPI.Areas.System.Controllers
 
         [HttpGet]
         [Route("FuncPerm/{modID}"), MapToApiVersion("1.0")]
-        [AllowAnonymous]
+        [Authorize]
         public async Task<IActionResult> GetFuncPerm_V1_0(string modID)
         {
             var result = new CommandResult<IEnumerable<SysModuleFuncPerm>> { };

@@ -83,6 +83,9 @@ namespace WebAPI
             //注册 Microsoft.AspNetCore.Http.IHttpContextAccessor
             services.AddHttpContextAccessor();
 
+            //添加AspNetCoreRateLimit
+            services.AddRateLimit(Configuration);
+
             //参数验证
             services.Configure<ApiBehaviorOptions>(options =>
             {
@@ -186,6 +189,10 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ReportServerContext reportServerContext, IApiVersionDescriptionProvider provider)
         {
+            //跨域 中间件必须配置为在对 UseRouting 和 UseEndpoints的调用之间执行。 配置不正确将导致中间件停止正常运行，但是放到开始好像也可以。
+            app.UseCors(AllowSpecificOrigins);
+
+            app.AddRateLimit();
             app.UseAuthentication();
 
             ServiceHost.Init(app.ApplicationServices);
@@ -217,9 +224,6 @@ namespace WebAPI
             app.UseRouting();
 
             app.UseAuthorization();
-
-            //跨域 中间件必须配置为在对 UseRouting 和 UseEndpoints的调用之间执行。 配置不正确将导致中间件停止正常运行。
-            app.UseCors(AllowSpecificOrigins);
 
             app.UseEndpoints(endpoints =>
             {
