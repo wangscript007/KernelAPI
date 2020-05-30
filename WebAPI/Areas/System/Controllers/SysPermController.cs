@@ -27,7 +27,7 @@ namespace WebAPI.Areas.System.Controllers
         [Route("SavePerm"), MapToApiVersion("1.0")]
         public async Task<IActionResult> SavePerm_V1_0([FromBody] SysPermSave model)
         {
-            var result = new CommandResult<bool> { Success = false };
+            var result = new CommandResult<bool> {};
             await SysMenuPermRepository.SaveSysMenuPerm_V1_0(model.RoleID, model.MenuPerms);
             await SysFuncPermRepository.SaveSysFuncPerm_V1_0(model.RoleID, model.FuncPerms);
 

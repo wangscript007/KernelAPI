@@ -19,12 +19,14 @@ namespace Kernel.Repository.System
         {
             using (var conn = Connection)
             {
+                conn.Open();
                 var trans = conn.BeginTransaction();
 
                 //先删除后添加
-                conn.DeleteList<SysMenuPerm>("where RoleID in @RoleID", new { RoleID = roleID }, trans);
+                conn.DeleteList<SysMenuPerm>("where RoleID = @RoleID", new { RoleID = roleID }, trans);
                 foreach (var model in models)
                 {
+                    model.RoleID = roleID;
                     await conn.InsertAsync<string, SysMenuPerm>(model, trans);
                 }
 

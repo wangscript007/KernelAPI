@@ -36,12 +36,16 @@ on a.ModID = b.ModID and a.FuncID = b.FuncID and b.RoleID = @RoleID", new { Role
         {
             using (var conn = Connection)
             {
+                conn.Open();
                 var trans = conn.BeginTransaction();
 
                 //先删除后添加
-                conn.DeleteList<SysFuncPerm>("where RoleID in @RoleID", new { RoleID = roleID }, trans);
+                conn.DeleteList<SysFuncPerm>("where RoleID = @RoleID", new { RoleID = roleID }, trans);
                 foreach (var model in models)
                 {
+                    model.RoleID = roleID;
+                    model.CreateBy = KernelApp.Request.UserID;
+                    model.CreateTime = DateTime.Now;
                     await conn.InsertAsync<string, SysFuncPerm>(model, trans);
                 }
 
