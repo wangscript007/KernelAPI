@@ -30,6 +30,8 @@ namespace Kernel.Core.Models
         [JsonIgnore]
         public readonly IConfiguration Config;
         public string NewGUID { get => Guid.NewGuid().ToString("N"); }
+        public readonly string EnabledActionLog;
+
 
         public KernelSettings()
         {
@@ -54,6 +56,9 @@ namespace Kernel.Core.Models
             Multitenant = ServiceHost.GetService<TenantSettings>().MultiTenant;
             Env = ServiceHost.GetService<IHostingEnvironment>();
             Config = ServiceHost.GetService<IConfiguration>();
+
+            EnabledActionLog = AppsettingsConfig.GetConfigValue("EnabledActionLog");
+
         }
 
     }

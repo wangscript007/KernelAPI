@@ -29,5 +29,7 @@ namespace Kernel.Core.Models
 
         public string NavUrl { get => Referer.TrimStart(Origin + "/").Split("?")[0]; }
 
+        public string RemoteIpAddress { get => HttpContext.Connection.RemoteIpAddress.ToString(); }
+
     }
 }

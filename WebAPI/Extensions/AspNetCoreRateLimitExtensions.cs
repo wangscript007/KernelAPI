@@ -16,6 +16,9 @@ namespace WebAPI.Extensions
     {
         public static void AddRateLimit(this IServiceCollection services, IConfiguration Configuration)
         {
+            // needed to load configuration from appsettings.json
+            services.AddOptions();
+
             // needed to store rate limit counters and ip rules
             services.AddMemoryCache();
 

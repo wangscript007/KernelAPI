@@ -21,7 +21,7 @@
       {
         "Endpoint": "*",
         "Period": "1m",
-        "Limit": 5
+        "Limit": 20
       }
     ]
   },
@@ -107,6 +107,10 @@
     "HttpStatusCode": 429,
     "EndpointWhitelist": [ "*:/api/values", "delete:/api/clients" ],
     "ClientWhitelist": [ "cl-key-a", "cl-key-b" ],
+    "QuotaExceededResponse": {
+      "Content": "{{ \"message\": \"Whoa! Calm down, cowboy!\", \"details\": \"Quota exceeded. Maximum allowed: {0} per {1}. Please try again in {2} second(s).\" }}",
+      "ContentType": "application/json"
+    },
     "GeneralRules": [
       {
         "Endpoint": "*",
@@ -116,12 +120,12 @@
       {
         "Endpoint": "*",
         "Period": "1m",
-        "Limit": 5
+        "Limit": 20
       },
       {
         "Endpoint": "post:/api/clients",
         "Period": "5m",
-        "Limit": 3
+        "Limit": 30
       }
     ]
   },
