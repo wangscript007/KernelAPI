@@ -15,12 +15,21 @@ namespace Kernel.Repository.System
     {
         public override string DBName => DapperConst.DB_MYSQL;
 
-        //查询有权限的菜单
-        public async Task<IEnumerable<T>> GetSysModuleList_V1_0<T>(params string[] modType)
+        public async Task<IEnumerable<T>> GetSysModuleList_V1_0<T>(params string[] modTypes)
         {
             using (var conn = Connection)
             {
-                return await conn.GetListAsync<T>("where IsEnabled = '1' and ModType in @ModType order by SortKey", new { ModType = modType });
+                return await conn.GetListAsync<T>("where IsEnabled = '1' and ModType in @ModType order by SortKey", new { ModType = modTypes });
+            }
+        }
+
+        //查询有权限的菜单
+        public async Task<IEnumerable<T>> GetPermModuleList_V1_0<T>(params string[] modTypes)
+        {
+            using (var conn = Connection)
+            {
+                return await conn.QueryAsync<T>("select distinct a.* from SysModule a inner join SysMenuPerm b on b.RoleID in @RoleID and a.ModID = b.ModID where a.IsEnabled = '1' and a.ModType in @ModType order by a.SortKey", new { RoleID = KernelApp.Request.RoleIDs, ModType = modTypes });
+
             }
         }
 

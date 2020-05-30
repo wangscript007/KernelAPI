@@ -19,4 +19,15 @@ namespace Kernel.Model.System
         public override DateTime? CreateTime { get; set; }
 
     }
+
+    [JsonObject(MemberSerialization.OptIn)]
+    public class SysModuleFuncPerm : SysFuncPerm
+    {
+        [JsonProperty]
+        public override string FuncCode { get; set; }
+
+        [JsonProperty]
+        public bool HavePerm { get; set; }
+    }
+
 }

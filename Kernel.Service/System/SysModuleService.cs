@@ -23,7 +23,7 @@ namespace Kernel.Service.System
             var logoInfo = await SysModuleRepository.GetSysModuleList_V1_0<SysModuleLogoInfo>("logo");
             result.LogoInfo = logoInfo.FirstOrDefault();
 
-            var menu = await SysModuleRepository.GetSysModuleList_V1_0<SysModuleMenuInfo>("menu");
+            var menu = await SysModuleRepository.GetPermModuleList_V1_0<SysModuleMenuInfo>("menu");
             result.MenuInfo = GetMenuList(menu, "-1");
 
             return result;

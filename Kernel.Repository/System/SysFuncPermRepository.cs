@@ -27,7 +27,7 @@ namespace Kernel.Repository.System
             using (var conn = Connection)
             {
                 return await conn.QueryAsync<SysFuncPermItem>(@"select a.*, if(b.FuncID is null, 0, 1) HavePerm from sysfunc a left join sysfuncperm b 
-on a.ModID = b.ModID and a.FuncID = b.FuncID and b.RoleID = @RoleID", new { RoleID = roleID });
+on a.ModID = b.ModID and a.FuncID = b.FuncID and b.RoleID = @RoleID order by a.SortKey", new { RoleID = roleID });
             }
         }
 
@@ -54,6 +54,16 @@ on a.ModID = b.ModID and a.FuncID = b.FuncID and b.RoleID = @RoleID", new { Role
 
             return true;
         }
+
+        //查询功能权限
+        public async Task<IEnumerable<SysModuleFuncPerm>> GetModuleFuncPerm_V1_0(string modID)
+        {
+            using (var conn = Connection)
+            {
+                return await conn.QueryAsync<SysModuleFuncPerm>("select distinct a.*, if(b.FuncID is null, 0, 1) HavePerm from SysFunc a left join SysFuncPerm b on a.FuncID = b.FuncID and b.RoleID in @RoleID and b.ModID = @ModID where a.ModID = @ModID", new { RoleID = KernelApp.Request.RoleIDs, ModID = modID});
+            }
+        }
+
 
     }
 }
