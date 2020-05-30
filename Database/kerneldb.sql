@@ -10,10 +10,26 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2020-05-26 22:57:41
+Date: 2020-05-30 21:51:35
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for sysactionlog
+-- ----------------------------
+DROP TABLE IF EXISTS `sysactionlog`;
+CREATE TABLE `sysactionlog` (
+  `RemoteIp` varchar(50) DEFAULT NULL COMMENT '远程ID',
+  `ApiName` varchar(255) DEFAULT NULL COMMENT 'api名称',
+  `Elapsed` decimal(10,2) DEFAULT NULL COMMENT 'action消耗时间',
+  `CreateBy` varchar(40) DEFAULT NULL COMMENT '创建人',
+  `CreateTime` datetime DEFAULT NULL COMMENT '创建时间'
+) ENGINE=MyISAM DEFAULT CHARSET=utf16 COMMENT='action执行记录';
+
+-- ----------------------------
+-- Records of sysactionlog
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for sysdict
@@ -72,14 +88,22 @@ CREATE TABLE `sysfunc` (
   `FuncCode` varchar(50) DEFAULT NULL COMMENT '功能编码',
   `FuncName` varchar(50) DEFAULT NULL COMMENT '功能名称',
   `ApiName` varchar(255) DEFAULT NULL COMMENT 'api名称',
+  `SortKey` decimal(10,2) DEFAULT NULL COMMENT '排序码',
   PRIMARY KEY (`FuncID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf16 COMMENT='系统功能';
 
 -- ----------------------------
 -- Records of sysfunc
 -- ----------------------------
-INSERT INTO `sysfunc` VALUES ('fb4206799f5811eaab5cb06ebfba413f', '3da527f2983a11eaa3ddb06ebfba413f', 'PermNav', '查询导航菜单', 'WebAPI.Areas.System.Controllers.SysModuleController.GetSysModuleInit_V1_0 (WebAPI)');
-INSERT INTO `sysfunc` VALUES ('0750d0089f5e11eaab5cb06ebfba413f', '3da527f2983a11eaa3ddb06ebfba413f', 'PermTree', '查询授权信息', 'WebAPI.Areas.System.Controllers.SysModuleController.GetPermTree_V1_0 (WebAPI)');
+INSERT INTO `sysfunc` VALUES ('fb4206799f5811eaab5cb06ebfba413f', '3da527f2983a11eaa3ddb06ebfba413f', 'PermNav', '查询导航菜单', 'WebAPI.Areas.System.Controllers.SysModuleController.GetSysModuleInit_V1_0 (WebAPI)', null);
+INSERT INTO `sysfunc` VALUES ('0750d0089f5e11eaab5cb06ebfba413f', '5b0bdf449dc711eaa242b06ebfba413f', 'PermTree', '查询授权信息', 'WebAPI.Areas.System.Controllers.SysModuleController.GetPermTree_V1_0 (WebAPI)', null);
+INSERT INTO `sysfunc` VALUES ('16a6c731a01911ea936ab06ebfba413f', '8714f687991311eaa311b06ebfba413f', 'PermList', '查询用户列表', 'WebAPI.Areas.System.Controllers.SysUserController.GetSysUserList_V1_0 (WebAPI)', '1.00');
+INSERT INTO `sysfunc` VALUES ('83763159a01c11ea936ab06ebfba413f', '8714f687991311eaa311b06ebfba413f', 'PermSave', '保存用户信息', 'WebAPI.Areas.System.Controllers.SysUserController.SaveSysUser_V1_0 (WebAPI)', '4.00');
+INSERT INTO `sysfunc` VALUES ('06fcb0afa21811eaab08b06ebfba413f', '5b0bdf449dc711eaa242b06ebfba413f', 'PermSave', '保存授权信息', 'WebAPI.Areas.System.Controllers.SysPermController.SavePerm_V1_0 (WebAPI)', null);
+INSERT INTO `sysfunc` VALUES ('f558c55da23211eaab08b06ebfba413f', '8714f687991311eaa311b06ebfba413f', 'PermDelete', '删除用户信息', 'WebAPI.Areas.System.Controllers.SysUserController.DeleteSysUser_V1_0 (WebAPI)', '5.00');
+INSERT INTO `sysfunc` VALUES ('5dca9fc8a23911eaab08b06ebfba413f', '8714f687991311eaa311b06ebfba413f', 'PermAdd', '添加用户信息', '', '2.00');
+INSERT INTO `sysfunc` VALUES ('5a234883a23e11eaab08b06ebfba413f', '8714f687991311eaa311b06ebfba413f', 'PermUpdate', '修改用户信息', 'WebAPI.Areas.System.Controllers.SysUserController.GetSysUser_V1_0 (WebAPI)', '3.00');
+INSERT INTO `sysfunc` VALUES ('1bd02e15a24a11eaab08b06ebfba413f', '8714f687991311eaa311b06ebfba413f', 'PermState', '设置用户状态', 'WebAPI.Areas.System.Controllers.SysUserController.SetSysUserIsActive_V1_0 (WebAPI)', '6.00');
 
 -- ----------------------------
 -- Table structure for sysfuncperm
@@ -101,8 +125,14 @@ CREATE TABLE `sysfuncperm` (
 -- ----------------------------
 -- Records of sysfuncperm
 -- ----------------------------
-INSERT INTO `sysfuncperm` VALUES ('e897ff4f9d9511eaa242b06ebfba413f', '3da527f2983a11eaa3ddb06ebfba413f', 'fb4206799f5811eaab5cb06ebfba413f', 'PermNav', '查询导航菜单', 'WebAPI.Areas.System.Controllers.SysModuleController.GetSysModuleInit_V1_0 (WebAPI)', null, null);
-INSERT INTO `sysfuncperm` VALUES ('e897ff4f9d9511eaa242b06ebfba413f', '3da527f2983a11eaa3ddb06ebfba413f', '0750d0089f5e11eaab5cb06ebfba413f', 'PermTree', '查询授权信息', 'WebAPI.Areas.System.Controllers.SysModuleController.GetPermTree_V1_0 (WebAPI)', '', '0000-00-00 00:00:00');
+INSERT INTO `sysfuncperm` VALUES ('e897ff4f9d9511eaa242b06ebfba413f', '5b0bdf449dc711eaa242b06ebfba413f', '06fcb0afa21811eaab08b06ebfba413f', 'PermSave', '保存授权信息', 'WebAPI.Areas.System.Controllers.SysPermController.SavePerm_V1_0 (WebAPI)', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-30 21:47:51');
+INSERT INTO `sysfuncperm` VALUES ('e897ff4f9d9511eaa242b06ebfba413f', '5b0bdf449dc711eaa242b06ebfba413f', '0750d0089f5e11eaab5cb06ebfba413f', 'PermTree', '查询授权信息', 'WebAPI.Areas.System.Controllers.SysModuleController.GetPermTree_V1_0 (WebAPI)', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-30 21:47:51');
+INSERT INTO `sysfuncperm` VALUES ('e897ff4f9d9511eaa242b06ebfba413f', '8714f687991311eaa311b06ebfba413f', '1bd02e15a24a11eaab08b06ebfba413f', 'PermState', '设置用户状态', 'WebAPI.Areas.System.Controllers.SysUserController.SetSysUserIsActive_V1_0 (WebAPI)', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-30 21:47:51');
+INSERT INTO `sysfuncperm` VALUES ('e897ff4f9d9511eaa242b06ebfba413f', '8714f687991311eaa311b06ebfba413f', 'f558c55da23211eaab08b06ebfba413f', 'PermDelete', '删除用户信息', 'WebAPI.Areas.System.Controllers.SysUserController.DeleteSysUser_V1_0 (WebAPI)', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-30 21:47:51');
+INSERT INTO `sysfuncperm` VALUES ('e897ff4f9d9511eaa242b06ebfba413f', '8714f687991311eaa311b06ebfba413f', '5a234883a23e11eaab08b06ebfba413f', 'PermUpdate', '修改用户信息', 'WebAPI.Areas.System.Controllers.SysUserController.GetSysUser_V1_0 (WebAPI)', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-30 21:47:51');
+INSERT INTO `sysfuncperm` VALUES ('e897ff4f9d9511eaa242b06ebfba413f', '8714f687991311eaa311b06ebfba413f', '5dca9fc8a23911eaab08b06ebfba413f', 'PermAdd', '添加用户信息', '', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-30 21:47:51');
+INSERT INTO `sysfuncperm` VALUES ('e897ff4f9d9511eaa242b06ebfba413f', '8714f687991311eaa311b06ebfba413f', '16a6c731a01911ea936ab06ebfba413f', 'PermList', '查询用户列表', 'WebAPI.Areas.System.Controllers.SysUserController.GetSysUserList_V1_0 (WebAPI)', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-30 21:47:51');
+INSERT INTO `sysfuncperm` VALUES ('e897ff4f9d9511eaa242b06ebfba413f', '3da527f2983a11eaa3ddb06ebfba413f', 'fb4206799f5811eaab5cb06ebfba413f', 'PermNav', '查询导航菜单', 'WebAPI.Areas.System.Controllers.SysModuleController.GetSysModuleInit_V1_0 (WebAPI)', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-30 21:47:51');
 
 -- ----------------------------
 -- Table structure for sysmenuperm
@@ -110,14 +140,17 @@ INSERT INTO `sysfuncperm` VALUES ('e897ff4f9d9511eaa242b06ebfba413f', '3da527f29
 DROP TABLE IF EXISTS `sysmenuperm`;
 CREATE TABLE `sysmenuperm` (
   `RoleID` varchar(40) NOT NULL,
-  `ModID` varchar(40) DEFAULT NULL,
-  PRIMARY KEY (`RoleID`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf16;
+  `ModID` varchar(40) NOT NULL,
+  PRIMARY KEY (`RoleID`,`ModID`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf16 COMMENT='菜单权限';
 
 -- ----------------------------
 -- Records of sysmenuperm
 -- ----------------------------
-INSERT INTO `sysmenuperm` VALUES ('e897ff4f9d9511eaa242b06ebfba413f', '3da527f2983a11eaa3ddb06ebfba413f');
+INSERT INTO `sysmenuperm` VALUES ('d11e08bf9da111eaa242b06ebfba413f', 'feceaf67983d11eaa3ddb06ebfba413f');
+INSERT INTO `sysmenuperm` VALUES ('e897ff4f9d9511eaa242b06ebfba413f', '5b0bdf449dc711eaa242b06ebfba413f');
+INSERT INTO `sysmenuperm` VALUES ('e897ff4f9d9511eaa242b06ebfba413f', '8714f687991311eaa311b06ebfba413f');
+INSERT INTO `sysmenuperm` VALUES ('e897ff4f9d9511eaa242b06ebfba413f', 'feceaf67983d11eaa3ddb06ebfba413f');
 
 -- ----------------------------
 -- Table structure for sysmodule
@@ -136,7 +169,7 @@ CREATE TABLE `sysmodule` (
   `UpdateBy` varchar(40) DEFAULT NULL COMMENT '修改人',
   `UpdateTime` datetime DEFAULT NULL COMMENT '修改时间',
   `IsEnabled` varchar(40) DEFAULT '1' COMMENT '是否启用',
-  `SortKey` decimal(10,2) DEFAULT NULL,
+  `SortKey` decimal(10,2) DEFAULT NULL COMMENT '排序码',
   PRIMARY KEY (`ModID`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf16 COMMENT='系统模块';
 
@@ -225,18 +258,17 @@ CREATE TABLE `sysuser` (
 -- Records of sysuser
 -- ----------------------------
 INSERT INTO `sysuser` VALUES ('001aa72dba3f4e1786809ae4d4eb7e8a', 'ssss', '22222', '', '', '', '', '', null, '', '', '', '', '', '1', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 16:07:32', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 16:07:32');
-INSERT INTO `sysuser` VALUES ('1ca239cd4dc34c98919b2c5728b30f41', 'dfdsf', 'dfdfd', '', '', '', '', '', '2020-05-14 00:00:00', '', '13423652565', '111@a.com', '', '', '1', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 21:01:00', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 22:28:37');
+INSERT INTO `sysuser` VALUES ('1ca239cd4dc34c98919b2c5728b30f41', 'dfdsf', 'dfdfd', '', '', '', '', '', '2020-05-14 00:00:00', '', '13423652565', '111@a.com', '', '', '1', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 21:01:00', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-30 14:33:15');
 INSERT INTO `sysuser` VALUES ('2164ab759f8e4d56bf9f7f479dcd0aa1', 'admin', '超级管理员', '', '4u3wBbH//4VCJwfuX/s1UA==', '0', '系统管理员', '12334', '1970-01-01 00:00:00', '', '15623522258', '', '备注一下', '', '1', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-17 01:39:38', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-17 01:39:38');
 INSERT INTO `sysuser` VALUES ('24addb5cc77949ad8d815bd6d1e95f46', 'sda', 'dsdsa', '', '', '', '', '', null, '', '', '', '', '', '0', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 15:44:46', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 15:44:46');
-INSERT INTO `sysuser` VALUES ('5b0acc658b094f9f8260859e902d510f', '65765', '67676', '', '', '', '', '', null, '', '12545874589', '', '', '', '0', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 15:45:05', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 18:09:37');
 INSERT INTO `sysuser` VALUES ('5ede822b09834aa483f9f39dcfdf1c55', 'ffff', 'ggg', '', '', '', '', '', null, '', '', '', '', '', '1', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 15:46:32', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 15:46:32');
 INSERT INTO `sysuser` VALUES ('6bf841830832480b834678054b1b7b22', 'dfsdf', 'fdsfsf', '', '', '', '', '', null, '', '', '', '', '', '1', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 16:07:18', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 16:07:18');
-INSERT INTO `sysuser` VALUES ('6f538463d14a42e1a2da5e83942e0dad', '222', '3333', '', '', '', '', '', null, '', '', '', '', '', '1', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 21:00:15', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 21:04:48');
+INSERT INTO `sysuser` VALUES ('6f538463d14a42e1a2da5e83942e0dad', '222', '3333', '', '', '', '', '', null, '', '', '', '', '', '0', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 21:00:15', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 21:04:48');
 INSERT INTO `sysuser` VALUES ('734bf62385a34ab2ab0200df6afbf14e', '555', '5656', '', '', '', '', '', null, '', '', '', '', '', '0', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 15:44:58', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 15:44:58');
 INSERT INTO `sysuser` VALUES ('a2acc14f0c0b4b438333e3eec01634ce', 'fgfdg', 'hfhghgh', '', '', '', '', '', null, '', '', '', '', '', '1', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 15:45:11', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 22:28:31');
 INSERT INTO `sysuser` VALUES ('aeb3ac399a4c4255a2ecc8c2d44136c7', 'fgdfg', 'dffgfg', '', '', '', '', '', null, '', '', '', '', '', '1', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 16:00:45', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 16:00:45');
 INSERT INTO `sysuser` VALUES ('af9686b01f31497abf4fd04065cbf58c', '888', '888', '', '', '', '9999', '', '2020-05-07 00:00:00', '123666', '12545896589', '', '12345454545\n4\n3222222222222222222222222222222222\n4\n32', '', '1', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-21 22:58:12', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 14:31:21');
-INSERT INTO `sysuser` VALUES ('d54256d831ce468b929370849904dfc6', 'gfgffg', 'dfsdfsf', '', '', '', '', '', null, '', '', '', '', '', '0', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 16:07:22', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 22:20:37');
+INSERT INTO `sysuser` VALUES ('d54256d831ce468b929370849904dfc6', 'gfgffg', 'dfsdfsf', '', '', '', '', '', null, '', '', '', '', '', '0', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-23 16:07:22', '2164ab759f8e4d56bf9f7f479dcd0aa1', '2020-05-30 15:43:34');
 
 -- ----------------------------
 -- Table structure for sys_files
