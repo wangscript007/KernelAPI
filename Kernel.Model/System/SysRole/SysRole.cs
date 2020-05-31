@@ -14,6 +14,7 @@ namespace Kernel.Model.System
         /// <summary>
         /// 角色ID
         /// </summary>
+        [Key]
         [Column("RoleID")]
         public virtual string RoleID { get; set; }
 
@@ -50,7 +51,7 @@ namespace Kernel.Model.System
         /// 创建时间
         /// </summary>
         [Column("CreateTime")]
-        public virtual DateTime CreateTime { get; set; }
+        public virtual DateTime? CreateTime { get; set; }
 
 
         /// <summary>
@@ -64,7 +65,7 @@ namespace Kernel.Model.System
         /// 修改时间
         /// </summary>
         [Column("UpdateTime")]
-        public virtual DateTime UpdateTime { get; set; }
+        public virtual DateTime? UpdateTime { get; set; }
 
 
     }
