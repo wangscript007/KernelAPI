@@ -93,5 +93,13 @@ namespace Kernel.Repository.System
             }
         }
 
+        public async Task<int> UpdatePwd_V1_0(SysUser model)
+        {
+            using (var conn = Connection)
+            {
+                return await conn.ExecuteAsync("update SysUser set LoginPwd = @LoginPwd where UserID = @UserID", new { LoginPwd = model.LoginPwd, UserID = model.UserID });
+            }
+        }
+
     }
 }

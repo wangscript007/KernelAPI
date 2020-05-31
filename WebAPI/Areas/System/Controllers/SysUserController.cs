@@ -95,6 +95,7 @@ namespace WebAPI.Areas.System.Controllers
             if (string.IsNullOrEmpty(model.UserID))
             {
                 model.UserID = KernelApp.Settings.NewGUID;
+                model.LoginPwd = SecurityHelper.EncryptDES("1");
                 model.CreateBy = KernelApp.Request.UserID;
                 model.CreateTime = DateTime.Now;
                 model.UpdateBy = KernelApp.Request.UserID;
@@ -131,6 +132,17 @@ namespace WebAPI.Areas.System.Controllers
         public async Task<IActionResult> DeleteSysUser_V1_0([FromQuery]SysUser model)
         {
             var count = await SysUserRepository.DeleteSysUser_V1_0(model.UserID.Split(','));
+            var result = new CommandResult<int> { Data = count };
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("Pwd"), MapToApiVersion("1.0")]
+        public async Task<IActionResult> ResetPwd_V1_0([FromBody]SysUser model)
+        {
+            model.LoginPwd = SecurityHelper.EncryptDES(model.LoginPwd);
+            var count = await SysUserRepository.UpdatePwd_V1_0(model);
             var result = new CommandResult<int> { Data = count };
 
             return Ok(result);
