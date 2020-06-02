@@ -119,6 +119,24 @@ namespace WebAPI.Extensions
                     //    context.Token = token.FirstOrDefault();
                     //    return Task.CompletedTask;
                     //}
+
+
+                    OnMessageReceived = (context) => {
+                        if (!context.HttpContext.Request.Path.HasValue)
+                        {
+                            return Task.CompletedTask;
+                        }
+                        //重点在于这里；判断是Signalr的路径
+                        var accessToken = context.HttpContext.Request.Query["access_token"];
+                        var path = context.HttpContext.Request.Path;
+                        if (!(string.IsNullOrWhiteSpace(accessToken)) && path.StartsWithSegments("/chatHub"))
+                        {
+                            context.Token = accessToken;
+                            return Task.CompletedTask;
+                        }
+                        return Task.CompletedTask;
+                    }
+
                 };
             });
         }
