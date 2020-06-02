@@ -28,6 +28,7 @@ using System.Linq;
 using System.Reflection;
 using WebAPI.Extensions;
 using WebAPI.Extensions.AuthHandler;
+using WebAPI.NetHub;
 using WebAPI.Settings;
 
 namespace WebAPI
@@ -146,11 +147,14 @@ namespace WebAPI
             services.AddCors(options =>
             {
                 options.AddPolicy(AllowSpecificOrigins,
-                builder => builder.AllowAnyHeader()
+                builder => builder
+                .SetIsOriginAllowed(origin => true)
+                .AllowAnyHeader()
                 .AllowAnyMethod()
-                .AllowAnyOrigin());
+                .AllowCredentials());
             });
 
+            services.AddSignalR();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -226,8 +230,15 @@ namespace WebAPI
 
             app.UseAuthorization();
 
+            //UseSignalRÒÑ¹ýÊ±
+            //app.UseSignalR(routes =>
+            //{
+            //    routes.MapHub<ChatHub>("/chatHub");
+            //});
+
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<ChatHub>("/chatHub");
                 endpoints.MapControllers();
             });
 
