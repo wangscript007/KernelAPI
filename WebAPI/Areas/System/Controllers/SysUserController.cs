@@ -5,6 +5,7 @@ using Kernel.Model.System;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -123,6 +124,9 @@ namespace WebAPI.Areas.System.Controllers
             await SysUserRepository.UpdateSysUser_V1_0(user);
 
             var result = new CommandResult<bool> { Data = true };
+
+            var hub = ServiceHost.GetScopeService<IHubContext<MsgHub>>();
+            hub.Clients.User(KernelApp.Request.UserID).SendAsync("ReceiveMessage", new { Event = "MSGHUB_SYSUSER_ISACTIVE_CHAHGED", data = "设置成功！"});
 
             return Ok(result);
         }
