@@ -28,7 +28,6 @@ using System.Linq;
 using System.Reflection;
 using WebAPI.Extensions;
 using WebAPI.Extensions.AuthHandler;
-using WebAPI.NetHub;
 using WebAPI.Settings;
 
 namespace WebAPI
@@ -238,7 +237,7 @@ namespace WebAPI
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<ChatHub>("/chatHub");
+                endpoints.MapHub<MsgHub>("/msgHub");
                 endpoints.MapControllers();
             });
 

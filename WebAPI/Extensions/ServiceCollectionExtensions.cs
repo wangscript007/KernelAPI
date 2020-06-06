@@ -129,7 +129,7 @@ namespace WebAPI.Extensions
                         //重点在于这里；判断是Signalr的路径
                         var accessToken = context.HttpContext.Request.Query["access_token"];
                         var path = context.HttpContext.Request.Path;
-                        if (!(string.IsNullOrWhiteSpace(accessToken)) && path.StartsWithSegments("/chatHub"))
+                        if (!string.IsNullOrWhiteSpace(accessToken))
                         {
                             context.Token = accessToken;
                             return Task.CompletedTask;

@@ -5,14 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebAPI.NetHub
+namespace WebAPI
 {
     [Authorize]
-    public class ChatHub : Hub
+    public class MsgHub : Hub
     {
-        public async Task SendMessage(string user, string message)
+        public async Task SendMessage(object msg)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
+            await Clients.All.SendAsync("ReceiveMessage", msg);
         }
     }
 }
