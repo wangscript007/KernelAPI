@@ -24,6 +24,7 @@ namespace Kernel.Core.Models
 
         public Tenant CurrentTenant { get => HttpContext.Items["Tenant"] as Tenant; }
         public string ServerBaseUrl { get => HttpContext.GetServerBaseUrl().EnsureTrailingSlash(); }
+        public string FileBaseUrl { get => $"{ServerBaseUrl}{KernelApp.Settings.ResourcesRootFolder}/{KernelApp.Settings.AttachmentFolder}/"; }
         public string Origin { get => HttpRequest.Headers["Origin"].ToString(); }
         public string Referer { get => HttpRequest.Headers["Referer"].ToString(); }
 

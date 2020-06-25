@@ -14,16 +14,16 @@ namespace Kernel.Model.Core.Attachment
         /// 附件表ID
         /// </summary>
         [Key]
-        [JsonProperty("attachId")]
+        [JsonProperty("fileId")]
         [Column("ATTACH_ID")]
         public override string AttachId { get; set; }
 
         /// <summary>
-        /// 文件物理地址
+        /// 文件链接
         /// </summary>
-        [JsonProperty("phyaddress")]
-        [Column("ATTACH_PHYADDRESS")]
-        public override string AttachPhyaddress { get; set; }
+        [NotMapped]
+        [JsonProperty]
+        public string FileUrl { get => KernelApp.Request.FileBaseUrl + AttachPhyaddress; }
 
         /// <summary>
         /// 文件名
