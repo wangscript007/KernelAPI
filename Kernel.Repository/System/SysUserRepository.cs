@@ -27,6 +27,14 @@ namespace Kernel.Repository.System
             }
         }
 
+        public async Task<T> GetSysUser_V1_0<T>(string userID)
+        {
+            using (var conn = Connection)
+            {
+                return await conn.GetAsync<T>(userID);
+            }
+        }
+
         public async Task<SysUserLogin> GetSysUserByLoginID_V1_0(string loginID)
         {
             using (var conn = Connection)

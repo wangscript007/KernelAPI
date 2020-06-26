@@ -21,6 +21,14 @@ namespace Kernel.Repository.Core
             }
         }
 
+        public async Task<T> GetAttachment_V1_0<T>(string attachID)
+        {
+            using (var conn = Connection)
+            {
+                return await conn.GetAsync<T>(attachID);
+            }
+        }
+
         public async Task AddAttachment_V1_0(SysAttachments attachment)
         {
             using (var conn = Connection)

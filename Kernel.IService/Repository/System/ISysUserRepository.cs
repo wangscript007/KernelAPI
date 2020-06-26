@@ -14,6 +14,7 @@ namespace Kernel.IService.Repository.System
         Task<SysUserLogin> GetSysUserByLoginID_V1_0(string loginID);
         Task<LayuiTableResult<SysUserListRecord>> GetSysUserList_V1_0(SysUserListIn model);
         Task<SysUser> GetSysUser_V1_0(string userID);
+        Task<T> GetSysUser_V1_0<T>(string userID);
         Task<int> UpdatePwd_V1_0(SysUser model);
         Task UpdateSysUser_V1_0(SysUser sysUser);
     }

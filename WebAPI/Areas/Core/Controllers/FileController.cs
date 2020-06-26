@@ -64,7 +64,7 @@ namespace WebAPI.Areas.Core.Controllers
         /// 获取文件信息
         /// </summary>
         [HttpGet]
-        [Route("file/{bizID}"), MapToApiVersion("1.0")]
+        [Route("files/{bizID}"), MapToApiVersion("1.0")]
         public async Task<IActionResult> GetFiles_V1_0(string bizID)
         {
             SysAttachmentsInParams data = new SysAttachmentsInParams
@@ -72,6 +72,21 @@ namespace WebAPI.Areas.Core.Controllers
                 AttachBizId = bizID
             };
             var result = await _mediator.Send(new GetFilesCommand(data));
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// 获取文件信息
+        /// </summary>
+        [HttpGet]
+        [Route("file/{attachID}"), MapToApiVersion("1.0")]
+        public async Task<IActionResult> GetFile_V1_0(string attachID)
+        {
+            SysAttachmentsInParams data = new SysAttachmentsInParams
+            {
+                AttachId = attachID
+            };
+            var result = await _mediator.Send(new GetFileCommand(data));
             return Ok(result);
         }
 

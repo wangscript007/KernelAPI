@@ -1,6 +1,8 @@
 ﻿using Kernel.Core.Utils;
+using Kernel.IService.Repository.Core;
 using Kernel.IService.Repository.System;
 using Kernel.Model.Core;
+using Kernel.Model.Core.Attachment;
 using Kernel.Model.System;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -21,6 +23,7 @@ namespace WebAPI.Areas.System.Controllers
         private IMediator _mediator;
         public ISysUserRepository SysUserRepository { get; set; }
         public ISysRoleRepository SysRoleRepository { get; set; }
+        public IAttachmentRepository AttachmentRepository { get; set; }
 
         public SysUserController(IMediator mediator)
         {
@@ -74,7 +77,8 @@ namespace WebAPI.Areas.System.Controllers
         [Route("SysUser/{userID}"), MapToApiVersion("1.0")]
         public async Task<IActionResult> GetSysUser_V1_0(string userID)
         {
-            var user = await SysUserRepository.GetSysUser_V1_0(userID);
+            var user = await SysUserRepository.GetSysUser_V1_0<SysUserDetail>(userID);
+            user.Attach = await AttachmentRepository.GetAttachment_V1_0<SysAttachmentsOutParams>(user.UserPhoto);
             var result = new CommandResult<SysUser> { Data = user };
 
             return Ok(result);

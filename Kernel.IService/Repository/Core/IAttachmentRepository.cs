@@ -13,6 +13,7 @@ namespace Kernel.IService.Repository.Core
         Task<int> DeleteAttachment_V1_0(string[] attachIDs);
         Task<IEnumerable<SysAttachmentsOutParams>> GetAttachmentList_V1_0(string bizID);
         Task<IEnumerable<SysAttachmentsOutParams>> GetAttachmentList_V1_0(string[] attachIDs);
+        Task<T> GetAttachment_V1_0<T>(string attachID);
         Task<SysAttachments> GetAttachment_V1_0(string attachID);
     }
 }
