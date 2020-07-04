@@ -117,6 +117,7 @@ namespace WebAPI.Areas.Demo.Controllers
             return Ok(token);
         }
 
+        [Authorize(Policy = "ApiPerm")]
         [HttpGet]
         [Route("WriteCookie/{flag}"), MapToApiVersion("1.0")]
         public async Task<IActionResult> WriteCookie_V1_0(string flag)
@@ -159,13 +160,16 @@ namespace WebAPI.Areas.Demo.Controllers
                 Timeout = TimeSpan.FromSeconds(3), // Very slow to respond, this server                
             };
 
+            var token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIxNjRhYjc1OWY4ZTRkNTZiZjlmN2Y0NzlkY2QwYWExIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjpbImQxMWUwOGJmOWRhMTExZWFhMjQyYjA2ZWJmYmE0MTNmIiwiZTg5N2ZmNGY5ZDk1MTFlYWEyNDJiMDZlYmZiYTQxM2YiXSwibmJmIjoxNTkzODY1NDIxLCJleHAiOjE1OTM5NTE4MjEsImlzcyI6Imh0dHA6Ly94dGphdHN3Yzo1MDAwIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDozOTI3NCJ9.-UMqrFApbkDzVrnuybCzN0qh6nYNrWhCpqKsXIHOSOU";
+
             //第一次请求
             ISomeApi api = RestClient.For<ISomeApi>(httpClient);
-            var result = await api.WriteCookie_V1_0("1");
+            api.Authorization = token;
+            var result = await api.WriteCookie_V1_0("1", token);
 
             //第二次携带cookie请求
             ISomeApi api2 = RestClient.For<ISomeApi>(httpClient);
-            var result2 = await api2.WriteCookie_V1_0("2");
+            var result2 = await api2.WriteCookie_V1_0("2", token);
 
             StringBuilder sb_cookie = new StringBuilder();
             List<Cookie> cookies = cookieContainer.GetCookies(uri).Cast<Cookie>().ToList();
@@ -176,8 +180,14 @@ namespace WebAPI.Areas.Demo.Controllers
         [BasePath("api/v1/Demo/User")]
         public interface ISomeApi
         {
+            /// <summary>
+            /// 演示两种传Header的方式
+            /// </summary>
+            [Header("Authorization")]
+            string Authorization { get; set; }
+
             [Get("WriteCookie/{flag}")]
-            Task<string> WriteCookie_V1_0([Path("flag")] string flag);
+            Task<string> WriteCookie_V1_0([Path("flag")] string flag, [Header("Authorization")] string token);
         }
 
         ///// <summary>
