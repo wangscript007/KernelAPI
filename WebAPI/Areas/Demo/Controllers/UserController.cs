@@ -9,8 +9,14 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RestEase;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace WebAPI.Areas.Demo.Controllers
@@ -111,18 +117,68 @@ namespace WebAPI.Areas.Demo.Controllers
             return Ok(token);
         }
 
-        ///// <summary>
-        ///// 删除用户信息
-        ///// </summary>
-        ///// <param name="id"></param>
-        ///// <returns></returns>
-        //[HttpDelete]
-        //[Route("v1/[controller]/{id}")]
-        //public async Task<IActionResult> DelUser(string id)
-        //{
-        //    JsonResult result = new JsonResult(new UserModel { Id = "x0001", UserName = "用户姓名" });
-        //    return  result;
-        //}
+        [HttpGet]
+        [Route("WriteCookie/{flag}"), MapToApiVersion("1.0")]
+        public async Task<IActionResult> WriteCookie_V1_0(string flag)
+        {
+            Response.Cookies.Append("cookie_" + flag, flag);
+
+            var result = new {
+                RequestCookies = Request.Cookies
+            };
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// 演示跨服务http调用传递cookie，存储被调服务cooike再次请求（适用于登录后爬虫抓数据的场景）
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("ReadCookie"), MapToApiVersion("1.0")]
+        public async Task<IActionResult> ReadCookie_V1_0()
+        {
+            //初始化容器
+            CookieContainer cookieContainer = new CookieContainer();
+            var handler = new HttpClientHandler();
+            handler.CookieContainer = cookieContainer;
+
+            //写个cookie
+            Cookie cookie = new Cookie();
+            cookie.Name = "cookie_0";
+            cookie.Value = "0";
+            cookie.Domain = "localhost";
+            handler.CookieContainer.Add(cookie);
+
+            var uri = new Uri("http://localhost:39274");
+
+            //初始化httpClient
+            var httpClient = new HttpClient(handler)
+            {
+                BaseAddress = uri,
+                Timeout = TimeSpan.FromSeconds(3), // Very slow to respond, this server                
+            };
+
+            //第一次请求
+            ISomeApi api = RestClient.For<ISomeApi>(httpClient);
+            var result = await api.WriteCookie_V1_0("1");
+
+            //第二次携带cookie请求
+            ISomeApi api2 = RestClient.For<ISomeApi>(httpClient);
+            var result2 = await api2.WriteCookie_V1_0("2");
+
+            StringBuilder sb_cookie = new StringBuilder();
+            List<Cookie> cookies = cookieContainer.GetCookies(uri).Cast<Cookie>().ToList();
+
+            return Ok(cookies);
+        }
+
+        [BasePath("api/v1/Demo/User")]
+        public interface ISomeApi
+        {
+            [Get("WriteCookie/{flag}")]
+            Task<string> WriteCookie_V1_0([Path("flag")] string flag);
+        }
 
         ///// <summary>
         ///// 获取指定用户姓名
