@@ -1,5 +1,6 @@
 ﻿using Kernel.Core.Extensions;
 using Kernel.Core.Multitenant;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System;
@@ -31,6 +32,8 @@ namespace Kernel.Core.Models
         public string NavUrl { get => Referer.TrimStart(Origin + "/").Split("?")[0]; }
 
         public string RemoteIpAddress { get => HttpContext.Connection.RemoteIpAddress.ToString(); }
+
+        public string AccessToken { get => HttpContext.GetTokenAsync("Bearer", "access_token").Result; }
 
     }
 }

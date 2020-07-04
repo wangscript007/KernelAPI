@@ -99,7 +99,7 @@ namespace WebAPI.Extensions
                     ////允许的服务器时间偏移量
                     //ClockSkew=TimeSpan.Zero
                 };
-                options.SaveToken = true;
+                options.SaveToken = true;//默认为true，可以通过HttpContext.GetTokenAsync("Bearer", "access_token").Result获取当前请求的token
                 options.Events = new JwtBearerEvents()
                 {
                     // 在安全令牌通过验证和ClaimsIdentity通过验证之后调用
