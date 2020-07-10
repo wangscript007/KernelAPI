@@ -1,13 +1,11 @@
 ﻿using Dapper;
 using Kernel.Core.Basic;
 using Kernel.Dapper.ORM;
-using Kernel.Model.Core;
 using Kernel.Model.Demo;
-using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 
-namespace WebAPI.Settings
+namespace Kernel.Buildin.Dapper
 {
 
     public class ColumnMapper

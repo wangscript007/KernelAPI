@@ -37,6 +37,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Kernel.Core\Kernel.Core.csproj" />
+    <ProjectReference Include="..\Kernel.Model\Kernel.Model.csproj" />
   </ItemGroup>
 
   

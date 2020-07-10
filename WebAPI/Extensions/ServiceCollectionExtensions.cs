@@ -2,7 +2,6 @@
 using Kernel.Core.Utils;
 using Kernel.Dapper.Factory;
 using Kernel.IService.Repository.System;
-using Kernel.Model.System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
@@ -10,12 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using WebAPI.Extensions.AuthHandler;
-using Kernel.Core.Extensions;
 
 namespace WebAPI.Extensions
 {

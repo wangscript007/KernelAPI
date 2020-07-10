@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebAPI.Extensions
+namespace Kernel.Buildin.RateLimit
 {
     public static class AspNetCoreRateLimitExtensions
     {

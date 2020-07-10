@@ -1,35 +1,27 @@
 using Autofac;
 using Autofac.Extras.DynamicProxy;
+using Kernel.Buildin.Dapper;
+using Kernel.Buildin.RateLimit;
 using Kernel.Buildin.Service;
-using Kernel.Buildin.Swagger;
 using Kernel.Core.AOP;
 using Kernel.Core.Extensions;
 using Kernel.Core.Multitenant;
 using Kernel.Core.Utils;
 using Kernel.EF.Demo;
-using Kernel.Model.Core;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
-using Swashbuckle.AspNetCore.SwaggerGen;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using WebAPI.Extensions;
 using WebAPI.Extensions.AuthHandler;
-using WebAPI.Settings;
 
 namespace WebAPI
 {
@@ -81,21 +73,7 @@ namespace WebAPI
             services.AddRateLimit(Configuration);
 
             //参数验证
-            services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.InvalidModelStateResponseFactory = (context) =>
-                {
-                    var errors = context.ModelState.GetValidationSummary();
-                    var result = new CommandResult<List<string>>()
-                    {
-                        Success = false,
-                        Message = "参数验证不通过",
-                        Data = errors
-                    };
-
-                    return new JsonResult(result) { StatusCode = StatusCodes.Status416RangeNotSatisfiable };
-                };
-            });
+            services.AddBuildinApiBehaviorOptions();
 
             //添加swagger
             services.AddBuildinSwagger();
