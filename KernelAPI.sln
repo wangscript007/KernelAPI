@@ -52,6 +52,10 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "KernelWeb", "..\..\KernelWe
 		SlnRelativePath = "..\..\KernelWeb\"
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6、Buildin", "6、Buildin", "{15AA801A-6356-4148-B82A-090EAB0C13DB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kernel.Buildin", "Kernel.Buildin\Kernel.Buildin.csproj", "{CA13EA10-5763-4D16-8A3F-810DDDD7773D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -98,6 +102,10 @@ Global
 		{B0DA29E2-C893-48DF-9EE4-DF7346837799}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0DA29E2-C893-48DF-9EE4-DF7346837799}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{B0DA29E2-C893-48DF-9EE4-DF7346837799}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{CA13EA10-5763-4D16-8A3F-810DDDD7773D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA13EA10-5763-4D16-8A3F-810DDDD7773D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA13EA10-5763-4D16-8A3F-810DDDD7773D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA13EA10-5763-4D16-8A3F-810DDDD7773D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,6 +119,7 @@ Global
 		{B9008511-2320-4C66-AD75-9D90A6FC5347} = {0EA48FCB-F81B-4940-9B94-A5F54CBE04E2}
 		{F5E613E5-38D2-4860-A1F8-D3A5813F6E1B} = {9B34845D-CFED-4A1E-8DF1-A765941A0030}
 		{A0B31B46-2837-464B-8C9E-C7DA112D418E} = {8840BFDB-F215-4317-8D71-DEC18A2FF4BF}
+		{CA13EA10-5763-4D16-8A3F-810DDDD7773D} = {15AA801A-6356-4148-B82A-090EAB0C13DB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {589CD7B0-8369-43F6-8476-788EC4B802D1}

@@ -1,4 +1,4 @@
-﻿namespace WebAPI.Settings
+﻿namespace Kernel.Buildin.Swagger
 {
     using Microsoft.AspNetCore.Mvc.ApiExplorer;
     using Microsoft.OpenApi.Any;
@@ -33,7 +33,7 @@
             // REF: https://github.com/domaindrivendev/Swashbuckle.AspNetCore/pull/413
 
             var param = operation.Parameters.FirstOrDefault(o => o.Name == "area");
-            if(param != null)
+            if (param != null)
             {
                 operation.Parameters.Remove(param);
             }

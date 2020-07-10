@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using System.Collections.Generic;
 
-namespace WebAPI.Extensions
+namespace Kernel.Buildin.Swagger
 {
     /// <summary>   
     /// API描述器扩展   

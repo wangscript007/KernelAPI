@@ -4,10 +4,6 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>WebAPI.xml</DocumentationFile>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="AspNetCoreRateLimit" Version="3.0.5" />
     <PackageReference Include="Autofac" Version="5.1.2" />
@@ -40,22 +36,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Kernel.Buildin\Kernel.Buildin.csproj" />
     <ProjectReference Include="..\Kernel.Core\Kernel.Core.csproj" />
-    <ProjectReference Include="..\Kernel.Dapper\Kernel.Dapper.csproj" />
-    <ProjectReference Include="..\Kernel.EF\Kernel.EF.csproj" />
-    <ProjectReference Include="..\Kernel.IService\Kernel.IService.csproj" />
-    <ProjectReference Include="..\Kernel.MediatR\Kernel.MediatR.csproj" />
-    <ProjectReference Include="..\Kernel.Model\Kernel.Model.csproj" />
-    <ProjectReference Include="..\Kernel.Repository\Kernel.Repository.csproj" />
-    <ProjectReference Include="..\Kernel.Service\Kernel.Service.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Update="WebAPI.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-
+  
 </Project>

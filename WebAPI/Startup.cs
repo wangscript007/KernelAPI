@@ -1,5 +1,7 @@
 using Autofac;
 using Autofac.Extras.DynamicProxy;
+using Kernel.Buildin.Service;
+using Kernel.Buildin.Swagger;
 using Kernel.Core.AOP;
 using Kernel.Core.Extensions;
 using Kernel.Core.Multitenant;
@@ -11,7 +13,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
@@ -41,9 +42,6 @@ namespace WebAPI
 
         public IConfiguration Configuration { get; }
 
-        //跨域配置
-        readonly string AllowSpecificOrigins = "_AllowSpecificOrigins";
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -52,13 +50,8 @@ namespace WebAPI
                 //.WithTenantStore<JsonFileTenantStore>()
                 .WithTenantService(Configuration);
 
-            //设置接收文件长度的最大值。
-            services.Configure<FormOptions>(x =>
-            {
-                x.ValueLengthLimit = int.MaxValue;
-                x.MultipartBodyLengthLimit = int.MaxValue;
-                x.MultipartHeadersLengthLimit = int.MaxValue;
-            });
+            //设置接收文件长度的最大值
+            services.AddBuildinFormOptions();
 
             services.AddSingleton<IAuthorizationHandler, MinimumAgeHandler>();
 
@@ -104,37 +97,8 @@ namespace WebAPI
                 };
             });
 
-            // reporting api versions will return the headers "api-supported-versions" and "api-deprecated-versions"
-            services.AddApiVersioning(options =>
-            {
-                options.ReportApiVersions = true;
-                options.AssumeDefaultVersionWhenUnspecified = true;
-                options.DefaultApiVersion = new ApiVersion(1, 0);
-            });
-            services.AddVersionedApiExplorer(
-                options =>
-                {
-                    // add the versioned api explorer, which also adds IApiVersionDescriptionProvider service
-                    // note: the specified format code will format the version as "'v'major[.minor][-status]"
-                    options.GroupNameFormat = "'v'VVV";
-
-                    // note: this option is only necessary when versioning by url segment. the SubstitutionFormat
-                    // can also be used to control the format of the API version in route templates
-                    options.SubstituteApiVersionInUrl = true;
-                });
-            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
-            services.AddSwaggerGen(
-                options =>
-                {
-                    //使用域描述         
-                    options.TagActionsBy(apiDesc => apiDesc.CustomTagsSelector());
-
-                    // add a custom operation filter which sets default values
-                    options.OperationFilter<SwaggerDefaultValues>();
-
-                    // integrate xml comments
-                    options.IncludeXmlComments(XmlCommentsFilePath);
-                });
+            //添加swagger
+            services.AddBuildinSwagger();
 
             //注册EF
             services.AddDbContext<ReportServerContext>(option => option.UseSqlServer(Configuration.GetSection("DBConnction:SqlServerConnection").Value));
@@ -143,15 +107,8 @@ namespace WebAPI
             ColumnMapper.SetMapper();
 
             //允许跨域
-            services.AddCors(options =>
-            {
-                options.AddPolicy(AllowSpecificOrigins,
-                builder => builder
-                .SetIsOriginAllowed(origin => true)
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials());
-            });
+            services.AddBuildinCrossDomain();
+
 
             services.AddSignalR();
         }
@@ -194,7 +151,7 @@ namespace WebAPI
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ReportServerContext reportServerContext, IApiVersionDescriptionProvider provider)
         {
             //跨域 中间件必须配置为在对 UseRouting 和 UseEndpoints的调用之间执行。 配置不正确将导致中间件停止正常运行，但是放到开始好像也可以。
-            app.UseCors(AllowSpecificOrigins);
+            app.AddBuildinCrossDomain();
 
             app.AddRateLimit();
             app.UseAuthentication();
@@ -203,18 +160,7 @@ namespace WebAPI
 
             app.UseMultiTenant();
 
-            app.UseStaticFiles(new StaticFileOptions()
-            {
-                ServeUnknownFileTypes = true,
-                FileProvider = new PhysicalFileProvider
-                (
-                    //本地资源路径
-                    //注：在linux下，这个路径不能以斜杠结尾，不然会报错：Request path must not end in a slash
-                    KernelApp.Settings.ResourcesRootPath
-                ),
-                //URL路径,URL路径可以自定义，可以不用跟本地资源路径一致
-                RequestPath = new PathString("/" + KernelApp.Settings.ResourcesRootFolder)
-            });
+            app.AddBuildinStaticFiles();
 
             LogHelper.Configure();
 
@@ -245,25 +191,9 @@ namespace WebAPI
 
             app.UseBuiltinRuntime();
 
-            app.UseSwagger();
-            app.UseSwaggerUI(
-                options =>
-                {
-                    // build a swagger endpoint for each discovered API version
-                    foreach (var description in provider.ApiVersionDescriptions)
-                    {
-                        options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
-                    }
-                });
+            app.AddBuildinSwagger(provider);
+
         }
 
-        static string XmlCommentsFilePath
-        {
-            get
-            {
-                var fileName = typeof(Startup).GetTypeInfo().Assembly.GetName().Name + ".xml";
-                return Path.Combine(KernelApp.Settings.BasePath, fileName);
-            }
-        }
     }
 }

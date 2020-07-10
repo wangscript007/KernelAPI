@@ -1,4 +1,4 @@
-﻿namespace WebAPI.Settings
+﻿namespace Kernel.Buildin.Swagger
 {
     using Microsoft.AspNetCore.Mvc.ApiExplorer;
     using Microsoft.Extensions.DependencyInjection;
