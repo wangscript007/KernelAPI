@@ -10,11 +10,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Kernel.Buildin.RateLimit
+namespace Kernel.Buildin.Service
 {
     public static class AspNetCoreRateLimitExtensions
     {
-        public static void AddRateLimit(this IServiceCollection services, IConfiguration Configuration)
+        public static void AddBuildinRateLimit(this IServiceCollection services, IConfiguration Configuration)
         {
             // needed to load configuration from appsettings.json
             services.AddOptions();

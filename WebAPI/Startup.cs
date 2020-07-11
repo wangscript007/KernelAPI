@@ -1,9 +1,7 @@
 using Autofac;
 using Autofac.Extras.DynamicProxy;
 using Kernel.Buildin.Dapper;
-using Kernel.Buildin.RateLimit;
 using Kernel.Buildin.Service;
-using Kernel.Core.AOP;
 using Kernel.Core.Extensions;
 using Kernel.Core.Multitenant;
 using Kernel.Core.Utils;
@@ -27,50 +25,45 @@ namespace WebAPI
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMultitenancy()
-                //.WithTenantResolver<HeaderTenantResolver>()
-                //.WithTenantStore<JsonFileTenantStore>()
-                .WithTenantService(Configuration);
+            //多租户
+            services.AddBuildinMultitenancy(Configuration);
 
             //设置接收文件长度的最大值
             services.AddBuildinFormOptions();
 
+            //自定义授权策略
             services.AddSingleton<IAuthorizationHandler, MinimumAgeHandler>();
 
             //添加jwt验证：
-            services.AddAuth(Configuration);            
+            services.AddBuildinAuth(Configuration, AuthOptions.AuthConfigure);
 
             //注册Dapper数据库连接
             services.RegisterDapperConnection(Configuration);
 
+            //中介模式组件
             services.AddMediatR(typeof(Kernel.MediatR.Demo.User.V1_0.GetUserCommandHandler).Assembly);
 
             //注册服务
             services.RegisterServices();
 
-            services.AddControllers(config =>
-            {
-                config.Filters.Add(typeof(GlobalExceptions));
-                //config.Filters.Add<AuthFilter>(); //暂时弃用
-                config.Filters.Add<ApiLogAttribute>();
-            }).AddControllersAsServices()//默认情况下，Controller的参数会由容器创建，但Controller的创建是有AspNetCore框架实现的。要通过容器创建Controller，需要在Startup中配置一下
-              .AddNewtonsoftJson();
+            //配置MvcOptions
+            services.AddBuildinMvcOptions();
 
             //注册 Microsoft.AspNetCore.Http.IHttpContextAccessor
             services.AddHttpContextAccessor();
 
             //添加AspNetCoreRateLimit
-            services.AddRateLimit(Configuration);
+            services.AddBuildinRateLimit(Configuration);
 
             //参数验证
             services.AddBuildinApiBehaviorOptions();
@@ -87,7 +80,7 @@ namespace WebAPI
             //允许跨域
             services.AddBuildinCrossDomain();
 
-
+            //实时通讯
             services.AddSignalR();
         }
 
