@@ -28,19 +28,20 @@ namespace Kernel.Core.RabbitmqService
         /// </summary>
         public TEntity Body { get; set; }
 
+    }
+
+    public class Head
+    {
         /// <summary>
         /// 交换机
         /// </summary>
         public string Exchange { get; set; }
 
         /// <summary>
-        /// route key
+        /// route key（决定了消息写入到哪个队列）
         /// </summary>
         public string Topic { get; set; }
-    }
 
-    public class Head
-    {
         /// <summary>
         /// 消息的处理标识（指定该消息由谁来消费）
         /// </summary>

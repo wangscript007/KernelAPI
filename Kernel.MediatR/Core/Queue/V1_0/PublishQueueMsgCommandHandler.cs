@@ -34,7 +34,7 @@ namespace Kernel.MediatR.Core.Queue.V1_0
             return Task.Run(async () =>
             {
                 var msg = request.Data;
-                await _publisher.PublishAsync<Message<JToken>>(msg.Exchange, msg.Topic, msg);
+                await _publisher.PublishAsync<Message<JToken>>(msg.Head.Exchange, msg.Head.Topic, msg);
 
                 return new CommandResult<bool>() { Data = true };
 
