@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using static Dapper.SimpleCRUD;
 
-namespace WebAPI.Extensions
+namespace WebAPI.Configure
 {
     public static class DapperConnectionExtensions
     {

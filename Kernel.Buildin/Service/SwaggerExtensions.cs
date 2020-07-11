@@ -1,4 +1,5 @@
 ﻿using Kernel.Buildin.Swagger;
+using Kernel.Core.Utils;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
@@ -60,8 +61,9 @@ namespace Kernel.Buildin.Service
             }
         }
 
-        public static void AddBuildinSwagger(this IApplicationBuilder app, IApiVersionDescriptionProvider provider)
+        public static void AddBuildinSwagger(this IApplicationBuilder app)
         {
+            IApiVersionDescriptionProvider provider = ServiceHost.GetService<IApiVersionDescriptionProvider>();
             app.UseSwagger();
             app.UseSwaggerUI(
                 options =>

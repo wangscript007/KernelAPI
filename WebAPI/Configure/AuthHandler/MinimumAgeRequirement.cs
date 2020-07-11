@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
 
-namespace WebAPI.Extensions.AuthHandler
+namespace WebAPI.Configure.AuthHandler
 {
 
     public class MinimumAgeRequirement : IAuthorizationRequirement

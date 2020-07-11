@@ -6,9 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebAPI.Extensions.AuthHandler;
+using WebAPI.Configure.AuthHandler;
 
-namespace WebAPI.Extensions
+namespace WebAPI.Configure
 {
     public class AuthOptions
     {

@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 
-namespace WebAPI.Extensions.AuthHandler
+namespace WebAPI.Configure.AuthHandler
 {
     public class MinimumAgeHandler : AuthorizationHandler<MinimumAgeRequirement>
     {
