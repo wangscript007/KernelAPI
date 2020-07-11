@@ -181,10 +181,11 @@ namespace Kernel.Core.RabbitmqService
             }
             else
             {
-                //拒收
-                channel.BasicReject(e.DeliveryTag, false);
+                //拒收后重新放入队列（第二个参数是否requeue，true则重新入队列，否则丢弃或者进入死信队列。）
+                //如果既不确认消费，也不拒收，则消息会变成Unacked状态，直到连接断开后，变为Ready状态，重连时又可以消费
+                channel.BasicReject(e.DeliveryTag, true);
                 Console.WriteLine("RabbitMQ Reject Message Completed");
-
+                Thread.Sleep(TimeSpan.FromSeconds(options.StartRetryInterval));
             }
         }
 

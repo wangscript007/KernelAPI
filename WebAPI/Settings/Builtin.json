@@ -86,7 +86,7 @@
     "Routes": [
       {
         "Target": "event://identity/login",
-        "Command": "MQ.Application.Commands.Queue.V1_0.AddLoginLogCommand"
+        "Command": "Kernel.MediatR.Demo.Log.V1_0.AddLoginLogCommand"
       }
     ]
   }

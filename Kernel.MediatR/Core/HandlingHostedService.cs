@@ -1,15 +1,16 @@
-﻿using MediatR;
+﻿using Kernel.Core.RabbitmqService;
+using Kernel.Core.RabbitmqService.Options;
+using MediatR;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Linq;
-using Kernel.Core.RabbitmqService.Options;
 
-namespace Kernel.Core.RabbitmqService
+namespace Kernel.MediatR.Core
 {
     public class HandlingHostedService : BackgroundService
     {
