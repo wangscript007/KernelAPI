@@ -47,7 +47,7 @@ namespace Kernel.Buildin.Service
 
         }
 
-        public static void AddRateLimit(this IApplicationBuilder app)
+        public static void AddBuildinRateLimit(this IApplicationBuilder app)
         {
             app.UseBlockingDetection();
 

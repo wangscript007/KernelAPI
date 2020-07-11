@@ -1,12 +1,9 @@
 ﻿using Kernel.Core.Extensions;
-using Kernel.Model.Core;
+using Kernel.Core.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Kernel.Buildin.Service
 {
@@ -19,7 +16,7 @@ namespace Kernel.Buildin.Service
                 options.InvalidModelStateResponseFactory = (context) =>
                 {
                     var errors = context.ModelState.GetValidationSummary();
-                    var result = new CommandResult<List<string>>()
+                    var result = new OverallResult<List<string>>()
                     {
                         Success = false,
                         Message = "参数验证不通过",

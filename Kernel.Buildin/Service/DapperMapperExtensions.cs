@@ -1,18 +1,18 @@
 ﻿using Dapper;
 using Kernel.Core.Basic;
 using Kernel.Dapper.ORM;
-using Kernel.Model.Demo;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 
-namespace Kernel.Buildin.Dapper
+namespace Kernel.Buildin.Service
 {
 
-    public class ColumnMapper
+    public static class DapperMapperExtensions
     {
-        public static void SetMapper()
+        public static void AddBuildinDapperMapper(this IServiceCollection services, Type modelType)
         {
-            var types = typeof(SysUser).Assembly.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(IDBModel)));
+            var types = modelType.Assembly.GetTypes().Where(t => t.GetInterfaces().Contains(typeof(IDBModel)));
             foreach (var type in types)
             {
                 //数据库字段名和c#属性名不一致，手动添加映射关系

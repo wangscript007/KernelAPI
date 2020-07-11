@@ -1,11 +1,10 @@
 using Autofac;
 using Autofac.Extras.DynamicProxy;
-using Kernel.Buildin.Dapper;
 using Kernel.Buildin.Service;
 using Kernel.Core.Extensions;
-using Kernel.Core.Multitenant;
 using Kernel.Core.Utils;
 using Kernel.EF.Demo;
+using Kernel.Model.Demo;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -75,7 +74,7 @@ namespace WebAPI
             services.AddDbContext<ReportServerContext>(option => option.UseSqlServer(Configuration.GetSection("DBConnction:SqlServerConnection").Value));
 
             //Dapper字段映射
-            ColumnMapper.SetMapper();
+            services.AddBuildinDapperMapper(typeof(SysUser));
 
             //允许跨域
             services.AddBuildinCrossDomain();
@@ -121,19 +120,26 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ReportServerContext reportServerContext, IApiVersionDescriptionProvider provider)
         {
-            //跨域 中间件必须配置为在对 UseRouting 和 UseEndpoints的调用之间执行。 配置不正确将导致中间件停止正常运行，但是放到开始好像也可以。
+            //跨域
             app.AddBuildinCrossDomain();
 
-            app.AddRateLimit();
+            //请求频率控制
+            app.AddBuildinRateLimit();
+
+            //验权
             app.UseAuthentication();
 
-            ServiceHost.Init(app.ApplicationServices);
+            //初始化ServiceHost
+            app.AddBuildinServiceHost();
 
-            app.UseMultiTenant();
+            //多租户
+            app.AddBuildinMultitenancy();
 
+            //静态资源
             app.AddBuildinStaticFiles();
 
-            LogHelper.Configure();
+            //日志配置
+            app.AddBuildinLogConfigure();
 
             if (env.IsDevelopment())
             {
@@ -144,24 +150,18 @@ namespace WebAPI
 
             app.UseRouting();
 
+            //授权
             app.UseAuthorization();
 
-            //UseSignalR已过时
-            //app.UseSignalR(routes =>
-            //{
-            //    routes.MapHub<ChatHub>("/chatHub");
-            //});
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapHub<MsgHub>("/msgHub");
-                endpoints.MapControllers();
-            });
+            //SignalR Hub
+            app.AddBuildinMsgHub<MsgHub>("/msgHub");
 
             //reportServerContext.Database.EnsureCreated();//数据库不存在的话，会自动创建
 
+            //well-known/runtime
             app.UseBuiltinRuntime();
 
+            //配置swagger
             app.AddBuildinSwagger(provider);
 
         }

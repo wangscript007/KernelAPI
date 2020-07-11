@@ -1,4 +1,5 @@
 ﻿using Kernel.Core.Multitenant;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -17,6 +18,13 @@ namespace Kernel.Buildin.Service
                 //.WithTenantStore<JsonFileTenantStore>()
                 .WithTenantService(configuration);
         }
+
+        public static void AddBuildinMultitenancy(this IApplicationBuilder app)
+        {
+            app.UseMultiTenant();
+
+        }
+
 
     }
 }
