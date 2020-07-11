@@ -24,6 +24,9 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //填充配置
+            services.AddBuildinOption(Configuration);
+
             //注册服务
             services.RegisterServices(Configuration);
 
@@ -65,6 +68,9 @@ namespace WebAPI
 
             //实时通讯
             services.AddSignalR();
+
+            //RabbitMQ发布和订阅
+            services.AddBuildinRabbitMQ();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)

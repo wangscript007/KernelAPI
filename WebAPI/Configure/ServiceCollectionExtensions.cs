@@ -17,12 +17,6 @@ namespace WebAPI.Configure
             //注册Repository
             //services.AddScoped<IUserRepository>((iServiceProvider) => DapperFactory.CreateRepository<UserRepository>(DapperConst.QYPT_ORACLE));
 
-            //配置
-            services.Configure<OpenApiInfo>(configuration.GetSection("Swagger"));
-
-            //注册 Microsoft.AspNetCore.Http.IHttpContextAccessor
-            services.AddHttpContextAccessor();
-
             //自定义授权策略
             services.AddSingleton<IAuthorizationHandler, MinimumAgeHandler>();
 

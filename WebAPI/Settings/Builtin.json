@@ -40,5 +40,54 @@
       "Name": "MIT",
       "Url": "https://opensource.org/licenses/MIT"
     }
+  },
+  //服务端点
+  "Endpoints": {
+    "Logging": "http://11.0.10.192:8052", //日志记录服务（登录日志、操作日志）
+    "Sync": "http://11.0.10.192:8027", //数据同步服务
+    "Message": "http://11.0.10.192:8043", //短信发送服务
+    "Email": "http://11.0.10.192:8028", //邮件发送服务
+    "Token": "c4f23733c03ad46170066dae7e7d5e1a3d8c9f8dbbad679af0dbc7177708f5e7",
+    "Schema": "Bearer"
+  },
+  "RabbitMQ": {
+    "HostName": "127.0.0.1",
+    "Port": 5672,
+    "UserName": "admin",
+    "Password": "admin",
+    "PrefetchCount": 8, //（订阅）会告诉RabbitMQ不要同时给一个消费者推送多于N个消息，即一旦有N个消息还没有ack，则该consumer将block掉，直到有消息ack
+    "StartRetryInterval": 5, //出异常时，等待多少秒后再重新启动连接
+    //交换机声明（发布）
+    "Exchanges": [
+      {
+        "Name": "kernel.exchange.test",
+        "Binding": [
+          {
+            "RoutingKey": "kernel.topic.#",
+            "Queue": "kernel.topic.test"
+          },
+          {
+            "RoutingKey": "kernel.topic.#",
+            "Queue": "kernel.topic.test2"
+          },
+          {
+            "RoutingKey": "kernel.topic.#",
+            "Queue": "kernel.topic.test3"
+          }
+        ]
+      }
+    ],
+    //本服务负责消费的队列（订阅）
+    "Queues": [
+      "kernel.topic.test",
+      "kernel.topic.test2"
+    ],
+    //消息处理程序路由（订阅）
+    "Routes": [
+      {
+        "Target": "event://identity/login",
+        "Command": "MQ.Application.Commands.Queue.V1_0.AddLoginLogCommand"
+      }
+    ]
   }
 }
