@@ -1,19 +1,24 @@
 ﻿using Kernel.Dapper.Factory;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using WebAPI.Configure.AuthHandler;
 
 namespace WebAPI.Configure
 {
     public static class ServiceCollectionExtensions
     {
-        public static void RegisterServices(this IServiceCollection services)
+        public static void RegisterServices(this IServiceCollection services, IConfiguration configuration)
         {
-            var provider = services.BuildServiceProvider();
-            var DapperFactory = provider.GetService<IDapperFactory>();
+            //var provider = services.BuildServiceProvider();
+            //var DapperFactory = provider.GetService<IDapperFactory>();
 
             //注册Repository
             //services.AddScoped<IUserRepository>((iServiceProvider) => DapperFactory.CreateRepository<UserRepository>(DapperConst.QYPT_ORACLE));
+
+            //配置
+            services.Configure<OpenApiInfo>(configuration.GetSection("Swagger"));
 
             //注册 Microsoft.AspNetCore.Http.IHttpContextAccessor
             services.AddHttpContextAccessor();

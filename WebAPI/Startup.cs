@@ -25,7 +25,7 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             //注册服务
-            services.RegisterServices();
+            services.RegisterServices(Configuration);
 
             //多租户
             services.AddBuildinMultitenancy(Configuration);

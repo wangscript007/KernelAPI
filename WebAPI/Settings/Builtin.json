@@ -28,5 +28,17 @@
   //文件上传相关
   "FileUpload": {
     "AttachmentFolder": "files"
+  },
+  "Swagger": {
+    "Title": "Sample API",
+    "Description": "A sample application with Swagger, Swashbuckle, and API versioning.",
+    "Contact": {
+      "Name": "Bill Mei",
+      "Email": "bill.mei@somewhere.com"
+    },
+    "License": {
+      "Name": "MIT",
+      "Url": "https://opensource.org/licenses/MIT"
+    }
   }
 }
