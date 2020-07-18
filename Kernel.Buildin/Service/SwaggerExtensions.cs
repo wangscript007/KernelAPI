@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
@@ -49,6 +51,21 @@ namespace Kernel.Buildin.Service
 
                     // integrate xml comments
                     options.IncludeXmlComments(XmlCommentsFilePath);
+
+                    #region 加锁
+                    var openApiSecurity = new OpenApiSecurityScheme
+                    {
+                        Description = "JWT认证授权，使用直接在下框中输入Bearer {token}（注意两者之间是一个空格）\"",
+                        Name = "Authorization",  //jwt 默认参数名称
+                        In = ParameterLocation.Header,  //jwt默认存放Authorization信息的位置（请求头）
+                        Type = SecuritySchemeType.ApiKey
+                    };
+
+                    options.AddSecurityDefinition("oauth2", openApiSecurity);
+                    options.OperationFilter<AddResponseHeadersFilter>();
+                    options.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
+                    options.OperationFilter<SecurityRequirementsOperationFilter>();
+                    #endregion
                 });
         }
 
