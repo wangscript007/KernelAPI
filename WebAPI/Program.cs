@@ -43,7 +43,7 @@ namespace WebAPI
                     //    options.ListenAnyIP(83, opts => opts.UseHttps("res/server.pfx", "zzz123"));//允许远程访问，添加https证书
                     //});
                     //config.UseKestrel().UseUrls("http://*:5000;https://*:5001");
-                    config.UseKestrel().UseUrls("http://*:5000");
+                    //config.UseKestrel().UseUrls("http://*:5000");
                 })
                 //将默认ServiceProviderFactory指定为AutofacServiceProviderFactory
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())                
