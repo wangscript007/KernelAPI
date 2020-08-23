@@ -70,7 +70,7 @@ namespace WebAPI
             services.AddSignalR();
 
             //RabbitMQ·¢²¼ºÍ¶©ÔÄ
-            services.AddBuildinRabbitMQ();
+            //services.AddBuildinRabbitMQ();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
