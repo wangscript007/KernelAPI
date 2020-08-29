@@ -1,0 +1,57 @@
+version: '3'
+services:
+  kernelapi:
+    hostname: kernelapi_hostname
+    restart: always
+    build:
+      context: ../kernel
+      dockerfile: Dockerfile
+    depends_on:
+      - rabbit
+      - mysql_57
+    links:
+      - rabbit
+      - mysql_57
+    ports:
+      - 8080:80
+    networks:
+      - kernel_network
+    volumes:
+      - /zxs/kernel/settings/Builtin.json:/app/Settings/Builtin.json
+      - /zxs/kernel/log:/app/log
+
+  rabbit:
+    hostname: rabbit_hostname
+    restart: always
+    image: rabbitmq:management
+    ports:
+      - 25672:25672
+      - 15672:15672
+      - 5672:5672
+      - 5671:5671
+      - 4369:4369
+    networks:
+      - kernel_network
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin123
+
+  mysql_57:
+    hostname: mysql_57_hostname
+    restart: always
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    networks:
+      - kernel_network
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /home/chy/mysql/config/my.cnf:/etc/mysql/my.cnf
+      - /home/chy/mysql/db:/var/lib/mysql
+    command: --character-set-server=utf8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+
+networks:
+  kernel_network:
+    driver: bridge
