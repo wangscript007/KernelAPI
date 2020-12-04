@@ -1,6 +1,7 @@
 ﻿using Kernel.Core.Utils;
 using Kernel.IService.Repository.System;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace WebAPI.Configure
                            return false;
 
                        var navUrl = KernelApp.Request.NavUrl;
-                       var resPath = (context.Resource as RouteEndpoint).DisplayName;
+                       var resPath = (context.Resource as DefaultHttpContext).GetEndpoint().DisplayName;
                        ISysFuncPermRepository permRep = ServiceHost.GetScopeService<ISysFuncPermRepository>();
                        bool result = permRep.HasApiPerm_V1_0(resPath).Result;
                        if (!result)
