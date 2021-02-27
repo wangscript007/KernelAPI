@@ -1,5 +1,6 @@
 ﻿using Kernel.Core.Utils;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,14 @@ namespace Kernel.Buildin.Service
 
         }
 
+        public static void AddBuildinForwardedHeaders(this IApplicationBuilder app)
+        {
+            ForwardedHeadersOptions options = new ForwardedHeadersOptions();
+            options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            options.KnownNetworks.Clear();
+            options.KnownProxies.Clear();
+            app.UseForwardedHeaders(options);
+        }
 
     }
 }

@@ -81,6 +81,9 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //网关转发时，填充协议头remoteIp、scheme
+            app.AddBuildinForwardedHeaders();
+
             //跨域
             app.AddBuildinCrossDomain();
 
