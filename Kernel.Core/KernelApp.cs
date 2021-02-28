@@ -1,6 +1,7 @@
 ﻿using Kernel.Core.Models;
 using Kernel.Core.Utils;
 using log4net;
+using System.Runtime.InteropServices;
 
 namespace System
 {
@@ -42,6 +43,11 @@ namespace System
         }
 
         public static ILog Log { get => LogHelper.Log; }
+
+        public static string GetEnv(string key)
+        {
+            return Environment.GetEnvironmentVariable(key, RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? EnvironmentVariableTarget.Machine : EnvironmentVariableTarget.Process);
+        }
 
     }
 

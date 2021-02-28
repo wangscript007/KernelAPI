@@ -8,6 +8,10 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Security.Claims;
 
 namespace Kernel.Core.Models
@@ -31,7 +35,7 @@ namespace Kernel.Core.Models
         public readonly IConfiguration Config;
         public string NewGUID { get => Guid.NewGuid().ToString("N"); }
         public readonly string EnabledActionLog;
-
+        public readonly string ServiceAddress;
 
         public KernelSettings()
         {
@@ -58,6 +62,17 @@ namespace Kernel.Core.Models
             Config = ServiceHost.GetService<IConfiguration>();
 
             EnabledActionLog = AppsettingsConfig.GetConfigValue("EnabledActionLog");
+
+            ServiceAddress = NetworkInterface
+                .GetAllNetworkInterfaces()
+                .Where(network => network.OperationalStatus == OperationalStatus.Up)
+                .Select(network => network.GetIPProperties())
+                .OrderByDescending(properties => properties.GatewayAddresses.Count)
+                .SelectMany(properties => properties.UnicastAddresses)
+                .Where(address => !IPAddress.IsLoopback(address.Address) && address.Address.AddressFamily == AddressFamily.InterNetwork)
+                .ToArray()
+                .FirstOrDefault().Address.ToString();
+
 
         }
 

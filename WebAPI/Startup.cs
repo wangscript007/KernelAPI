@@ -129,6 +129,9 @@ namespace WebAPI
             //≈‰÷√swagger
             app.AddBuildinSwagger();
 
+            //◊¢≤·consul
+            Configuration.ConsulRegister();
+
         }
 
     }

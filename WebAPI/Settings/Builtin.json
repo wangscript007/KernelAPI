@@ -89,5 +89,14 @@
         "Command": "Kernel.MediatR.Demo.Log.V1_0.AddLoginLogCommand"
       }
     ]
+  },
+  "Consul": {
+    "Enabled": false,
+    "Datacenter": "dc1",
+    "Host": "http://192.168.101.18:8500/",
+    "ServiceName": "KernelAPI",
+    "ServiceIP": "",
+    "ServicePort": "39274",
+    "ServiceTags": "backend,api"
   }
 }

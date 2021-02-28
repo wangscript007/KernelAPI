@@ -1,5 +1,6 @@
 ﻿using Kernel.Core.Models;
 using Kernel.Core.RabbitmqService.Options;
+using Kernel.Core.Utils;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
@@ -27,6 +28,8 @@ namespace Kernel.Buildin.Service
             services.Configure<RabbitmqPublisherOption>(configuration.GetSection("RabbitMQ"));
             services.Configure<RabbitmqSubscriberOption>(configuration.GetSection("RabbitMQ"));
 
+            //consul配置
+            services.Configure<ConsulOption>(configuration.GetSection("Consul"));
         }
     }
 }
