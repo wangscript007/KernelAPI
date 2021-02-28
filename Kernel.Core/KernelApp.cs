@@ -12,6 +12,8 @@ namespace System
         private static KernelSettings settings;
         private static KernelRequest request;
 
+        public static string EnvironmentName { get; set; }
+
         public static KernelSettings Settings
         {
             get

@@ -102,9 +102,6 @@ namespace WebAPI
             //静态资源
             app.AddBuildinStaticFiles();
 
-            //日志配置
-            app.AddBuildinLogConfigure();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

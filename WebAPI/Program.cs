@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Net;
+using System.IO;
 
 namespace WebAPI
 {
@@ -51,12 +52,24 @@ namespace WebAPI
                 {
                     webBuilder.ConfigureAppConfiguration((context, config) =>
                     {
+                        KernelApp.EnvironmentName = context.HostingEnvironment.EnvironmentName;
+                        var folder = $"Settings.{KernelApp.EnvironmentName}";
+                        Console.WriteLine($"Loading >>> {folder}");
+
+                        if (!Directory.Exists(folder))
+                        {
+                            Directory.CreateDirectory(folder);
+                            File.Copy("Settings.Development/Log4net.config", $"{folder}/Log4net.config");
+                        }
+
+                        KernelApp.Log.Info($"当前环境：{KernelApp.EnvironmentName}");
+
                         //注：在linux下，文件路径是区分大小写的
                         config.SetBasePath(AppDomain.CurrentDomain.SetupInformation.ApplicationBase)
-                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                        .AddJsonFile("Settings/Builtin.json", true, true)
-                        .AddJsonFile("Settings/Tenant.json", true, true)
-                        .AddJsonFile("Settings/IpRateLimiting.json", true, true);
+                        .AddJsonFile($"{folder}/appsettings.json", optional: true, reloadOnChange: true)
+                        .AddJsonFile($"{folder}/Builtin.json", true, true)
+                        .AddJsonFile($"{folder}/Tenant.json", true, true)
+                        .AddJsonFile($"{folder}/IpRateLimiting.json", true, true);
                     });
                     webBuilder.UseStartup<Startup>();
                 });

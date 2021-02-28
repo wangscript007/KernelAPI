@@ -17,12 +17,6 @@ namespace Kernel.Buildin.Service
 
         }
 
-        public static void AddBuildinLogConfigure(this IApplicationBuilder app)
-        {
-            LogHelper.Configure();
-
-        }
-
         public static void AddBuildinMsgHub<T>(this IApplicationBuilder app, string pattern) where T : Hub
         {
             //UseSignalR已过时

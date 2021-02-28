@@ -11,26 +11,34 @@ namespace Kernel.Core.Utils
 
     public class LogHelper
     {
-        private static ILoggerRepository repository { get; set; }
-        private static ILog _log;
-        public static ILog Log
+        private const string DEFAULT_REPO_NAME = "NETCoreRepository";
+        private const string DEFAULT_LOGGER_NAME = "";
+
+        public static ILoggerRepository Repository { get; set; }
+        public static ILog Log { get; set; }
+
+        static LogHelper()
         {
-            get
-            {
-                if (_log == null)
-                {
-                    Configure();
-                }
-                return _log;
-            }
+            Repository = Configure();
+            Log = GetLogger(Repository.Name);
+        }
+        
+        public static ILoggerRepository Configure(string repositoryName = DEFAULT_REPO_NAME, string configFile = null)
+        {
+            var repository = LogManager.CreateRepository(repositoryName);
+            configFile = configFile ?? AppDomain.CurrentDomain.SetupInformation.ApplicationBase + $"Settings.{KernelApp.EnvironmentName}{Path.DirectorySeparatorChar}Log4net.config";
+            XmlConfigurator.Configure(repository, new FileInfo(configFile));
+            return repository;
         }
 
-        public static void Configure(string repositoryName = "NETCoreRepository", string configFile = null)
+        public static ILoggerRepository GetRepository(string repositoryName = DEFAULT_REPO_NAME)
         {
-            repository = LogManager.CreateRepository(repositoryName);
-            configFile = configFile ?? KernelApp.Settings.BasePath + $"Settings{Path.DirectorySeparatorChar}Log4net.config";
-            XmlConfigurator.Configure(repository, new FileInfo(configFile));
-            _log = LogManager.GetLogger(repositoryName, "");
+            return LogManager.GetRepository(repositoryName);
+        }
+
+        public static ILog GetLogger(string repositoryName = DEFAULT_REPO_NAME, string name = DEFAULT_LOGGER_NAME)
+        {
+            return LogManager.GetLogger(repositoryName, name);
         }
     }
 
