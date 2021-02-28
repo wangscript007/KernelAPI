@@ -13,7 +13,7 @@ namespace Kernel.Core.Utils
     {
         private static ILoggerRepository repository { get; set; }
         private static ILog _log;
-        public static ILog log
+        public static ILog Log
         {
             get
             {

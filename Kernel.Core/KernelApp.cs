@@ -1,4 +1,6 @@
 ﻿using Kernel.Core.Models;
+using Kernel.Core.Utils;
+using log4net;
 
 namespace System
 {
@@ -38,6 +40,9 @@ namespace System
                 return request;
             }
         }
+
+        public static ILog Log { get => LogHelper.Log; }
+
     }
 
 }

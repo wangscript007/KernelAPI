@@ -2,11 +2,7 @@
 using Kernel.IService.Repository.System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WebAPI.Configure.AuthHandler;
 
 namespace WebAPI.Configure
@@ -34,10 +30,10 @@ namespace WebAPI.Configure
                        bool result = permRep.HasApiPerm_V1_0(resPath).Result;
                        if (!result)
                        {
-                           LogHelper.log.Info("接口验权失败！");
-                           LogHelper.log.Info(userID);
-                           LogHelper.log.Info(navUrl);
-                           LogHelper.log.Info(resPath);
+                           KernelApp.Log.Info("接口验权失败！");
+                           KernelApp.Log.Info(userID);
+                           KernelApp.Log.Info(navUrl);
+                           KernelApp.Log.Info(resPath);
                        }
                        return result;
 
