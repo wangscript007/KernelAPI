@@ -12,8 +12,6 @@ namespace System
         private static KernelSettings settings;
         private static KernelRequest request;
 
-        public static string EnvironmentName { get; set; }
-
         public static KernelSettings Settings
         {
             get
@@ -48,7 +46,21 @@ namespace System
 
         public static string GetEnv(string key)
         {
-            return Environment.GetEnvironmentVariable(key, RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? EnvironmentVariableTarget.Machine : EnvironmentVariableTarget.Process);
+            //return Environment.GetEnvironmentVariable(key, RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? EnvironmentVariableTarget.Machine : EnvironmentVariableTarget.Process);
+            //linux上只支持EnvironmentVariableTarget.Process
+            string value = Environment.GetEnvironmentVariable(key, EnvironmentVariableTarget.Process);
+
+            if (string.IsNullOrWhiteSpace(value))
+                value = Environment.GetEnvironmentVariable(key, EnvironmentVariableTarget.User);
+
+            if (string.IsNullOrWhiteSpace(value))
+                value = Environment.GetEnvironmentVariable(key, EnvironmentVariableTarget.Machine);
+
+            string log = $"读取环境变量{key}：{value}";
+            Console.WriteLine(log);
+            KernelApp.Log.Info(log);
+
+            return value;
         }
 
     }

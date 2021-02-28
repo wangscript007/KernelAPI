@@ -6,6 +6,8 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Net;
 using System.IO;
+using Winton.Extensions.Configuration.Consul;
+using System.Threading;
 
 namespace WebAPI
 {
@@ -37,24 +39,26 @@ namespace WebAPI
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHost((config) => {
+                .ConfigureWebHost((config) =>
+                {
                     //config.UseKestrel(options =>
                     //{
                     //    options.Listen(IPAddress.Loopback, 5000);//本机端口访问
                     //    options.ListenAnyIP(83, opts => opts.UseHttps("res/server.pfx", "zzz123"));//允许远程访问，添加https证书
                     //});
                     //config.UseKestrel().UseUrls("http://*:5000;https://*:5001");
-                    config.UseKestrel().UseUrls("http://*:5000");
+                    config.UseKestrel().UseUrls("http://*:39274");
                 })
                 //将默认ServiceProviderFactory指定为AutofacServiceProviderFactory
-                .UseServiceProviderFactory(new AutofacServiceProviderFactory())                
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.ConfigureAppConfiguration((context, config) =>
                     {
-                        KernelApp.EnvironmentName = context.HostingEnvironment.EnvironmentName;
-                        var folder = $"Settings.{KernelApp.EnvironmentName}";
-                        Console.WriteLine($"Loading >>> {folder}");
+                        var folder = $"Settings.{Env.ASPNETCORE_ENVIRONMENT}";
+                        string log = "";
+                        log = $"Loading >>> {folder}";
+                        Console.WriteLine(log);
 
                         if (!Directory.Exists(folder))
                         {
@@ -62,17 +66,42 @@ namespace WebAPI
                             File.Copy("Settings.Development/Log4net.config", $"{folder}/Log4net.config");
                         }
 
-                        KernelApp.Log.Info($"当前环境：{KernelApp.EnvironmentName}");
+                        KernelApp.Log.Info(log);
 
-                        //注：在linux下，文件路径是区分大小写的
-                        config.SetBasePath(AppDomain.CurrentDomain.SetupInformation.ApplicationBase)
-                        .AddJsonFile($"{folder}/appsettings.json", optional: true, reloadOnChange: true)
-                        .AddJsonFile($"{folder}/Builtin.json", true, true)
-                        .AddJsonFile($"{folder}/Tenant.json", true, true)
-                        .AddJsonFile($"{folder}/IpRateLimiting.json", true, true);
+                        if (string.IsNullOrWhiteSpace(Env.KERNEL_CONFIG_CENTER))
+                        {
+                            log = "从文件加载配置";
+                            Console.WriteLine(log);
+                            KernelApp.Log.Info(log);
+
+                            //注：在linux下，文件路径是区分大小写的
+                            config.SetBasePath(AppDomain.CurrentDomain.SetupInformation.ApplicationBase)
+                            .AddJsonFile($"{folder}/appsettings.json", optional: true, reloadOnChange: true)
+                            .AddJsonFile($"{folder}/Builtin.json", true, true)
+                            .AddJsonFile($"{folder}/Tenant.json", true, true)
+                            .AddJsonFile($"{folder}/IpRateLimiting.json", true, true);
+                        }
+                        else
+                        {
+                            log = "从配置中心加载配置";
+                            Console.WriteLine(log);
+                            KernelApp.Log.Info(log);
+
+                            ConsulCfg cfg = new ConsulCfg()
+                            {
+                                Config = config,
+                                Folder = folder
+                            };
+                            cfg.AddConsul("appsettings.json");
+                            cfg.AddConsul("Builtin.json");
+                            cfg.AddConsul("Tenant.json");
+                            cfg.AddConsul("IpRateLimiting.json");
+
+                        }
+
                     });
                     webBuilder.UseStartup<Startup>();
                 });
-           
+
     }
 }
