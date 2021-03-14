@@ -20,6 +20,10 @@ namespace System
 
             KERNEL_CONFIG_CENTER = KernelApp.GetEnv("KERNEL_CONFIG_CENTER");
             KERNEL_SERVICE_NAME = KernelApp.GetEnv("KERNEL_SERVICE_NAME");
+
+            KernelApp.Log.Info("ASPNETCORE_ENVIRONMENT:" + ASPNETCORE_ENVIRONMENT);
+            KernelApp.Log.Info("KERNEL_CONFIG_CENTER:" + KERNEL_CONFIG_CENTER);
+            KernelApp.Log.Info("KERNEL_SERVICE_NAME:" + KERNEL_SERVICE_NAME);
         }
     }
 }

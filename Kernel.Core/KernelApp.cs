@@ -48,17 +48,27 @@ namespace System
         {
             //return Environment.GetEnvironmentVariable(key, RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? EnvironmentVariableTarget.Machine : EnvironmentVariableTarget.Process);
             //linux上只支持EnvironmentVariableTarget.Process
-            string value = Environment.GetEnvironmentVariable(key, EnvironmentVariableTarget.Process);
 
-            if (string.IsNullOrWhiteSpace(value))
-                value = Environment.GetEnvironmentVariable(key, EnvironmentVariableTarget.User);
-
-            if (string.IsNullOrWhiteSpace(value))
-                value = Environment.GetEnvironmentVariable(key, EnvironmentVariableTarget.Machine);
-
-            string log = $"读取环境变量{key}：{value}";
+            string log = $"读取环境变量{key}：";
             Console.WriteLine(log);
-            KernelApp.Log.Info(log);
+
+            string value = Environment.GetEnvironmentVariable(key, EnvironmentVariableTarget.Process);
+            log = "from Process,value:" + value;
+            Console.WriteLine(log);
+
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                value = Environment.GetEnvironmentVariable(key, EnvironmentVariableTarget.User);
+                log = "from User,value:" + value;
+                Console.WriteLine(log);
+            }
+
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                value = Environment.GetEnvironmentVariable(key, EnvironmentVariableTarget.Machine);
+                log = "from Machine,value:" + value;
+                Console.WriteLine(log);
+            }
 
             return value;
         }
