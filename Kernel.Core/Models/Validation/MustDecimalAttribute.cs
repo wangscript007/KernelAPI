@@ -26,7 +26,7 @@ namespace Kernel.Core.Models.Validation
         {
             try
             {
-                Convert.ToDouble(value);
+                Convert.ToDecimal(value);
             }
             catch (Exception ex)
             {
