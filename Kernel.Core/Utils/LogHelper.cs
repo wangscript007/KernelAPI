@@ -26,7 +26,7 @@ namespace Kernel.Core.Utils
         public static ILoggerRepository Configure(string repositoryName = DEFAULT_REPO_NAME, string configFile = null)
         {
             var repository = LogManager.CreateRepository(repositoryName);
-            configFile = configFile ?? AppDomain.CurrentDomain.SetupInformation.ApplicationBase + $"Settings.{Env.ASPNETCORE_ENVIRONMENT}{Path.DirectorySeparatorChar}Log4net.config";
+            configFile = configFile ?? AppDomain.CurrentDomain.SetupInformation.ApplicationBase + $"Settings.{Env.KERNEL_ENVIRONMENT}{Path.DirectorySeparatorChar}Log4net.config";
             XmlConfigurator.Configure(repository, new FileInfo(configFile));
             return repository;
         }

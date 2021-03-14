@@ -55,7 +55,7 @@ namespace WebAPI
                 {
                     webBuilder.ConfigureAppConfiguration((context, config) =>
                     {
-                        var folder = $"Settings.{Env.ASPNETCORE_ENVIRONMENT}";
+                        var folder = $"Settings.{Env.KERNEL_ENVIRONMENT}";
                         string log = "";
                         log = $"Loading >>> {folder}";
                         Console.WriteLine(log);

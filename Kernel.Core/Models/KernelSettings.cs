@@ -25,7 +25,7 @@ namespace Kernel.Core.Models
         public readonly string ResourcesRootFolder;
         [JsonIgnore]
         public readonly IHostingEnvironment Env;
-        public bool IsDevelopment { get => Env.IsDevelopment(); }
+        public bool IsDevelopment { get => System.Env.KERNEL_ENVIRONMENT == "Development"; }
         [JsonIgnore]
         public readonly IHttpContextAccessor HttpContextAccessor;
 

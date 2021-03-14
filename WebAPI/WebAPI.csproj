@@ -9,37 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AspNetCoreRateLimit" Version="3.0.5" />
-    <PackageReference Include="Autofac" Version="6.1.0" />
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
-    <PackageReference Include="Autofac.Extras.DynamicProxy" Version="6.0.0" />
-    <PackageReference Include="Ben.BlockingDetector" Version="0.0.3" />
-    <PackageReference Include="MediatR" Version="8.0.1" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.3" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="4.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="4.1.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.3" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.3">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0-preview1.19506.1" />
-    <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0-preview1-19509-03" />
-    <PackageReference Include="RestEase" Version="1.5.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.1.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Kernel.Buildin\Kernel.Buildin.csproj" />
     <ProjectReference Include="..\Kernel.Core\Kernel.Core.csproj" />
     <ProjectReference Include="..\Kernel.Dapper\Kernel.Dapper.csproj" />
