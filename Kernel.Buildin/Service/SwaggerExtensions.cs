@@ -67,6 +67,9 @@ namespace Kernel.Buildin.Service
                     options.OperationFilter<SecurityRequirementsOperationFilter>();
                     #endregion
                 });
+
+            //让JsonProperty属性生效
+            services.AddSwaggerGenNewtonsoftSupport();
         }
 
         static string XmlCommentsFilePath
