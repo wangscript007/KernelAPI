@@ -49,26 +49,28 @@ namespace System
             //return Environment.GetEnvironmentVariable(key, RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? EnvironmentVariableTarget.Machine : EnvironmentVariableTarget.Process);
             //linux上只支持EnvironmentVariableTarget.Process
 
-            string log = $"读取环境变量{key}：";
-            Console.WriteLine(log);
+            string log = $"读取[darkcyan]{key}[/darkcyan]...";
+            ColorConsole.WriteEmbeddedColorLine(log);
 
             string value = Environment.GetEnvironmentVariable(key, EnvironmentVariableTarget.Process);
-            log = "from Process,value:" + value;
-            Console.WriteLine(log);
+            log = $"from Process,value:[yellow]{value}[/yellow]";
+            ColorConsole.WriteEmbeddedColorLine(log);
 
             if (string.IsNullOrWhiteSpace(value))
             {
                 value = Environment.GetEnvironmentVariable(key, EnvironmentVariableTarget.User);
-                log = "from User,value:" + value;
-                Console.WriteLine(log);
+                log = $"from User,value:[yellow]{value}[/yellow]";
+                ColorConsole.WriteEmbeddedColorLine(log);
             }
 
             if (string.IsNullOrWhiteSpace(value))
             {
                 value = Environment.GetEnvironmentVariable(key, EnvironmentVariableTarget.Machine);
-                log = "from Machine,value:" + value;
-                Console.WriteLine(log);
+                log = $"from Machine,value:[yellow]{value}[/yellow]";
+                ColorConsole.WriteEmbeddedColorLine(log);
             }
+
+            Console.WriteLine();
 
             return value;
         }

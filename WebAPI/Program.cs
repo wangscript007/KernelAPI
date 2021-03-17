@@ -58,7 +58,7 @@ namespace WebAPI
                         var folder = $"Settings.{Env.KERNEL_ENVIRONMENT}";
                         string log = "";
                         log = $"Loading >>> {folder}";
-                        Console.WriteLine(log);
+                        ColorConsole.WriteWrappedHeader(log, headerColor: ConsoleColor.Green);
 
                         if (!Directory.Exists(folder))
                         {

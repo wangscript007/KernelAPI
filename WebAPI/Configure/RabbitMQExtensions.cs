@@ -15,12 +15,12 @@ namespace WebAPI.Configure
         {
             if(Convert.ToBoolean(configuration.GetSection("RabbitMQ:Enabled").Value))
             {
-                Console.WriteLine("RabbitMQ is Enabled");
+                ColorConsole.WriteEmbeddedColorLine("[darkcyan]RabbitMQ[/darkcyan] is [yellow]Enabled[/yellow]");
                 services.AddRabbitmqPublisher();
                 services.AddHostedService<HandlingHostedService>();
             }
             else
-                Console.WriteLine("RabbitMQ is Disabled");
+                ColorConsole.WriteEmbeddedColorLine("[darkcyan]RabbitMQ[/darkcyan] is [yellow]Disabled[/yellow]");
 
         }
 
