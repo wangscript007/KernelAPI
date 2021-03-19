@@ -2,6 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <PackageId>Zxs.Kernel.Dapper</PackageId>
+    <Version>1.0.1</Version>
+    <Authors>xtjatswc</Authors>
+    <Product>KernelAPI</Product>
+    <Description>KernelAPI核心库（Dapper）</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
