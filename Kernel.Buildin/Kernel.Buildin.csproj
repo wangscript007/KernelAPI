@@ -9,6 +9,7 @@
     <Product>KernelAPI</Product>
     <Description>KernelAPI核心库（Buildin）</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <ItemGroup>

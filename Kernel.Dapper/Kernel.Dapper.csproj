@@ -8,6 +8,7 @@
     <Product>KernelAPI</Product>
     <Description>KernelAPI核心库（Dapper）</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
