@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Kernel.Core.Basic
 {
-    public interface IDBModel
+    public interface IDapperColumnMapping
     {
     }
 }

@@ -8,7 +8,7 @@ namespace Kernel.Model.System
     /// 系统模块
     /// </summary>
     [Table("sysmodule")]
-    public class SysModule : IDBModel
+    public class SysModule : IDapperColumnMapping
     {
 
         /// <summary>

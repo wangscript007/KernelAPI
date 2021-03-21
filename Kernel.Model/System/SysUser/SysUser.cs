@@ -10,7 +10,7 @@ namespace Kernel.Model.System
     /// 用户信息表
     /// </summary>
     [Table("sysuser")]
-    public class SysUser : IDBModel
+    public class SysUser : IDapperColumnMapping
     {
 
         /// <summary>

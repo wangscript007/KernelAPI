@@ -8,7 +8,7 @@ namespace Kernel.Model.System
     /// 角色信息
     /// </summary>
     [Table("sysrole")]
-    public class SysRole : IDBModel
+    public class SysRole : IDapperColumnMapping
     {
 
         /// <summary>

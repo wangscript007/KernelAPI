@@ -5,7 +5,7 @@ using System;
 namespace Kernel.Model.Demo
 {
     [Table("SYS_USER")]
-    public class SysUser : IDBModel
+    public class SysUser : IDapperColumnMapping
     {
         /// <summary>
         /// 用户表主键ID

@@ -8,7 +8,7 @@ namespace Kernel.Model.System
     /// action执行记录
     /// </summary>
     [Table("sysactionlog")]
-    public class SysActionLog : IDBModel
+    public class SysActionLog : IDapperColumnMapping
     {
 
         /// <summary>

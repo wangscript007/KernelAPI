@@ -8,7 +8,7 @@ namespace Kernel.Model.Core.Attachment
     /// 附件信息表
     /// </summary>
     [Table("sys_files")]
-    public class SysAttachments : IDBModel
+    public class SysAttachments : IDapperColumnMapping
     {
 
         /// <summary>

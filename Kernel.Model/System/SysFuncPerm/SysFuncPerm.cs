@@ -8,7 +8,7 @@ namespace Kernel.Model.System
     /// 系统功能权限
     /// </summary>
     [Table("sysfuncperm")]
-    public class SysFuncPerm : IDBModel
+    public class SysFuncPerm : IDapperColumnMapping
     {
 
         /// <summary>

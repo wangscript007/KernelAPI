@@ -8,7 +8,7 @@ namespace Kernel.Model.Demo
     /// 系统字典项
     /// </summary>
     [Table("sysdictitem")]
-    public class SysDictItem : IDBModel
+    public class SysDictItem : IDapperColumnMapping
     {
 
         /// <summary>
