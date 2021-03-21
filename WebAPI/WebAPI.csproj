@@ -3,6 +3,11 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <DebugType>embedded</DebugType>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <PublishTrimmed>false</PublishTrimmed>
+    <PublishReadyToRun>true</PublishReadyToRun>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -17,8 +22,12 @@
     <ProjectReference Include="..\Kernel.IService\Kernel.IService.csproj" />
     <ProjectReference Include="..\Kernel.MediatR\Kernel.MediatR.csproj" />
     <ProjectReference Include="..\Kernel.Model\Kernel.Model.csproj" />
-    <ProjectReference Include="..\Kernel.Repository\Kernel.Repository.csproj" />
-    <ProjectReference Include="..\Kernel.Service\Kernel.Service.csproj" />
+    <ProjectReference Include="..\Kernel.Repository\Kernel.Repository.csproj">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </ProjectReference>
+    <ProjectReference Include="..\Kernel.Service\Kernel.Service.csproj">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </ProjectReference>
   </ItemGroup>
 
   <ItemGroup>
