@@ -6,12 +6,12 @@ using System.Text;
 namespace Kernel.Core.Models.Validation
 {
     /// <summary>
-    /// 必须为数字
+    /// 不允许为0
     /// </summary>
-    public class MustDecimalAttribute : RequiredAttribute
+    public class NotAllowedZeroAttribute : RequiredAttribute
     {
 
-        public MustDecimalAttribute()
+        public NotAllowedZeroAttribute()
         {
 
         }
@@ -26,11 +26,12 @@ namespace Kernel.Core.Models.Validation
         {
             try
             {
-                Convert.ToDecimal(value);
+                var result = Convert.ToDouble(value);
+                if (result == 0)
+                    return new ValidationResult(GetErrorMessage(validationContext.DisplayName));
             }
-            catch (Exception ex)
+            catch
             {
-                return new ValidationResult(GetErrorMessage(validationContext.DisplayName));
             }
 
             return ValidationResult.Success;
@@ -41,7 +42,7 @@ namespace Kernel.Core.Models.Validation
         /// </summary>
         /// <returns></returns>
         public string GetErrorMessage(string element) =>
-            $"“{element}”必须为数字！";
+            $"“{element}”不允许为0！";
 
     }
 }
