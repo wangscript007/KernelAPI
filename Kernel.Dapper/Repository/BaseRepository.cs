@@ -15,7 +15,6 @@ namespace Kernel.Dapper.Repository
     /// <typeparam name="T"></typeparam>
     public abstract class BaseRepository<T> : IBaseRepository<T>
     {
-        private IDbConnection _connection = null;
 
         public ConnectionConfig CurrentConnectionConfig { get; set; }
         public abstract string DBName { get; }
@@ -37,30 +36,31 @@ namespace Kernel.Dapper.Repository
         {
             get
             {
-                var conn = CurrentConnectionConfig.ConnectionString;
+                var connStr = CurrentConnectionConfig.ConnectionString;
                 if (CurrentConnectionConfig.UseMultitenant)
                 {
-                    conn = string.Format(conn, KernelApp.Request.CurrentTenant.Label);
+                    connStr = string.Format(connStr, KernelApp.Request.CurrentTenant.Label);
                 }
 
+                IDbConnection conn = null;
                 switch (CurrentConnectionConfig.DbType)
                 {
                     case Dialect.MySQL:
-                        _connection = new MySql.Data.MySqlClient.MySqlConnection(conn);
+                        conn = new MySql.Data.MySqlClient.MySqlConnection(connStr);
                         break;
                     //case Dialect.SQLite:
                     //    _connection = new SQLiteConnection(conn);
                     //    break;
                     case Dialect.SQLServer:
-                        _connection = new System.Data.SqlClient.SqlConnection(conn);
+                        conn = new System.Data.SqlClient.SqlConnection(connStr);
                         break;
                     case Dialect.Oracle:
-                        _connection = new Oracle.ManagedDataAccess.Client.OracleConnection(conn);
+                        conn = new Oracle.ManagedDataAccess.Client.OracleConnection(connStr);
                         break;
                     default:
                         throw new Exception("未指定数据库类型！");
                 }
-                return _connection;
+                return conn;
             }
         }
 
@@ -71,18 +71,11 @@ namespace Kernel.Dapper.Repository
         public bool Add(T model)
         {
             int? result;
-            using (_connection = Connection)
+            using (var conn = Connection)
             {
-                result = _connection.Insert(model);
+                result = conn.Insert(model);
             }
-            if (result > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return result > 0;
         }
 
         /// <summary>
@@ -91,18 +84,11 @@ namespace Kernel.Dapper.Repository
         public async Task<bool> AddAsync(T model)
         {
             int? result;
-            using (_connection = Connection)
+            using (var conn = Connection)
             {
-                result = await _connection.InsertAsync(model);
+                result = await conn.InsertAsync(model);
             }
-            if (result > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return result > 0;
         }
 
         /// <summary>
@@ -111,18 +97,11 @@ namespace Kernel.Dapper.Repository
         public bool Delete(object id)
         {
             int? result;
-            using (_connection = Connection)
+            using (var conn = Connection)
             {
-                result = _connection.Delete<T>(id);
+                result = conn.Delete<T>(id);
             }
-            if (result > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return result > 0;
         }
 
         /// <summary>
@@ -131,18 +110,11 @@ namespace Kernel.Dapper.Repository
         public async Task<bool> DeleteAsync(object id)
         {
             int? result;
-            using (_connection = Connection)
+            using (var conn = Connection)
             {
-                result = await _connection.DeleteAsync<T>(id);
+                result = await conn.DeleteAsync<T>(id);
             }
-            if (result > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return result > 0;
         }
 
         /// <summary>
@@ -154,18 +126,11 @@ namespace Kernel.Dapper.Repository
         public bool DeleteList(string strWhere, object parameters)
         {
             int? result;
-            using (_connection = Connection)
+            using (var conn = Connection)
             {
-                result = _connection.DeleteList<T>(strWhere, parameters);
+                result = conn.DeleteList<T>(strWhere, parameters);
             }
-            if (result > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return result > 0;
         }
 
         /// <summary>
@@ -177,18 +142,11 @@ namespace Kernel.Dapper.Repository
         public async Task<bool> DeleteListAsync(string strWhere, object parameters)
         {
             int? result;
-            using (_connection = Connection)
+            using (var conn = Connection)
             {
-                result = await _connection.DeleteListAsync<T>(strWhere, parameters);
+                result = await conn.DeleteListAsync<T>(strWhere, parameters);
             }
-            if (result > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return result > 0;
         }
 
         /// <summary>
@@ -197,18 +155,11 @@ namespace Kernel.Dapper.Repository
         public bool Update(T model)
         {
             int? result;
-            using (_connection = Connection)
+            using (var conn = Connection)
             {
-                result = _connection.Update(model);
+                result = conn.Update(model);
             }
-            if (result > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return result > 0;
         }
 
         /// <summary>
@@ -217,18 +168,11 @@ namespace Kernel.Dapper.Repository
         public async Task<bool> UpdateAsync(T model)
         {
             int? result;
-            using (_connection = Connection)
+            using (var conn = Connection)
             {
-                result = await _connection.UpdateAsync(model);
+                result = await conn.UpdateAsync(model);
             }
-            if (result > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return result > 0;
         }
 
         /// <summary>
@@ -236,9 +180,9 @@ namespace Kernel.Dapper.Repository
         /// </summary>
         public T GetModel(object id)
         {
-            using (_connection = Connection)
+            using (var conn = Connection)
             {
-                return _connection.Get<T>(id);
+                return conn.Get<T>(id);
             }
         }
 
@@ -247,9 +191,9 @@ namespace Kernel.Dapper.Repository
         /// </summary>
         public async Task<T> GetModelAsync(object id)
         {
-            using (_connection = Connection)
+            using (var conn = Connection)
             {
-                return await _connection.GetAsync<T>(id);
+                return await conn.GetAsync<T>(id);
             }
         }
 
@@ -258,9 +202,9 @@ namespace Kernel.Dapper.Repository
         /// </summary>
         public IEnumerable<T> GetModelList(string strWhere, object parameters)
         {
-            using (_connection = Connection)
+            using (var conn = Connection)
             {
-                return _connection.GetList<T>(strWhere, parameters);
+                return conn.GetList<T>(strWhere, parameters);
             }
         }
 
@@ -269,9 +213,9 @@ namespace Kernel.Dapper.Repository
         /// </summary>
         public async Task<IEnumerable<T>> GetModelListAsync(string strWhere, object parameters)
         {
-            using (_connection = Connection)
+            using (var conn = Connection)
             {
-                return await _connection.GetListAsync<T>(strWhere, parameters);
+                return await conn.GetListAsync<T>(strWhere, parameters);
             }
         }
 
@@ -286,9 +230,9 @@ namespace Kernel.Dapper.Repository
         /// <returns></returns>
         public IEnumerable<T> GetListPage(int pageNum, int rowsNum, string strWhere, string orderBy, object parameters)
         {
-            using (_connection = Connection)
+            using (var conn = Connection)
             {
-                return _connection.GetListPaged<T>(pageNum, rowsNum, strWhere, orderBy, parameters); ;
+                return conn.GetListPaged<T>(pageNum, rowsNum, strWhere, orderBy, parameters); 
             }
         }
 
@@ -303,9 +247,9 @@ namespace Kernel.Dapper.Repository
         /// <returns></returns>
         public async Task<IEnumerable<T>> GetListPageAsync(int pageNum, int rowsNum, string strWhere, string orderBy, object parameters)
         {
-            using (_connection = Connection)
+            using (var conn = Connection)
             {
-                return await _connection.GetListPagedAsync<T>(pageNum, rowsNum, strWhere, orderBy, parameters); ;
+                return await conn.GetListPagedAsync<T>(pageNum, rowsNum, strWhere, orderBy, parameters); 
             }
         }
 
