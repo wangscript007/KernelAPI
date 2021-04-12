@@ -14,8 +14,6 @@ namespace Kernel.Repository.Core
     {
         public override string DBName => DapperConst.DB_MYSQL;
 
-        public SimpleCRUD.Dialect DbType { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
         public TableSchema GetTableSchema(string tableName)
         {
             using (var conn = Connection)

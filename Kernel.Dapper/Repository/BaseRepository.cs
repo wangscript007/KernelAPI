@@ -13,7 +13,7 @@ namespace Kernel.Dapper.Repository
     /// 仓储层基类，通过泛型实现通用的CRUD操作
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class BaseRepository<T> : IBaseRepository<T>, IRepository
+    public abstract class BaseRepository<T> : IBaseRepository<T>
     {
         private IDbConnection _connection = null;
 

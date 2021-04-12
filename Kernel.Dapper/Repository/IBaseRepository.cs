@@ -2,6 +2,7 @@
 using Kernel.Core.AOP;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +13,7 @@ namespace Kernel.Dapper.Repository
     {
         string DBName { get; }
         ConnectionConfig CurrentConnectionConfig { get; set; }
+        IDbConnection Connection { get; }
     }
 
     /// <summary>
@@ -19,6 +21,7 @@ namespace Kernel.Dapper.Repository
     /// </summary>
     public interface IBaseRepository<T> : IRepository
     {
+
         #region  成员方法
         /// <summary>
         /// 增加一条数据
