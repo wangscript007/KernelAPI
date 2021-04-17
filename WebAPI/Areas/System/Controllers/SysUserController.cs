@@ -35,6 +35,7 @@ namespace WebAPI.Areas.System.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> SysUserLogin_V1_0([FromQuery]SysUser user)
         {
+            user.LoginPwd = RSAUtil.Decrypt(KernelApp.Settings.PrivateKey, user.LoginPwd);
             var result = new CommandResult<SysUserLogin> { Success = false };
 
             var model = await SysUserRepository.GetSysUserByLoginID_V1_0(user.LoginID);

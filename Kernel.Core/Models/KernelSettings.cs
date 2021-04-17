@@ -23,6 +23,7 @@ namespace Kernel.Core.Models
         public readonly string AttachmentPath;
         public readonly string ResourcesRootPath;
         public readonly string ResourcesRootFolder;
+        public readonly string SettingsFolder;
         [JsonIgnore]
         public readonly IHostingEnvironment Env;
         public bool IsDevelopment { get => System.Env.KERNEL_ENVIRONMENT == "Development"; }
@@ -36,6 +37,7 @@ namespace Kernel.Core.Models
         public string NewGUID { get => Guid.NewGuid().ToString("N"); }
         public readonly string EnabledActionLog;
         public readonly string ServiceAddress;
+        public readonly string PrivateKey;
 
         public KernelSettings()
         {
@@ -48,6 +50,8 @@ namespace Kernel.Core.Models
                 ResourcesRootPath = BasePath + ResourcesRootFolder;
             else
                 ResourcesRootPath = resourcesPath + ResourcesRootFolder;
+
+            SettingsFolder = $"{BasePath}Settings.{System.Env.KERNEL_ENVIRONMENT}{Path.DirectorySeparatorChar}";
 
             AttachmentFolder = AppsettingsConfig.GetConfigValue("FileUpload:AttachmentFolder");
             AttachmentPath = ResourcesRootPath + Path.DirectorySeparatorChar + AttachmentFolder + Path.DirectorySeparatorChar;
@@ -73,7 +77,7 @@ namespace Kernel.Core.Models
                 .ToArray()
                 .FirstOrDefault().Address.ToString();
 
-
+            PrivateKey = File.ReadAllText($"{SettingsFolder}Key.pem");
         }
 
     }
