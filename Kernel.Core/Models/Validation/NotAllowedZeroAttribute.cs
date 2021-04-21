@@ -26,6 +26,9 @@ namespace Kernel.Core.Models.Validation
         {
             try
             {
+                if(value == null)
+                    return ValidationResult.Success;
+
                 var result = Convert.ToDouble(value);
                 if (result == 0)
                     return new ValidationResult(GetErrorMessage(validationContext.DisplayName));
