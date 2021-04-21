@@ -8,6 +8,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,9 +34,11 @@ namespace WebAPI.Areas.System.Controllers
         [HttpGet]
         [Route("login"), MapToApiVersion("1.0")]
         [AllowAnonymous]
-        public async Task<IActionResult> SysUserLogin_V1_0([FromQuery]SysUser user)
+        public async Task<IActionResult> SysUserLogin_V1_0([FromQuery]string token)
         {
-            user.LoginPwd = RSAUtil.Decrypt(KernelApp.Settings.PrivateKey, user.LoginPwd);
+            string data = RSAUtil.Decrypt(KernelApp.Settings.PrivateKey, token);
+            SysUser user = JsonConvert.DeserializeObject<SysUser>(data);
+
             var result = new CommandResult<SysUserLogin> { Success = false };
 
             var model = await SysUserRepository.GetSysUserByLoginID_V1_0(user.LoginID);
